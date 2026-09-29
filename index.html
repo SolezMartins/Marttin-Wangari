@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- Content Security Policy: no inline scripts, no eval, no third-party JS -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-92ScB/x5ZG4bE49TUanFQviCyfOmI9z+p8my+1LECak='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; form-action 'none'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<title>Martin Wangari — Software &amp; AI Developer</title>
+<meta name="description" content="Martin Mwangi Wangari — Software and AI Developer based in Nairobi, Kenya.">
+<meta name="author" content="Martin Mwangi Wangari">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://marttin-wangari.netlify.app/">
+<meta property="og:url" content="https://marttin-wangari.netlify.app/">
+<meta name="theme-color" content="#000000">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Martin Wangari — Software &amp; AI Developer">
+<meta property="og:description" content="Software and AI Developer based in Nairobi, Kenya.">
+<meta property="og:image" content="https://marttin-wangari.netlify.app/assets/id-photo.jpg">
+<meta property="og:locale" content="en_KE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Martin Wangari — Software &amp; AI Developer">
+<meta name="twitter:description" content="Nairobi-based Software and AI Developer. Open to work.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="128x128" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#termStream">Skip to content</a>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <h1 class="hname">Martin Wangari</h1>
+      <p class="hrole">Software &amp; AI Developer</p>
+    </div>
+    <button class="header-badge" type="button" id="badgeLink">Nairobi, KE — open to work</button>
+  </header>
+
+  <!-- MAIN: card + terminal -->
+  <main class="main-grid">
+
+    <!-- ID CARD -->
+    <div class="card-col">
+      <div class="card-stage" id="cardStage">
+        <div class="lanyard" aria-hidden="true">
+          <div class="lanyard-strap"></div>
+          <div class="lanyard-clip"></div>
+        </div>
+        <div class="id-card" id="idCard">
+          <div class="id-card-head">
+            <span class="id-logo">MW</span>
+            <span class="id-user">martin.wangari</span>
+          </div>
+          <div class="id-photo">
+            <img src="assets/id-photo.jpg" alt="Portrait of Martin Wangari" width="230" height="240" loading="eager" decoding="async">
+          </div>
+          <div class="id-card-foot">
+            <span class="id-role">SOFTWARE · AI DEV</span>
+            <span class="id-loc">NAIROBI · KE</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-caption">Hover or touch to tilt</p>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="term-col">
+      <nav class="term-menu" id="termMenu" aria-label="Portfolio sections">
+        <button class="tm-cmd" type="button" data-cmd="help">help</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="about">about</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="experience">experience</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="skills">skills</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="builds">builds</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="certs">certs</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="contact">contact</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="hire">hire</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="resume">resume</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="sudo">sudo</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="clear">clear</button>
+      </nav>
+      <p class="mobile-hint">Tap a command above, or type one below ↓</p>
+      <hr class="term-rule">
+      <div class="term-stream" id="termStream" role="log" aria-live="polite" aria-label="Terminal output" tabindex="0"></div>
+
+      <!-- No-JS fallback: full content, crawlable and readable -->
+      <noscript>
+        <div class="noscript-content">
+          <h2>About</h2>
+          <p>Software and AI Developer based in Nairobi, Kenya, focused on building practical digital products, intelligent workflows and modern web platforms.</p>
+          <h2>Experience</h2>
+          <p><strong>IT Systems Support Technician</strong> — Independent Contractor, Nairobi (Mar 2025 – present)</p>
+          <p><strong>Repair Technician / PCB Technician</strong> — M-Gas Kenya Ltd (Jul 2022 – Feb 2025)</p>
+          <p><strong>Field Network Technician</strong> — G-Tech Technology Ltd (Jan 2022 – Jun 2022)</p>
+          <p><strong>Industrial Attachment</strong> — Broadband Communication Networks Ltd (Mar 2021 – May 2021)</p>
+          <h2>Contact</h2>
+          <ul>
+            <li><a href="tel:+254740208683">+254 740 208 683</a></li>
+            <li><a href="https://wa.me/254740208683" rel="noopener noreferrer">WhatsApp</a></li>
+            <li><a href="mailto:martindevs07@gmail.com">martindevs07@gmail.com</a></li>
+            <li><a href="https://linkedin.com/in/martin-wangari-586903230" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="Martin_Wangari_Resume.pdf" download>Download resume (PDF)</a></li>
+          </ul>
+        </div>
+      </noscript>
+    </div>
+
+  </main>
+
+  <!-- STATUS BAR -->
+  <footer class="footer-status">
+    <span class="fs-prompt">root@martinsdevs07:~$</span>
+    <span class="fs-time" id="fsTime">--</span>
+  </footer>
+
+</div>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<a class="wa-fab" id="waFab"
+   href="https://wa.me/254740208683?text=Hi%20Martin%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20talk."
+   target="_blank" rel="noopener noreferrer"
+   aria-label="Message Martin on WhatsApp">
+  <svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+    <path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.21-8.24 8.21z"/>
+  </svg>
+  <span class="wa-label">WhatsApp</span>
+</a>
+
+<!-- Toast for copy confirmations -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Structured data for search engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Martin Mwangi Wangari",
+  "jobTitle": "Software and AI Developer",
+  "email": "mailto:martindevs07@gmail.com",
+  "telephone": "+254740208683",
+  "address": { "@type": "PostalAddress", "addressLocality": "Nairobi", "addressCountry": "KE" },
+  "sameAs": ["https://linkedin.com/in/martin-wangari-586903230", "https://marttin-wangari.netlify.app/"],
+  "knowsAbout": ["Software Development","Artificial Intelligence","Python","JavaScript","React","PostgreSQL","REST APIs","AI Automation","Power BI"]
+}
+</script>
+
+<script src="script.js" defer></script>
+</body>
+</html>

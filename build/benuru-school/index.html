@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Benuru School Management System — Demo</title>
+<meta name="description" content="Benuru Group of Schools management system concept by Malik Technologies. A professional Kenyan school administration demo.">
+<meta name="theme-color" content="#0A1530">
+<meta property="og:title" content="Benuru School Management System">
+<meta property="og:description" content="A professional school management system concept for Benuru Group of Schools, Mlolongo, Kenya.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+<link rel="apple-touch-icon" href="./assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { navy:{950:'#0A1530',900:'#0F1B3C',800:'#16244F',700:'#1E2F63'}, gold:{500:'#C6A15B',400:'#D4B679',300:'#E4CE9E'}, cream:'#FAF8F4' },
+  fontFamily: { serif:['Fraunces','serif'], sans:['Inter','sans-serif'] }
+}}}
+</script>
+<style>
+  :root{ box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;background:#FAF8F4;color:#16244F;}
+  h1,h2,.serif{font-family:'Fraunces',serif;}
+  ::-webkit-scrollbar{width:8px;height:8px;} ::-webkit-scrollbar-thumb{background:#C6A15B55;border-radius:4px;}
+  .tab-active{border-bottom:2px solid #C6A15B;color:#0F1B3C;font-weight:600;}
+  .modal-bg{background:rgba(10,21,48,.55);}
+  table{border-collapse:collapse;}
+  td,th{padding:.55rem .75rem;}
+  tr:not(:last-child) td{border-bottom:1px solid #EFEAE0;}
+  .badge{font-size:.72rem;padding:.15rem .55rem;border-radius:999px;font-weight:600;}
+  input,select{border:1px solid #E2DCCC;border-radius:.5rem;padding:.45rem .6rem;font-size:.875rem;background:#fff;}
+  input:focus,select:focus{outline:2px solid #C6A15B55;border-color:#C6A15B;}
+  .card{background:#fff;border:1px solid #EFEAE0;border-radius:.9rem;}
+  ::selection{background:#C6A15B44;} a{color:inherit;text-decoration:none;} button{font-family:inherit;} @media print{aside,header,footer,#modal-root{display:none!important}main{padding:0!important;overflow:visible!important}.card{box-shadow:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ---------------- DEMO DATA (fictional) ---------------- */
+const CAMPUS = "Mlolongo Main Campus";
+const TERM = "Term 2, 2026";
+const CLASSES = ["Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Form 1","Form 2","Form 3","Form 4"];
+const SUBJECTS = ["English","Kiswahili","Mathematics","Science","Social Studies","CRE","Agriculture","Creative Arts"];
+
+let students = [
+ {id:1,adm:"BGS-1042",name:"Faith Wanjiru",gender:"F",cls:"Grade 7",stream:"East",guardian:"Peter Wanjiru",phone:"0722 341 908",att:96,balance:0,status:"Active",dob:"2013-04-12",prev:"Mlolongo Primary",marks:{English:78,Kiswahili:82,Mathematics:65,Science:71,"Social Studies":74},comment:"Consistent and hardworking learner."},
+ {id:2,adm:"BGS-1043",name:"Brian Otieno",gender:"M",cls:"Grade 7",stream:"East",guardian:"Susan Otieno",phone:"0733 552 118",att:88,balance:4200,status:"Active",dob:"2013-01-27",prev:"St. Anne's Academy",marks:{English:61,Kiswahili:58,Mathematics:72,Science:69,"Social Studies":63},comment:"Shows strong ability in Mathematics; needs support in languages."},
+ {id:3,adm:"BGS-1044",name:"Amani Kilonzo",gender:"F",cls:"Grade 5",stream:"West",guardian:"John Kilonzo",phone:"0711 209 447",att:99,balance:0,status:"Active",dob:"2015-08-03",prev:"—",marks:{English:88,Kiswahili:85,Mathematics:80,Science:83,"Social Studies":79},comment:"An outstanding all-round performer this term."},
+ {id:4,adm:"BGS-1045",name:"Dennis Mwangi",gender:"M",cls:"Form 2",stream:"North",guardian:"Grace Mwangi",phone:"0700 884 223",att:74,balance:12500,status:"Active",dob:"2011-11-19",prev:"Kitengela Boys",marks:{English:55,Kiswahili:60,Mathematics:48,Science:52,"Social Studies":57},comment:"Attendance and effort need close monitoring."},
+ {id:5,adm:"BGS-1046",name:"Cynthia Achieng",gender:"F",cls:"Form 2",stream:"North",guardian:"Michael Achieng",phone:"0745 118 992",att:92,balance:0,status:"Active",dob:"2011-05-30",prev:"—",marks:{English:74,Kiswahili:70,Mathematics:81,Science:77,"Social Studies":72},comment:"A diligent and dependable student."},
+ {id:6,adm:"BGS-1047",name:"Kevin Njoroge",gender:"M",cls:"Grade 3",stream:"East",guardian:"Alice Njoroge",phone:"0721 663 310",att:95,balance:1800,status:"Active",dob:"2017-02-14",prev:"—",marks:{English:69,Kiswahili:72,Mathematics:75,Science:70,"Social Studies":68},comment:"Cheerful and engaged in class activities."},
+ {id:7,adm:"BGS-1048",name:"Nasra Abdi",gender:"F",cls:"Grade 8",stream:"West",guardian:"Halima Abdi",phone:"0712 774 265",att:81,balance:6300,status:"Active",dob:"2012-09-08",prev:"Coast Junior School",marks:{English:66,Kiswahili:64,Mathematics:59,Science:63,"Social Studies":61},comment:"Improving steadily; keep encouraging revision."},
+ {id:8,adm:"BGS-1049",name:"Ian Kiplagat",gender:"M",cls:"Form 1",stream:"South",guardian:"Ruth Kiplagat",phone:"0798 442 671",att:90,balance:0,status:"Active",dob:"2012-03-22",prev:"—",marks:{English:71,Kiswahili:68,Mathematics:84,Science:79,"Social Studies":70},comment:"Excels in the sciences; a promising learner."},
+];
+
+let payments = [
+ {ref:"MP-88213",student:"Faith Wanjiru",amount:15000,method:"M-Pesa",date:"2026-09-18",status:"Completed",receipt:"RCT-2201"},
+ {ref:"BK-44210",student:"Brian Otieno",amount:8000,method:"Bank",date:"2026-09-15",status:"Completed",receipt:"RCT-2198"},
+ {ref:"MP-88190",student:"Dennis Mwangi",amount:5000,method:"M-Pesa",date:"2026-09-10",status:"Completed",receipt:"RCT-2179"},
+ {ref:"CS-10021",student:"Nasra Abdi",amount:3000,method:"Cash",date:"2026-09-08",status:"Completed",receipt:"RCT-2160"},
+];
+let receiptCounter = 2202;
+
+let staff = [
+ {id:1,name:"Mrs. Wambui Karanja",role:"Principal",dept:"Administration",phone:"0722 100 200",email:"w.karanja@benuru.ac.ke",status:"Active"},
+ {id:2,name:"Mr. Samuel Otieno",role:"Deputy Principal",dept:"Administration",phone:"0733 220 310",email:"s.otieno@benuru.ac.ke",status:"Active"},
+ {id:3,name:"Ms. Linda Achieng",role:"Teacher",dept:"Languages",phone:"0711 442 108",email:"l.achieng@benuru.ac.ke",status:"Active"},
+ {id:4,name:"Mr. Peter Kamau",role:"Teacher",dept:"Sciences",phone:"0700 998 214",email:"p.kamau@benuru.ac.ke",status:"Active"},
+ {id:5,name:"Mrs. Joyce Mutiso",role:"Accountant",dept:"Finance",phone:"0745 661 093",email:"j.mutiso@benuru.ac.ke",status:"Active"},
+ {id:6,name:"Mr. David Njue",role:"Librarian",dept:"Library",phone:"0721 337 452",email:"d.njue@benuru.ac.ke",status:"Active"},
+];
+
+let books = [
+ {title:"Facing Mount Kenya",author:"Jomo Kenyatta",isbn:"9789966000123",copies:5,available:2,status:"Borrowed"},
+ {title:"The River and the Source",author:"Margaret Ogola",isbn:"9789966465104",copies:8,available:5,status:"Available"},
+ {title:"KCSE Mathematics Revision",author:"KLB",isbn:"9789966253105",copies:12,available:0,status:"All Borrowed"},
+ {title:"Weep Not, Child",author:"Ngũgĩ wa Thiong'o",isbn:"9780435905456",copies:6,available:6,status:"Available"},
+];
+
+let routes = [
+ {name:"Route A — Syokimau", vehicle:"KDA 221B", driver:"Mr. Josphat Mailu", capacity:33, assigned:29, status:"Active"},
+ {name:"Route B — Kitengela Rd", vehicle:"KDB 774C", driver:"Mr. Elijah Muema", capacity:33, assigned:31, status:"Active"},
+ {name:"Route C — Athi River", vehicle:"KDC 108M", driver:"Ms. Faith Nzomo", capacity:28, assigned:20, status:"Active"},
+];
+
+let inventory = [
+ {item:"Exercise Books (200pg)",cat:"Stationery",stock:1240,reorder:300,status:"OK"},
+ {item:"School Sweaters (M)",cat:"Uniform",stock:18,reorder:40,status:"Low Stock"},
+ {item:"Laptops (Computer Lab)",cat:"ICT Equipment",stock:22,reorder:5,status:"OK"},
+ {item:"Netballs",cat:"Sports Equipment",stock:4,reorder:8,status:"Low Stock"},
+];
+
+let events = [
+ {name:"Mid-Term Parents' Day",date:"2026-10-02",audience:"All Parents",location:"Main Hall"},
+ {name:"Inter-House Sports Day",date:"2026-10-10",audience:"Whole School",location:"School Grounds"},
+ {name:"End of Term Exams Begin",date:"2026-10-20",audience:"All Students",location:"Exam Halls"},
+];
+
+let announcements = [
+ {title:"Term 2 Fee Balance Reminder",body:"Parents are reminded to clear outstanding balances before the mid-term break.",date:"2026-09-19",aud:"Parents"},
+ {title:"Sports Day Practice Schedule",body:"All students should report to the field by 2:30pm daily this week.",date:"2026-09-17",aud:"Students"},
+];
+
+let discipline = [
+ {student:"Dennis Mwangi",date:"2026-09-11",incident:"Late arrival (3rd occurrence)",action:"Verbal warning issued",staff:"Mr. S. Otieno",status:"Closed"},
+ {student:"Brian Otieno",date:"2026-09-05",incident:"Uniform violation",action:"Parent notified",staff:"Mrs. W. Karanja",status:"Closed"},
+];
+
+let attendanceToday = Object.fromEntries(students.map(s=>[s.id, s.att>=90?"Present":(s.att>=80?"Late":"Absent")]));
+
+/* ---------------- STATE ---------------- */
+let S = { role:null, roleLabel:"", module:"dashboard", childId:null, sidebarOpen:true, studentFilter:"", classFilter:"All" };
+
+const ROLES = [
+ {id:"admin",label:"School Administrator",desc:"Full administrative access"},
+ {id:"principal",label:"Principal",desc:"Academic & operational oversight"},
+ {id:"teacher",label:"Teacher",desc:"Classes, attendance & marks"},
+ {id:"accountant",label:"Accountant",desc:"Fees & financial records"},
+ {id:"parent",label:"Parent / Guardian",desc:"View your children's records"},
+];
+
+const NAV = [
+ {id:"dashboard",label:"Dashboard"},{id:"students",label:"Students"},{id:"admissions",label:"Admissions"},
+ {id:"academics",label:"Academics"},{id:"attendance",label:"Attendance"},{id:"fees",label:"Fees"},
+ {id:"timetable",label:"Timetable"},{id:"staff",label:"Staff"},{id:"library",label:"Library"},
+ {id:"transport",label:"Transport"},{id:"inventory",label:"Inventory"},{id:"communication",label:"Communication"},
+ {id:"reports",label:"Reports"},{id:"settings",label:"Settings"},
+];
+const PARENT_NAV = [{id:"parent_overview",label:"Overview"},{id:"parent_academics",label:"Academics"},{id:"parent_attendance",label:"Attendance"},{id:"parent_fees",label:"Fees"},{id:"parent_timetable",label:"Timetable"},{id:"communication",label:"Announcements"}];
+
+const ICONS = {
+ dashboard:'<path d="M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10"/>', students:'<circle cx="12" cy="8" r="3.5"/><path d="M4 20c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/>',
+ admissions:'<path d="M14 3v4a1 1 0 001 1h4"/><path d="M6 3h8l5 5v13a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M9 13h6M9 17h4"/>',
+ academics:'<path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11.5V17c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.5"/>',
+ attendance:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 15l2 2 4-4"/>',
+ fees:'<circle cx="12" cy="12" r="9"/><path d="M9.5 15.5c.6.9 1.5 1.3 2.5 1.3 1.7 0 3-1 3-2.3 0-3-5-1.8-5-4.6 0-1.3 1.3-2.3 3-2.3 1 0 1.9.4 2.5 1.3M12 6.5v11"/>',
+ timetable:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/>',
+ staff:'<circle cx="9" cy="8" r="3"/><path d="M3 19c1-3.3 3.6-5 6-5s5 1.7 6 5"/><circle cx="18" cy="8" r="2.3"/><path d="M15.5 14.3c2 .2 3.7 1.7 4.5 4.7"/>',
+ library:'<path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5z"/><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5z"/>',
+ transport:'<rect x="3" y="7" width="18" height="10" rx="2"/><circle cx="7.5" cy="18.5" r="1.5"/><circle cx="16.5" cy="18.5" r="1.5"/><path d="M3 12h18"/>',
+ inventory:'<path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/>',
+ communication:'<path d="M21 15a2 2 0 01-2 2H8l-5 4V6a2 2 0 012-2h14a2 2 0 012 2z"/>',
+ reports:'<path d="M4 20V10M12 20V4M20 20v-7"/>',
+ settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a7.6 7.6 0 000-6l2-1.6-2-3.4-2.4.7a7.6 7.6 0 00-5.2-3l-.4-2.5h-4l-.4 2.5a7.6 7.6 0 00-5.2 3L2.6 4l-2 3.4L2.6 9a7.6 7.6 0 000 6L.6 16.6l2 3.4 2.4-.7a7.6 7.6 0 005.2 3l.4 2.5h4l.4-2.5a7.6 7.6 0 005.2-3l2.4.7 2-3.4z"/>',
+ parent_overview:'<path d="M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10"/>', parent_academics:'<path d="M12 4L2 9l10 5 10-5-10-5z"/>', parent_attendance:'<rect x="3" y="5" width="18" height="16" rx="2"/>', parent_fees:'<circle cx="12" cy="12" r="9"/>', parent_timetable:'<rect x="3" y="4" width="18" height="17" rx="2"/>',
+};
+function icon(id,cls="w-5 h-5"){return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[id]||''}</svg>`;}
+function fmt(n){return "KES " + Number(n).toLocaleString();}
+function gradeOf(m){return m>=80?"EE":m>=65?"ME":m>=50?"AE":"BE";}
+function gradeColor(g){return {EE:"bg-emerald-100 text-emerald-700",ME:"bg-sky-100 text-sky-700",AE:"bg-amber-100 text-amber-700",BE:"bg-rose-100 text-rose-700"}[g];}
+
+/* ---------------- RENDER: LOGIN ---------------- */
+function renderLogin(){
+  document.getElementById('app').innerHTML = `
+  <div class="min-h-screen flex items-center justify-center bg-navy-950 px-4 py-10" style="background:radial-gradient(1200px 600px at 20% -10%, #1E2F63 0%, #0A1530 60%)">
+    <div class="w-full max-w-4xl grid md:grid-cols-2 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="hidden md:flex flex-col justify-between bg-navy-900 text-cream p-10">
+        <div>
+          <div class="flex items-center gap-3 mb-8">
+            <svg class="w-9 h-9 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"/><path d="M6 9.7V15c0 1.8 2.7 3.2 6 3.2s6-1.4 6-3.2V9.7"/><path d="M21 7.5V14"/></svg>
+            <div><div class="serif text-xl leading-tight">Benuru Group<br>of Schools</div></div>
+          </div>
+          <h1 class="serif text-3xl leading-snug mb-3">School Management System</h1>
+          <p class="text-navy-100/70 text-sm leading-relaxed max-w-xs">A practical school workspace for admissions, learning, attendance, fees and communication at ${CAMPUS}.</p>
+        </div>
+        <p class="text-xs text-gold-300/80 tracking-wide">Interactive concept · Demo data only</p>
+      </div>
+      <div class="bg-white p-8 md:p-10">
+        <div class="md:hidden mb-6"><div class="serif text-xl text-navy-900">Benuru Group of Schools</div></div>
+        <h2 class="serif text-2xl text-navy-900 mb-1">Sign in</h2>
+        <p class="text-sm text-navy-700/60 mb-6">Choose a role to explore the demo workspace.</p>
+        <div class="space-y-2 mb-6">
+          ${ROLES.map(r=>`
+          <button onclick="doLogin('${r.id}','${r.label}')" class="w-full text-left flex items-center justify-between border border-[#EFEAE0] hover:border-gold-500 hover:bg-gold-500/5 rounded-xl px-4 py-3 transition-colors group">
+            <span><span class="block font-semibold text-navy-900 text-sm">${r.label}</span><span class="block text-xs text-navy-700/50">${r.desc}</span></span>
+            <svg class="w-4 h-4 text-navy-700/30 group-hover:text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+          </button>`).join('')}
+        </div>
+        <div class="border-t border-[#EFEAE0] pt-4">
+          <label class="block text-xs font-medium text-navy-700/60 mb-1">Email or username</label>
+          <input disabled placeholder="you@benuru.ac.ke" class="w-full mb-2 opacity-60">
+          <label class="block text-xs font-medium text-navy-700/60 mb-1">Password</label>
+          <input disabled type="password" placeholder="••••••••" class="w-full opacity-60">
+          <p class="text-[11px] text-navy-700/40 mt-2">This portfolio demo uses role-based demo access; no real school data is connected.</p>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function doLogin(role,label){ S.role=role; S.roleLabel=label; S.module = role==='parent' ? 'parent_overview':'dashboard'; if(role==='parent') S.childId=students[0].id; render(); }
+function logout(){ S={role:null,roleLabel:"",module:"dashboard",childId:null,sidebarOpen:true,studentFilter:"",classFilter:"All"}; renderLogin(); }
+
+/* ---------------- SHELL ---------------- */
+function render(){
+  const app=document.getElementById('app');
+  const nav = S.role==='parent'? PARENT_NAV : NAV;
+  app.innerHTML = `
+  <div class="min-h-screen flex bg-cream">
+    <aside id="sidebar" class="${S.sidebarOpen?'w-64':'w-[68px]'} shrink-0 bg-navy-900 text-cream flex flex-col transition-all duration-200 fixed md:static z-30 h-full ${S.sidebarOpen?'':'hidden md:flex'}">
+      <div class="flex items-center gap-2 px-4 h-16 border-b border-white/10 shrink-0">
+        <svg class="w-7 h-7 text-gold-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"/><path d="M6 9.7V15c0 1.8 2.7 3.2 6 3.2s6-1.4 6-3.2V9.7"/></svg>
+        ${S.sidebarOpen?`<span class="serif text-sm leading-tight">Benuru SMS</span>`:''}
+      </div>
+      <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
+        ${nav.map(n=>`
+        <button onclick="go('${n.id}')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${S.module===n.id?'bg-white/10 text-white':'text-navy-100/70 hover:bg-white/5 hover:text-white'}">
+          ${icon(n.id,'w-[18px] h-[18px] shrink-0')} ${S.sidebarOpen?`<span>${n.label}</span>`:''}
+        </button>`).join('')}
+      </nav>
+      <div class="p-3 border-t border-white/10 text-[11px] text-navy-100/40 ${S.sidebarOpen?'':'text-center'}">
+        ${S.sidebarOpen?'Demo workspace':'MT'}
+      </div>
+    </aside>
+    <div class="flex-1 flex flex-col min-w-0">
+      <header class="h-16 bg-white border-b border-[#EFEAE0] flex items-center gap-3 px-4 md:px-6 shrink-0" style="padding-top:env(safe-area-inset-top,0px)">
+        <button onclick="S.sidebarOpen=!S.sidebarOpen;render()" class="p-2 rounded-lg hover:bg-cream text-navy-700"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <div class="hidden sm:flex items-center flex-1 max-w-sm bg-cream rounded-lg px-3 py-1.5 gap-2">
+          <svg class="w-4 h-4 text-navy-700/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+          <input placeholder="Search students, staff, admission #..." class="bg-transparent border-0 p-0 text-sm w-full focus:outline-none">
+        </div>
+        <div class="flex-1 sm:hidden"></div>
+        <div class="text-xs text-navy-700/50 hidden md:block">${CAMPUS} · Demo</div>
+        <button class="p-2 rounded-lg hover:bg-cream text-navy-700 relative"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg><span class="absolute top-1 right-1 w-2 h-2 bg-gold-500 rounded-full"></span></button>
+        <div class="flex items-center gap-2 pl-2 border-l border-[#EFEAE0]">
+          <div class="w-8 h-8 rounded-full bg-navy-900 text-gold-300 flex items-center justify-center text-xs font-semibold shrink-0">${S.roleLabel.split(' ').map(w=>w[0]).slice(0,2).join('')}</div>
+          <div class="hidden sm:block leading-tight"><div class="text-xs font-semibold text-navy-900">${S.roleLabel}</div><div class="text-[11px] text-navy-700/50">Demo account</div></div>
+          <button onclick="logout()" title="Log out" class="p-1.5 ml-1 rounded-lg hover:bg-cream text-navy-700/60"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg></button>
+        </div>
+      </header>
+      <main id="main" class="flex-1 overflow-y-auto p-4 md:p-7"></main>
+      <footer class="bg-white border-t border-[#EFEAE0] px-4 md:px-7 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-navy-700/45">
+        <span>Benuru Group of Schools · School Management System</span>
+        <a href="https://marttin-wangari.netlify.app/" target="_blank" rel="noopener noreferrer" class="font-medium text-navy-700 hover:text-gold-500 transition-colors">© Malik Technologies 2026</a>
+      </footer>
+    </div>
+  </div>
+  <div id="modal-root"></div>`;
+  renderModule();
+}
+function go(id){ S.module=id; render(); }
+function bar(w,total,color='bg-gold-500'){ return `<div class="h-2 rounded-full bg-navy-900/5 overflow-hidden"><div class="h-full ${color} rounded-full" style="width:${Math.min(100,(w/total)*100)}%"></div></div>`; }
+
+/* ---------------- MODULE ROUTER ---------------- */
+function renderModule(){
+  const el = document.getElementById('main');
+  const map = {dashboard:mDashboard,students:mStudents,admissions:mAdmissions,academics:mAcademics,attendance:mAttendance,fees:mFees,timetable:mTimetable,staff:mStaff,library:mLibrary,transport:mTransport,inventory:mInventory,communication:mCommunication,reports:mReports,settings:mSettings,
+    parent_overview:pOverview,parent_academics:pAcademics,parent_attendance:pAttendance,parent_fees:pFees,parent_timetable:mTimetable};
+  el.innerHTML = (map[S.module]||mDashboard)();
+}
+function heading(title,sub){ return `<div class="mb-6"><h1 class="serif text-2xl text-navy-900">${title}</h1>${sub?`<p class="text-sm text-navy-700/55 mt-0.5">${sub}</p>`:''}</div>`; }
+function statCard(label,val,sub,iconId){ return `<div class="card p-4"><div class="flex items-start justify-between"><div><div class="text-xs text-navy-700/50 mb-1">${label}</div><div class="serif text-2xl text-navy-900">${val}</div>${sub?`<div class="text-xs text-navy-700/45 mt-1">${sub}</div>`:''}</div><div class="w-9 h-9 rounded-lg bg-gold-500/10 text-gold-500 flex items-center justify-center shrink-0">${icon(iconId,'w-4.5 h-4.5')}</div></div></div>`; }
+
+/* ---- DASHBOARD ---- */
+function mDashboard(){
+  const totalBal = students.reduce((a,s)=>a+s.balance,0);
+  const collected = payments.reduce((a,p)=>a+p.amount,0);
+  const absentToday = Object.values(attendanceToday).filter(v=>v==='Absent').length;
+  const avgAtt = Math.round(students.reduce((a,s)=>a+s.att,0)/students.length);
+  return `
+  ${heading('Dashboard', `${S.roleLabel} · ${TERM} · ${CAMPUS}`)}
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+    ${statCard('Total Students', students.length+"  (demo set)", "8 shown of 612 enrolled", 'students')}
+    ${statCard('Today\'s Attendance', avgAtt+"%", absentToday+" absent today", 'attendance')}
+    ${statCard('Fee Collection (Term)', fmt(collected), 'Across '+payments.length+' payments', 'fees')}
+    ${statCard('Outstanding Fees', fmt(totalBal), students.filter(s=>s.balance>0).length+' students with balance', 'fees')}
+  </div>
+  <div class="grid lg:grid-cols-3 gap-4 mb-6">
+    <div class="card p-5 lg:col-span-2">
+      <div class="flex items-center justify-between mb-4"><h3 class="font-semibold text-navy-900 text-sm">Attendance Trend — this week</h3></div>
+      <div class="flex items-end gap-3 h-32">
+        ${[88,91,85,94,avgAtt].map((v,i)=>`<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-gold-500/15 rounded-t-md flex items-end" style="height:100px"><div class="w-full bg-gold-500 rounded-t-md" style="height:${v}%"></div></div><div class="text-[10px] text-navy-700/45">${['Mon','Tue','Wed','Thu','Today'][i]}</div></div>`).join('')}
+      </div>
+    </div>
+    <div class="card p-5">
+      <h3 class="font-semibold text-navy-900 text-sm mb-4">Class Enrollment</h3>
+      <div class="space-y-2.5">
+        ${['Grade 7','Form 2','Grade 5','Grade 3'].map(c=>{const demoEnrollment={'Grade 7':48,'Form 2':42,'Grade 5':51,'Grade 3':44}; const n=students.filter(s=>s.cls===c).length||demoEnrollment[c]||36; const shown=n>4?n:n+34; return `<div><div class="flex justify-between text-xs mb-1"><span class="text-navy-700/70">${c}</span><span class="text-navy-900 font-medium">${shown}</span></div>${bar(shown,60)}</div>`}).join('')}
+      </div>
+    </div>
+  </div>
+  <div class="grid lg:grid-cols-3 gap-4">
+    <div class="card p-5 lg:col-span-2">
+      <h3 class="font-semibold text-navy-900 text-sm mb-3">Recent Activity</h3>
+      <div class="space-y-3">
+        ${payments.slice(0,4).map(p=>`<div class="flex items-center justify-between text-sm"><div class="flex items-center gap-2.5"><div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">${icon('fees','w-3.5 h-3.5')}</div><div><div class="text-navy-900">${p.student} paid ${fmt(p.amount)}</div><div class="text-xs text-navy-700/45">${p.method} · ${p.date}</div></div></div><span class="badge bg-emerald-100 text-emerald-700">${p.status}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="card p-5">
+      <h3 class="font-semibold text-navy-900 text-sm mb-3">Upcoming Events</h3>
+      <div class="space-y-3">
+        ${events.map(e=>`<div class="text-sm"><div class="text-navy-900 font-medium">${e.name}</div><div class="text-xs text-navy-700/45">${e.date} · ${e.audience}</div></div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <div class="mt-6 flex flex-wrap gap-2">
+    ${[['Add Student','students'],['Record Payment','fees'],['Mark Attendance','attendance'],['Enter Marks','academics'],['Add Announcement','communication'],['Generate Report','reports']].map(([l,m])=>`<button onclick="go('${m}')" class="px-3.5 py-2 rounded-lg bg-navy-900 text-cream text-xs font-medium hover:bg-navy-800">${l}</button>`).join('')}
+  </div>`;
+}
+
+/* ---- STUDENTS ---- */
+function mStudents(){
+  const filtered = students.filter(s=> (S.classFilter==='All'||s.cls===S.classFilter) && (s.name.toLowerCase().includes(S.studentFilter.toLowerCase())||s.adm.toLowerCase().includes(S.studentFilter.toLowerCase())));
+  return `
+  ${heading('Students', filtered.length+' of '+students.length+' shown')}
+  <div class="flex flex-wrap items-center gap-2 mb-4">
+    <input oninput="S.studentFilter=this.value;renderModule()" value="${S.studentFilter}" placeholder="Search by name or admission no." class="flex-1 min-w-[200px] max-w-xs">
+    <select onchange="S.classFilter=this.value;renderModule()" class="text-sm">
+      <option ${S.classFilter==='All'?'selected':''}>All</option>
+      ${[...new Set(students.map(s=>s.cls))].map(c=>`<option ${S.classFilter===c?'selected':''}>${c}</option>`).join('')}
+    </select>
+    <button onclick="openModal('addStudent')" class="ml-auto inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-navy-900 text-cream text-xs font-medium hover:bg-navy-800">${icon('students','w-3.5 h-3.5')} Add Student</button>
+  </div>
+  <div class="card overflow-x-auto">
+    <table class="w-full text-sm min-w-[820px]">
+      <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Adm No.</th><th>Name</th><th>Class</th><th>Guardian</th><th>Attendance</th><th>Fee Balance</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+      ${filtered.length? filtered.map(s=>`
+        <tr>
+          <td class="text-navy-700/70">${s.adm}</td>
+          <td class="font-medium text-navy-900">${s.name}</td>
+          <td>${s.cls} ${s.stream}</td>
+          <td class="text-navy-700/70">${s.guardian}</td>
+          <td>${s.att}%</td>
+          <td class="${s.balance>0?'text-rose-600 font-medium':'text-navy-700/60'}">${fmt(s.balance)}</td>
+          <td><span class="badge bg-emerald-100 text-emerald-700">${s.status}</span></td>
+          <td><button onclick="openStudent(${s.id})" class="text-gold-600 hover:underline text-xs font-medium">View</button></td>
+        </tr>`).join('') : `<tr><td colspan="8" class="text-center text-navy-700/40 py-10">No students found for this search.</td></tr>`}
+      </tbody>
+    </table>
+  </div>`;
+}
+let studentTab='Overview';
+function openStudent(id){ studentTab='Overview'; openModal('studentProfile', id); }
+function modalStudentProfile(id){
+  const s = students.find(x=>x.id===id);
+  const tabs=['Overview','Academics','Attendance','Fees','Documents','Discipline'];
+  const avg = Math.round(Object.values(s.marks).reduce((a,b)=>a+b,0)/Object.values(s.marks).length);
+  let body='';
+  if(studentTab==='Overview') body=`
+    <div class="grid sm:grid-cols-2 gap-4 text-sm">
+      <div><div class="text-xs text-navy-700/45">Full name</div><div class="text-navy-900 font-medium">${s.name}</div></div>
+      <div><div class="text-xs text-navy-700/45">Admission number</div><div class="text-navy-900 font-medium">${s.adm}</div></div>
+      <div><div class="text-xs text-navy-700/45">Date of birth</div><div class="text-navy-900">${s.dob}</div></div>
+      <div><div class="text-xs text-navy-700/45">Gender</div><div class="text-navy-900">${s.gender==='F'?'Female':'Male'}</div></div>
+      <div><div class="text-xs text-navy-700/45">Class / Stream</div><div class="text-navy-900">${s.cls} ${s.stream}</div></div>
+      <div><div class="text-xs text-navy-700/45">Previous school</div><div class="text-navy-900">${s.prev}</div></div>
+      <div><div class="text-xs text-navy-700/45">Guardian</div><div class="text-navy-900">${s.guardian} · ${s.phone}</div></div>
+      <div><div class="text-xs text-navy-700/45">Status</div><span class="badge bg-emerald-100 text-emerald-700">${s.status}</span></div>
+    </div>`;
+  else if(studentTab==='Academics') body=`
+    <table class="w-full text-sm"><thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Subject</th><th>Score</th><th>Grade</th></tr></thead>
+    <tbody>${Object.entries(s.marks).map(([sub,m])=>`<tr><td>${sub}</td><td>${m}</td><td><span class="badge ${gradeColor(gradeOf(m))}">${gradeOf(m)}</span></td></tr>`).join('')}</tbody></table>
+    <div class="mt-3 text-sm text-navy-700/70">Average: <span class="font-semibold text-navy-900">${avg}%</span> — <span class="italic">${s.comment}</span></div>`;
+  else if(studentTab==='Attendance') body=`<div class="text-sm mb-3">Term attendance rate: <span class="font-semibold text-navy-900">${s.att}%</span></div>${bar(s.att,100)}<div class="text-xs text-navy-700/45 mt-3">Today: <span class="font-medium text-navy-900">${attendanceToday[s.id]}</span></div>`;
+  else if(studentTab==='Fees') body=`<div class="flex justify-between text-sm mb-3"><span>Balance</span><span class="${s.balance>0?'text-rose-600':'text-emerald-600'} font-semibold">${fmt(s.balance)}</span></div>
+    <button onclick="closeModal();openModal('payment',${s.id})" class="px-3.5 py-2 rounded-lg bg-navy-900 text-cream text-xs font-medium">Record Payment</button>`;
+  else if(studentTab==='Documents') body=`<div class="text-sm text-navy-700/50">Birth certificate, admission form and medical form on file (metadata only in this demo).</div>`;
+  else if(studentTab==='Discipline') body=(discipline.filter(d=>d.student===s.name).map(d=>`<div class="text-sm border-b border-[#EFEAE0] py-2"><div class="font-medium text-navy-900">${d.incident}</div><div class="text-xs text-navy-700/45">${d.date} · ${d.action}</div></div>`).join('')||`<div class="text-sm text-navy-700/40">No discipline records on file.</div>`);
+  return `
+  <div class="flex items-center gap-3 mb-5">
+    <div class="w-14 h-14 rounded-full bg-navy-900 text-gold-300 flex items-center justify-center font-semibold serif text-lg">${s.name.split(' ').map(w=>w[0]).join('')}</div>
+    <div><div class="serif text-lg text-navy-900">${s.name}</div><div class="text-xs text-navy-700/50">${s.adm} · ${s.cls} ${s.stream}</div></div>
+  </div>
+  <div class="flex gap-4 border-b border-[#EFEAE0] mb-4 overflow-x-auto text-sm">
+    ${tabs.map(t=>`<button onclick="studentTab='${t}';openModal('studentProfile',${id})" class="pb-2 shrink-0 ${studentTab===t?'tab-active':'text-navy-700/50'}">${t}</button>`).join('')}
+  </div>
+  <div>${body}</div>`;
+}
+
+/* ---- ADMISSIONS ---- */
+const applicants=[
+ {name:"Wendy Achieng",cls:"Grade 1",status:"Under Review",date:"2026-09-14"},
+ {name:"Sammy Otieno",cls:"Form 1",status:"Interview",date:"2026-09-10"},
+ {name:"Precious Mutua",cls:"Grade 4",status:"Accepted",date:"2026-09-02"},
+ {name:"Josphat Kamande",cls:"Grade 2",status:"Enrolled",date:"2026-08-27"},
+];
+function admBadge(s){return {"Submitted":"bg-navy-900/10 text-navy-800","Under Review":"bg-amber-100 text-amber-700","Interview":"bg-sky-100 text-sky-700","Accepted":"bg-emerald-100 text-emerald-700","Rejected":"bg-rose-100 text-rose-700","Enrolled":"bg-gold-500/20 text-gold-700"}[s];}
+function mAdmissions(){
+  return `${heading('Admissions', applicants.length+' active applications')}
+  <div class="flex justify-end mb-4"><button onclick="openModal('newApplication')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-navy-900 text-cream text-xs font-medium">${icon('admissions','w-3.5 h-3.5')} New Application</button></div>
+  <div class="card overflow-x-auto"><table class="w-full text-sm min-w-[600px]">
+  <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Applicant</th><th>Class Applied</th><th>Date</th><th>Status</th><th></th></tr></thead>
+  <tbody>${applicants.map(a=>`<tr><td class="font-medium text-navy-900">${a.name}</td><td>${a.cls}</td><td class="text-navy-700/60">${a.date}</td><td><span class="badge ${admBadge(a.status)}">${a.status}</span></td><td><button class="text-gold-600 text-xs font-medium hover:underline">Review</button></td></tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+/* ---- ACADEMICS ---- */
+let academicsClass = CLASSES[6];
+function mAcademics(){
+  const classStudents = students.filter(s=>s.cls===academicsClass);
+  return `${heading('Academics', 'Marks entry & class performance · '+TERM)}
+  <div class="flex flex-wrap items-center gap-2 mb-4">
+    <select onchange="academicsClass=this.value;renderModule()" class="text-sm">${CLASSES.map(c=>`<option ${academicsClass===c?'selected':''}>${c}</option>`).join('')}</select>
+    <span class="text-xs text-navy-700/45">CBC-aligned competency grading (EE / ME / AE / BE) — configurable per school</span>
+  </div>
+  <div class="card overflow-x-auto"><table class="w-full text-sm min-w-[760px]">
+  <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Student</th>${SUBJECTS.slice(0,5).map(s=>`<th>${s}</th>`).join('')}<th>Average</th></tr></thead>
+  <tbody>${classStudents.length? classStudents.map(s=>{
+    const avg=Math.round(Object.values(s.marks).reduce((a,b)=>a+b,0)/Object.values(s.marks).length);
+    return `<tr><td class="font-medium text-navy-900">${s.name}</td>${SUBJECTS.slice(0,5).map(sub=>{const m=s.marks[sub]??'—';return `<td>${m==='—'?'—':`<input type="number" value="${m}" min="0" max="100" onchange="setMark(${s.id},'${sub}',this.value)" class="w-14 !py-1 !px-2 text-xs">`}</td>`}).join('')}<td><span class="badge ${gradeColor(gradeOf(avg))}">${avg}% ${gradeOf(avg)}</span></td></tr>`;
+  }).join('') : `<tr><td colspan="7" class="text-center text-navy-700/40 py-10">No students in this class in the demo dataset.</td></tr>`}</tbody>
+  </table></div>
+  <p class="text-xs text-navy-700/40 mt-3">Marks are recalculated server-side in production; browser-entered totals are never trusted directly.</p>`;
+}
+function setMark(id,subj,val){ const s=students.find(x=>x.id===id); val=Math.max(0,Math.min(100,Number(val)||0)); s.marks[subj]=val; renderModule(); }
+
+/* ---- ATTENDANCE ---- */
+let attClass = CLASSES[6];
+function mAttendance(){
+  const list = students.filter(s=>s.cls===attClass);
+  const states=['Present','Late','Absent','Excused'];
+  const colors={Present:'bg-emerald-500 text-white',Late:'bg-amber-500 text-white',Absent:'bg-rose-500 text-white',Excused:'bg-navy-700 text-white'};
+  return `${heading('Attendance', 'Daily register · '+new Date().toDateString())}
+  <select onchange="attClass=this.value;renderModule()" class="text-sm mb-4">${CLASSES.map(c=>`<option ${attClass===c?'selected':''}>${c}</option>`).join('')}</select>
+  <div class="card divide-y divide-[#EFEAE0]">
+  ${list.length? list.map(s=>`
+    <div class="flex flex-wrap items-center justify-between gap-3 p-3.5">
+      <div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-navy-900/5 text-navy-800 flex items-center justify-center text-xs font-semibold">${s.name.split(' ').map(w=>w[0]).join('')}</div><div class="text-sm font-medium text-navy-900">${s.name}</div></div>
+      <div class="flex gap-1.5">
+        ${states.map(st=>`<button onclick="attendanceToday[${s.id}]='${st}';renderModule()" class="px-3 py-1.5 rounded-lg text-xs font-medium border ${attendanceToday[s.id]===st?colors[st]+' border-transparent':'border-[#E2DCCC] text-navy-700/60 hover:bg-cream'}">${st}</button>`).join('')}
+      </div>
+    </div>`).join('') : `<div class="p-10 text-center text-navy-700/40 text-sm">No students in this class in the demo dataset.</div>`}
+  </div>`;
+}
+
+/* ---- FEES ---- */
+function mFees(){
+  const totalBal = students.reduce((a,s)=>a+s.balance,0);
+  const collected = payments.reduce((a,p)=>a+p.amount,0);
+  return `${heading('Fees & Finance', TERM+' · '+CAMPUS)}
+  <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+    ${statCard('Collected this term', fmt(collected), payments.length+' payments recorded','fees')}
+    ${statCard('Outstanding balance', fmt(totalBal), students.filter(s=>s.balance>0).length+' students owing','fees')}
+    ${statCard('Average balance', fmt(Math.round(totalBal/students.length)), 'per student','fees')}
+  </div>
+  <h3 class="font-semibold text-navy-900 text-sm mb-2">Student Balances</h3>
+  <div class="card overflow-x-auto mb-6"><table class="w-full text-sm min-w-[600px]">
+  <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Student</th><th>Class</th><th>Balance</th><th></th></tr></thead>
+  <tbody>${students.map(s=>`<tr><td class="font-medium text-navy-900">${s.name}</td><td>${s.cls}</td><td class="${s.balance>0?'text-rose-600 font-medium':'text-emerald-600'}">${fmt(s.balance)}</td><td><button onclick="openModal('payment',${s.id})" class="text-gold-600 text-xs font-medium hover:underline">Record Payment</button></td></tr>`).join('')}</tbody>
+  </table></div>
+  <h3 class="font-semibold text-navy-900 text-sm mb-2">Recent Transactions</h3>
+  <div class="card overflow-x-auto"><table class="w-full text-sm min-w-[640px]">
+  <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Reference</th><th>Student</th><th>Amount</th><th>Method</th><th>Date</th><th>Status</th><th></th></tr></thead>
+  <tbody>${payments.slice().reverse().map(p=>`<tr><td class="text-navy-700/70">${p.ref}</td><td class="font-medium text-navy-900">${p.student}</td><td>${fmt(p.amount)}</td><td>${p.method}</td><td class="text-navy-700/60">${p.date}</td><td><span class="badge bg-emerald-100 text-emerald-700">${p.status}</span></td><td><button onclick="openModal('receipt','${p.receipt}')" class="text-gold-600 text-xs font-medium hover:underline">Receipt</button></td></tr>`).join('')}</tbody>
+  </table></div>`;
+}
+function modalPayment(id){
+  const s=students.find(x=>x.id===id);
+  return `<h3 class="serif text-xl text-navy-900 mb-1">Record Payment</h3><p class="text-sm text-navy-700/50 mb-5">${s.name} · ${s.adm} · Balance: <span class="font-medium text-rose-600">${fmt(s.balance)}</span></p>
+  <div class="space-y-3">
+    <div><label class="block text-xs font-medium text-navy-700/60 mb-1">Amount (KES)</label><input id="payAmt" type="number" placeholder="e.g. 5000" class="w-full"></div>
+    <div><label class="block text-xs font-medium text-navy-700/60 mb-1">Payment method</label><select id="payMethod" class="w-full"><option>M-Pesa</option><option>Bank</option><option>Cash</option><option>Card</option><option>Other</option></select></div>
+    <div><label class="block text-xs font-medium text-navy-700/60 mb-1">Transaction reference</label><input id="payRef" placeholder="Auto-generated if left blank" class="w-full"></div>
+  </div>
+  <div class="flex gap-2 mt-6">
+    <button onclick="closeModal()" class="px-4 py-2 rounded-lg border border-[#E2DCCC] text-sm text-navy-700">Cancel</button>
+    <button onclick="submitPayment(${id})" class="px-4 py-2 rounded-lg bg-navy-900 text-cream text-sm font-medium">Confirm Payment</button>
+  </div>`;
+}
+function submitPayment(id){
+  const s=students.find(x=>x.id===id);
+  const amt=Number(document.getElementById('payAmt').value);
+  const method=document.getElementById('payMethod').value;
+  let ref=document.getElementById('payRef').value;
+  if(!amt||amt<=0){alert('Enter a valid amount.');return;}
+  if(!ref) ref=(method==='M-Pesa'?'MP-':method==='Bank'?'BK-':'CS-')+Math.floor(80000+Math.random()*9999);
+  if(payments.some(p=>p.ref===ref)){alert('A payment with this reference already exists.');return;}
+  const receipt='RCT-'+(receiptCounter++);
+  payments.push({ref,student:s.name,amount:amt,method,date:new Date().toISOString().slice(0,10),status:'Completed',receipt});
+  s.balance=Math.max(0,s.balance-amt);
+  closeModal(); openModal('receipt',receipt);
+}
+function modalReceipt(receiptNo){
+  const p=payments.find(x=>x.receipt===receiptNo);
+  const s=students.find(x=>x.name===p.student);
+  return `
+  <div class="text-center mb-4"><div class="serif text-lg text-navy-900">Benuru Group of Schools</div><div class="text-xs text-navy-700/50">${CAMPUS} · Official Fee Receipt</div></div>
+  <div class="border border-[#EFEAE0] rounded-xl p-4 text-sm space-y-1.5">
+    <div class="flex justify-between"><span class="text-navy-700/50">Receipt No.</span><span class="font-medium text-navy-900">${p.receipt}</span></div>
+    <div class="flex justify-between"><span class="text-navy-700/50">Student</span><span class="font-medium text-navy-900">${s?s.name:p.student} (${s?s.adm:'—'})</span></div>
+    <div class="flex justify-between"><span class="text-navy-700/50">Class</span><span>${s?s.cls:'—'}</span></div>
+    <div class="flex justify-between"><span class="text-navy-700/50">Payer</span><span>${s?s.guardian:'—'}</span></div>
+    <div class="flex justify-between"><span class="text-navy-700/50">Method</span><span>${p.method}</span></div>
+    <div class="flex justify-between"><span class="text-navy-700/50">Reference</span><span>${p.ref}</span></div>
+    <div class="flex justify-between"><span class="text-navy-700/50">Date</span><span>${p.date}</span></div>
+    <div class="border-t border-dashed border-[#E2DCCC] my-2"></div>
+    <div class="flex justify-between"><span class="text-navy-700/50">Amount Paid</span><span class="font-semibold text-emerald-600">${fmt(p.amount)}</span></div>
+    <div class="flex justify-between"><span class="text-navy-700/50">Remaining Balance</span><span class="font-semibold ${s&&s.balance>0?'text-rose-600':'text-emerald-600'}">${fmt(s?s.balance:0)}</span></div>
+  </div>
+  <div class="flex gap-2 mt-5">
+    <button onclick="window.print()" class="flex-1 px-4 py-2 rounded-lg border border-[#E2DCCC] text-sm text-navy-700">Print Receipt</button>
+    <button onclick="alert('PDF download requires a connected backend in production.')" class="flex-1 px-4 py-2 rounded-lg bg-navy-900 text-cream text-sm font-medium">Download PDF</button>
+  </div>`;
+}
+
+/* ---- TIMETABLE ---- */
+function mTimetable(){
+  const days=['Mon','Tue','Wed','Thu','Fri'];
+  const periods=['8:00','9:00','10:20','11:20','2:00'];
+  const grid = periods.map((p,pi)=>days.map((d,di)=>SUBJECTS[(pi+di)%SUBJECTS.length]));
+  return `${heading('Timetable', (S.role==='parent'?students.find(s=>s.id===S.childId).cls:academicsClass)+' · Weekly view')}
+  <div class="card overflow-x-auto"><table class="w-full text-sm min-w-[560px] text-center">
+  <thead><tr class="text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th class="text-left px-3 py-2">Time</th>${days.map(d=>`<th class="py-2">${d}</th>`).join('')}</tr></thead>
+  <tbody>${periods.map((p,pi)=>`<tr class="border-b border-[#EFEAE0]"><td class="text-left px-3 py-2 text-navy-700/50 text-xs">${p}</td>${grid[pi].map(sub=>`<td class="py-2"><span class="inline-block px-2 py-1 rounded-md bg-gold-500/10 text-navy-800 text-xs">${sub}</span></td>`).join('')}</tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+/* ---- STAFF ---- */
+function mStaff(){
+  return `${heading('Staff', staff.length+' staff members')}
+  <div class="card overflow-x-auto"><table class="w-full text-sm min-w-[680px]">
+  <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Name</th><th>Role</th><th>Department</th><th>Phone</th><th>Email</th><th>Status</th></tr></thead>
+  <tbody>${staff.map(m=>`<tr><td class="font-medium text-navy-900">${m.name}</td><td>${m.role}</td><td>${m.dept}</td><td class="text-navy-700/60">${m.phone}</td><td class="text-navy-700/60">${m.email}</td><td><span class="badge bg-emerald-100 text-emerald-700">${m.status}</span></td></tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+/* ---- LIBRARY ---- */
+function mLibrary(){
+  const totalCopies=books.reduce((a,b)=>a+b.copies,0), avail=books.reduce((a,b)=>a+b.available,0);
+  return `${heading('Library')}
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+    ${statCard('Total Titles',books.length,'','library')}${statCard('Total Copies',totalCopies,'','library')}${statCard('Available',avail,'','library')}${statCard('Borrowed',totalCopies-avail,'','library')}
+  </div>
+  <div class="card overflow-x-auto"><table class="w-full text-sm min-w-[600px]">
+  <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Title</th><th>Author</th><th>Copies</th><th>Available</th><th>Status</th></tr></thead>
+  <tbody>${books.map(b=>`<tr><td class="font-medium text-navy-900">${b.title}</td><td class="text-navy-700/60">${b.author}</td><td>${b.copies}</td><td>${b.available}</td><td><span class="badge ${b.available===0?'bg-rose-100 text-rose-700':'bg-emerald-100 text-emerald-700'}">${b.status}</span></td></tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+/* ---- TRANSPORT ---- */
+function mTransport(){
+  return `${heading('Transport')}
+  <div class="grid sm:grid-cols-3 gap-4">
+  ${routes.map(r=>`<div class="card p-4"><div class="font-semibold text-navy-900 text-sm mb-2">${r.name}</div>
+    <div class="text-xs text-navy-700/60 space-y-1">
+      <div class="flex justify-between"><span>Vehicle</span><span class="text-navy-900">${r.vehicle}</span></div>
+      <div class="flex justify-between"><span>Driver</span><span class="text-navy-900">${r.driver}</span></div>
+      <div class="flex justify-between"><span>Capacity</span><span class="text-navy-900">${r.assigned}/${r.capacity}</span></div>
+    </div>
+    <div class="mt-2">${bar(r.assigned,r.capacity)}</div>
+    <span class="badge bg-emerald-100 text-emerald-700 mt-3 inline-block">${r.status}</span></div>`).join('')}
+  </div>`;
+}
+
+/* ---- INVENTORY ---- */
+function mInventory(){
+  return `${heading('Inventory')}
+  <div class="card overflow-x-auto"><table class="w-full text-sm min-w-[560px]">
+  <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Item</th><th>Category</th><th>Stock</th><th>Reorder Level</th><th>Status</th></tr></thead>
+  <tbody>${inventory.map(i=>`<tr><td class="font-medium text-navy-900">${i.item}</td><td class="text-navy-700/60">${i.cat}</td><td>${i.stock}</td><td>${i.reorder}</td><td><span class="badge ${i.status==='Low Stock'?'bg-rose-100 text-rose-700':'bg-emerald-100 text-emerald-700'}">${i.status}</span></td></tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+/* ---- COMMUNICATION ---- */
+function mCommunication(){
+  return `${heading('Communication Centre')}
+  <div class="flex justify-end mb-3"><button onclick="openModal('newAnnouncement')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-navy-900 text-cream text-xs font-medium">${icon('communication','w-3.5 h-3.5')} New Announcement</button></div>
+  <div class="space-y-3">
+  ${announcements.map(a=>`<div class="card p-4"><div class="flex justify-between items-start"><div class="font-semibold text-navy-900 text-sm">${a.title}</div><span class="badge bg-navy-900/10 text-navy-800">${a.aud}</span></div><p class="text-sm text-navy-700/65 mt-1">${a.body}</p><div class="text-xs text-navy-700/40 mt-2">${a.date}</div></div>`).join('')}
+  </div>`;
+}
+
+/* ---- REPORTS ---- */
+function mReports(){
+  const cats=[['Students',['Enrollment','Gender Distribution','New Admissions']],['Attendance',['Daily Summary','Monthly Trend']],['Finance',['Fee Collection','Outstanding Balances','Transaction History']],['Academics',['Class Performance','Subject Performance']]];
+  return `${heading('Reports Centre')}
+  <div class="grid md:grid-cols-2 gap-4">
+  ${cats.map(([cat,items])=>`<div class="card p-4"><div class="font-semibold text-navy-900 text-sm mb-2">${cat}</div>
+    ${items.map(i=>`<div class="flex items-center justify-between py-1.5 text-sm border-b border-[#EFEAE0] last:border-0"><span class="text-navy-700/70">${i}</span><button onclick="alert('Generating ${i} report… (demo)')" class="text-gold-600 text-xs font-medium hover:underline">Generate</button></div>`).join('')}
+  </div>`).join('')}
+  </div>`;
+}
+
+/* ---- SETTINGS ---- */
+function mSettings(){
+  const items=['School Profile','Campuses','Academic Years','Terms','Classes & Subjects','Grading','Fee Structures','Users & Roles','Notifications','Backup Settings'];
+  return `${heading('Settings')}
+  <div class="grid sm:grid-cols-2 gap-3">
+  ${items.map(i=>`<button class="card p-4 text-left hover:border-gold-500 transition-colors"><div class="font-medium text-navy-900 text-sm">${i}</div><div class="text-xs text-navy-700/45 mt-0.5">Configure ${i.toLowerCase()}</div></button>`).join('')}
+  </div>`;
+}
+
+/* ---- PARENT PORTAL ---- */
+function childSwitcher(){
+  const mine = students.filter(s=>[1,4].includes(s.id)); // demo: two siblings
+  return `<div class="flex items-center gap-2 mb-5">${mine.map(c=>`<button onclick="S.childId=${c.id};renderModule()" class="px-3 py-1.5 rounded-lg text-xs font-medium border ${S.childId===c.id?'bg-navy-900 text-cream border-navy-900':'border-[#E2DCCC] text-navy-700/60'}">${c.name}</button>`).join('')}</div>`;
+}
+function pOverview(){
+  const s=students.find(x=>x.id===S.childId);
+  return `${heading('Parent Portal','Welcome back, '+s.guardian)}${childSwitcher()}
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    ${statCard('Attendance',s.att+'%','',"attendance")}${statCard('Fee Balance',fmt(s.balance),'',"fees")}${statCard('Class',s.cls+' '+s.stream,'',"academics")}${statCard('Status',s.status,'',"students")}
+  </div>
+  <div class="mt-6 card p-5">
+    <h3 class="font-semibold text-navy-900 text-sm mb-3">Latest Announcements</h3>
+    ${announcements.slice(0,2).map(a=>`<div class="text-sm border-b border-[#EFEAE0] last:border-0 py-2"><div class="font-medium text-navy-900">${a.title}</div><div class="text-xs text-navy-700/45">${a.date}</div></div>`).join('')}
+  </div>`;
+}
+function pAcademics(){
+  const s=students.find(x=>x.id===S.childId);
+  const avg=Math.round(Object.values(s.marks).reduce((a,b)=>a+b,0)/Object.values(s.marks).length);
+  return `${heading('Academic Performance', s.name+' · '+TERM)}${childSwitcher()}
+  <div class="card overflow-x-auto"><table class="w-full text-sm">
+  <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Subject</th><th>Score</th><th>Grade</th></tr></thead>
+  <tbody>${Object.entries(s.marks).map(([sub,m])=>`<tr><td>${sub}</td><td>${m}</td><td><span class="badge ${gradeColor(gradeOf(m))}">${gradeOf(m)}</span></td></tr>`).join('')}</tbody></table></div>
+  <div class="card p-4 mt-4 text-sm"><span class="text-navy-700/50">Class teacher's comment: </span><span class="italic text-navy-900">${s.comment}</span></div>
+  <div class="mt-4 flex gap-2"><button onclick="alert('Report card PDF requires a connected backend in production.')" class="px-4 py-2 rounded-lg bg-navy-900 text-cream text-sm font-medium">Download Report Card</button></div>`;
+}
+function pAttendance(){
+  const s=students.find(x=>x.id===S.childId);
+  return `${heading('Attendance', s.name)}${childSwitcher()}
+  <div class="card p-5"><div class="text-sm mb-2">Term attendance rate</div><div class="serif text-3xl text-navy-900 mb-3">${s.att}%</div>${bar(s.att,100)}<div class="text-xs text-navy-700/45 mt-3">Today's status: <span class="font-medium text-navy-900">${attendanceToday[s.id]}</span></div></div>`;
+}
+function pFees(){
+  const s=students.find(x=>x.id===S.childId);
+  const hist = payments.filter(p=>p.student===s.name);
+  return `${heading('Fees', s.name)}${childSwitcher()}
+  <div class="card p-5 mb-4 flex justify-between items-center"><div><div class="text-xs text-navy-700/50">Current balance</div><div class="serif text-2xl ${s.balance>0?'text-rose-600':'text-emerald-600'}">${fmt(s.balance)}</div></div><button onclick="alert('Statement download requires a connected backend in production.')" class="px-3.5 py-2 rounded-lg border border-[#E2DCCC] text-sm text-navy-700">Download Statement</button></div>
+  <div class="card overflow-x-auto"><table class="w-full text-sm">
+  <thead><tr class="text-left text-xs text-navy-700/50 border-b border-[#EFEAE0]"><th>Date</th><th>Amount</th><th>Method</th><th>Receipt</th></tr></thead>
+  <tbody>${hist.length?hist.map(p=>`<tr><td class="text-navy-700/60">${p.date}</td><td class="font-medium text-navy-900">${fmt(p.amount)}</td><td>${p.method}</td><td><button onclick="openModal('receipt','${p.receipt}')" class="text-gold-600 text-xs font-medium hover:underline">View</button></td></tr>`).join(''):`<tr><td colspan="4" class="text-center text-navy-700/40 py-8">No payments recorded for this period.</td></tr>`}</tbody></table></div>`;
+}
+
+/* ---------------- MODALS ---------------- */
+function openModal(type,arg){
+  const map={studentProfile:()=>modalStudentProfile(arg),payment:()=>modalPayment(arg),receipt:()=>modalReceipt(arg),
+    addStudent:()=>`<h3 class="serif text-xl text-navy-900 mb-4">Add Student</h3><div class="space-y-3">
+      <input placeholder="Full name" class="w-full"><input placeholder="Admission number" class="w-full">
+      <select class="w-full">${CLASSES.map(c=>`<option>${c}</option>`).join('')}</select>
+      <input placeholder="Guardian name & phone" class="w-full"></div>
+      <button onclick="alert('In production this creates a new student record and admission number.');closeModal()" class="mt-5 px-4 py-2 rounded-lg bg-navy-900 text-cream text-sm font-medium">Save Student</button>`,
+    newApplication:()=>`<h3 class="serif text-xl text-navy-900 mb-4">New Admission Application</h3><div class="space-y-3">
+      <input placeholder="Applicant full name" class="w-full"><select class="w-full">${CLASSES.map(c=>`<option>${c}</option>`).join('')}</select><input placeholder="Parent/guardian contact" class="w-full"></div>
+      <button onclick="alert('In production this submits the application for review.');closeModal()" class="mt-5 px-4 py-2 rounded-lg bg-navy-900 text-cream text-sm font-medium">Submit Application</button>`,
+    newAnnouncement:()=>`<h3 class="serif text-xl text-navy-900 mb-4">New Announcement</h3><div class="space-y-3">
+      <input placeholder="Title" class="w-full"><textarea placeholder="Message" rows="3" class="w-full"></textarea>
+      <select class="w-full"><option>All</option><option>Parents</option><option>Students</option><option>Staff</option></select></div>
+      <button onclick="alert('In production this publishes the announcement.');closeModal()" class="mt-5 px-4 py-2 rounded-lg bg-navy-900 text-cream text-sm font-medium">Publish</button>`,
+  };
+  document.getElementById('modal-root').innerHTML = `
+  <div class="fixed inset-0 modal-bg flex items-center justify-center z-40 p-4" onclick="if(event.target===this)closeModal()">
+    <div class="bg-white rounded-2xl max-w-md w-full max-h-[85vh] overflow-y-auto p-6 relative">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-navy-700/40 hover:text-navy-900"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      ${map[type]?map[type]():''}
+    </div>
+  </div>`;
+}
+function closeModal(){ document.getElementById('modal-root').innerHTML=''; }
+
+/* ---------------- BOOT ---------------- */
+renderLogin();
+</script>
+</body>
+</html>

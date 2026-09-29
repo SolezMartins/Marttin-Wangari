@@ -1,0 +1,9 @@
+# Redirect www to apex (in case someone adds www)
+https://www.marttin-wangari.netlify.app/* https://marttin-wangari.netlify.app/:splat 301!
+
+# Build pages — each project lives at /build/<slug>/
+# Mpambe Hotel POS, Maxland Properties PMS, ByZenna Essence, Benuru School Management and Joyrinah Schools are hosted locally under /build/.
+# The two live client sites are hosted elsewhere, so /build/<slug>/ forwards to them —
+# keeps every "builds" link on one consistent URL pattern.
+/build/eduwincare/*    https://eduwincare.com/:splat                 301
+/build/sammy-trucks/*  https://sammytrucks.netlify.app/#home         301
