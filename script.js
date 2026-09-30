@@ -441,11 +441,9 @@ function renderProjects(projects, container) {
         titleEl = document.createElement('a');
         titleEl.className = 'project-title-link';
         titleEl.href = proj.href;
-        // Local paths open in same tab; external URLs open in new tab
-        if (/^https?:\/\//i.test(proj.href)) {
-          titleEl.target = '_blank';
-          titleEl.rel = 'noopener noreferrer';
-        }
+        // All project links open in a new tab — keeps the portfolio open
+        titleEl.target = '_blank';
+        titleEl.rel = /^https?:\/\//i.test(proj.href) ? 'noopener noreferrer' : '';
         titleEl.textContent = proj.title;
         // Pulse glow once after a short delay to hint it's clickable
         window.setTimeout(function () {

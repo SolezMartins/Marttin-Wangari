@@ -1,880 +1,152 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Maxland Properties Ltd — Property Management System</title>
-<meta name="description" content="A practical property management workspace for Maxland Properties Ltd, Kasarani, Nairobi.">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>
-:root{
-  --navy:#0E2A4F; --navy2:#163C6E; --gold:#D9A326; --gold2:#F0BE4A;
-  --bg:#F2F5F9; --surface:#FFFFFF; --line:#DDE4EE; --text:#12233D; --muted:#5F7392;
-  --ok:#1E8E5A; --warn:#C98209; --bad:#C0392B; --info:#2A6FB8;
-  --r:10px; --sh:0 1px 2px rgba(14,42,79,.08),0 8px 24px -16px rgba(14,42,79,.35);
-}
-[data-theme=dark]{--bg:#0A1220;--surface:#111D31;--line:#22334D;--text:#E6EDF7;--muted:#8CA2C0;}
-[data-theme=dark]{--navy:#0A1628;--navy2:#16355E;--sh:0 1px 2px rgba(0,0,0,.4)}
-*{box-sizing:border-box}
-html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--text);font:15px/1.5 "Segoe UI",Roboto,-apple-system,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
-button,input,select,textarea{font:inherit;color:inherit}
-a{color:var(--info)}
-.num{font-variant-numeric:tabular-nums}
-.ui-svg{width:18px;height:18px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.ui-icon{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}.iconbtn .ui-icon{width:18px;height:18px;margin:auto}.nav-icon{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 18px}.nav-icon .ui-svg{width:17px;height:17px}.btn.ghost .ui-icon{margin-right:4px}.app-footer{padding:16px 20px;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid var(--line);background:var(--surface)}.app-footer a{color:inherit;font-weight:700;text-decoration:none}.app-footer a:hover{color:var(--info);text-decoration:underline}
-/* ---------- login ---------- */
-#login{position:fixed;inset:0;display:grid;place-items:center;background:
-  radial-gradient(1200px 600px at 20% -10%,#1B4380 0%,transparent 60%),var(--navy);z-index:60;padding:24px;overflow:auto}
-#login .box{width:min(880px,100%);background:var(--surface);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px -30px #000;display:grid;grid-template-columns:1fr}
-#login .head{padding:28px 28px 8px;text-align:center}
-#login img{width:210px;max-width:60%}
-.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;padding:20px 28px 28px}
-.role{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;cursor:pointer;transition:.15s}
-.role:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--sh)}
-.role b{display:block;color:var(--navy2)}
-[data-theme=dark] .role b{color:var(--gold2)}
-.role span{color:var(--muted);font-size:13px}
-/* ---------- shell ---------- */
-#app{display:none;min-height:100%}
-#app.on{display:grid;grid-template-columns:248px 1fr}
-aside{background:var(--navy);color:#CFE0F7;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;overflow:auto}
-aside .brand{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.1)}
-aside .brand img{width:34px;height:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px}
-aside .brand div{font-weight:700;color:#fff;font-size:14px;letter-spacing:.2px}
-aside .brand small{display:block;color:var(--gold2);font-weight:500;font-size:11px;letter-spacing:1.5px}
-nav{padding:10px 10px 24px;flex:1}
-nav .grp{color:#7FA2D2;font-size:11px;letter-spacing:.8px;padding:14px 10px 6px}
-nav a{display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:8px;color:#CFE0F7;text-decoration:none;font-size:14px}
-nav a:hover{background:rgba(255,255,255,.08)}
-nav a.sel{background:var(--gold);color:#22304a;font-weight:600}
-main{min-width:0;display:flex;flex-direction:column}
-header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 18px}
-header .search{flex:1;max-width:420px;position:relative}
-header input{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
-.badge-demo{background:#FFF3D6;color:#8A6200;border:1px solid #F2D58B;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
-[data-theme=dark] .badge-demo{background:#3A2E12;color:#F0BE4A;border-color:#6A5518}
-.iconbtn{background:transparent;border:1px solid var(--line);width:36px;height:36px;border-radius:8px;cursor:pointer}
-.iconbtn:hover{background:var(--bg)}
-.who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
-.view{padding:20px;max-width:1400px;width:100%}
-h1{font-size:22px;margin:0 0 2px}
-.sub{color:var(--muted);font-size:13px;margin-bottom:18px}
-/* ---------- bits ---------- */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
-.pad{padding:16px}
-.grid{display:grid;gap:14px}
-.k5{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
-.c2{grid-template-columns:2fr 1fr}
-.c3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.kpi .lbl{color:var(--muted);font-size:12px}
-.kpi .val{font-size:26px;font-weight:700;margin:6px 0 2px;letter-spacing:-.5px}
-.up{color:var(--ok);font-size:12px;font-weight:600}.down{color:var(--bad);font-size:12px;font-weight:600}
-.sect{font-weight:700;font-size:14px;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
-tbody tr:hover{background:var(--bg);cursor:pointer}
-.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
-.t-ok{background:#E3F4EB;color:#146B44}.t-warn{background:#FCF1DC;color:#8A5B06}.t-bad{background:#FBE6E3;color:#9B2C1F}.t-mut{background:#EAEFF6;color:#4C6285}.t-info{background:#E4EEFA;color:#1E5A97}
-[data-theme=dark] .t-ok{background:#123322;color:#7BD6A6}[data-theme=dark] .t-warn{background:#3A2B10;color:#F0C46B}[data-theme=dark] .t-bad{background:#3A1A16;color:#F0938A}[data-theme=dark] .t-mut{background:#1C2B42;color:#9DB4D4}[data-theme=dark] .t-info{background:#13294A;color:#8CB8EC}
-.btn{background:var(--navy2);color:#fff;border:0;padding:9px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px}
-.btn:hover{background:var(--navy)}
-.btn.gold{background:var(--gold);color:#2A2003}.btn.gold:hover{background:var(--gold2)}
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
-.btn.sm{padding:6px 10px;font-size:13px}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-input[type=text],input[type=number],input[type=date],select,textarea{padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-label.f{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px}
-.empty{padding:36px;text-align:center;color:var(--muted)}
-.scroll{overflow:auto}
-/* units */
-.units{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
-.unit{border-radius:8px;padding:10px 6px;text-align:center;cursor:pointer;color:#fff;font-weight:600;font-size:13px;border:0}
-.unit small{display:block;font-weight:500;font-size:11px;opacity:.9}
-.u-occ{background:#1E8E5A}.u-vac{background:#7C8CA5}.u-arr{background:#C0392B}.u-not{background:#C98209}.u-res{background:#2A6FB8}.u-mnt{background:#5B4B8A}
-/* charts */
-.spark{width:100%;height:190px}
-.donut{width:132px;height:132px;border-radius:50%;flex:none}
-.leg{font-size:13px}.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
-.barrow{display:grid;grid-template-columns:120px 1fr 58px;gap:10px;align-items:center;font-size:13px;margin-bottom:9px}
-.bar{height:9px;border-radius:6px;background:var(--bg);overflow:hidden}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--navy2),var(--gold))}
-/* kanban */
-.kan{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:12px}
-.col{background:var(--bg);border:1px dashed var(--line);border-radius:var(--r);padding:10px;min-height:260px}
-.col.over{border-color:var(--gold);background:#FFF9EA}
-[data-theme=dark] .col.over{background:#2A2411}
-.tk{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;margin-bottom:8px;cursor:grab;box-shadow:var(--sh)}
-.tk:active{cursor:grabbing}
-.tk h4{margin:0 0 4px;font-size:13px}
-.tk p{margin:0;color:var(--muted);font-size:12px}
-/* modal + toast */
-.mask{position:fixed;inset:0;background:rgba(10,20,36,.55);display:grid;place-items:center;z-index:70;padding:16px;overflow:auto}
-.modal{background:var(--surface);border-radius:14px;width:min(620px,100%);box-shadow:0 30px 80px -20px #000;max-height:92vh;overflow:auto}
-.modal .mh{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-weight:700}
-.modal .mb{padding:18px}
-.modal .mf{padding:14px 18px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
-#toast{position:fixed;right:16px;bottom:16px;z-index:90;display:flex;flex-direction:column;gap:8px}
-.toast{background:var(--navy);color:#fff;padding:11px 15px;border-radius:10px;font-size:14px;box-shadow:var(--sh);animation:sl .25s ease}
-@keyframes sl{from{transform:translateY(10px);opacity:0}}
-.prog{height:8px;background:var(--bg);border-radius:6px;overflow:hidden}
-.prog i{display:block;height:100%;background:var(--gold);width:0;transition:width .2s}
-.stk{text-align:center;padding:10px 0}
-.stk .ph{font-size:20px;font-weight:700;letter-spacing:.5px}
-.dots i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--gold);margin:0 3px;animation:bl 1s infinite}
-.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
-@keyframes bl{50%{opacity:.2}}
-.mono{font-family:ui-monospace,Consolas,monospace}
-.ledger td{font-size:13px}
-.msg{border-bottom:1px solid var(--line);padding:12px 4px}
-.msg b{font-size:14px}.msg p{margin:4px 0 0;color:var(--muted);font-size:13px}
-/* responsive */
-@media(max-width:980px){#app.on{grid-template-columns:1fr}
- aside{position:fixed;left:0;top:0;width:260px;z-index:50;transform:translateX(-102%);transition:.2s;box-shadow:0 0 60px #000}
- aside.open{transform:none}
- .c2{grid-template-columns:1fr}.kan{grid-template-columns:1fr}
- .view{padding:14px}}
-@media(min-width:981px){#menu{display:none}}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- Content Security Policy: no inline scripts, no eval, no third-party JS -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-92ScB/x5ZG4bE49TUanFQviCyfOmI9z+p8my+1LECak='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; form-action 'none'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<title>Martin Wangari — Software &amp; AI Developer</title>
+<meta name="description" content="Martin Mwangi Wangari — Software and AI Developer based in Nairobi, Kenya.">
+<meta name="author" content="Martin Mwangi Wangari">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://marttin-wangari.netlify.app/">
+<meta property="og:url" content="https://marttin-wangari.netlify.app/">
+<meta name="theme-color" content="#000000">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Martin Wangari — Software &amp; AI Developer">
+<meta property="og:description" content="Software and AI Developer based in Nairobi, Kenya.">
+<meta property="og:image" content="https://marttin-wangari.netlify.app/assets/id-photo.jpg">
+<meta property="og:locale" content="en_KE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Martin Wangari — Software &amp; AI Developer">
+<meta name="twitter:description" content="Nairobi-based Software and AI Developer. Open to work.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="128x128" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- LOGIN / ROLE PICKER -->
-<div id="login">
-  <div class="box">
-    <div class="head">
-      <img src="logo.png" alt="Maxland Properties Ltd">
-      <h2 style="margin:6px 0 4px;font-size:20px">A simpler way to run property day to day</h2>
-      <p style="color:var(--muted);margin:0">Pick a role and have a look around. Everything here uses fictional sample data, and any changes stay in this browser.</p>
-      <p style="margin:12px 0 0"><span class="badge-demo">Preview environment — sample data</span></p>
-    </div>
-    <div class="roles" id="roles"></div>
-  </div>
-</div>
+<a class="skip-link" href="#termStream">Skip to content</a>
 
-<!-- APP SHELL -->
-<div id="app">
-  <aside id="side">
-    <div class="brand"><img src="favicon.png" alt=""><div>MAXLAND<small>PROPERTIES LTD</small></div></div>
-    <nav id="nav"></nav>
-    <div style="padding:12px 16px;border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:#7FA2D2">
-      <a href="#" onclick="about();return false" style="color:#CFE0F7">About Maxland PMS</a>
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <h1 class="hname">Martin Wangari</h1>
+      <p class="hrole">Software &amp; AI Developer</p>
     </div>
-  </aside>
-  <main>
-    <header>
-      <button class="iconbtn" id="menu" onclick="side.classList.toggle('open')" aria-label="Menu"><span class="ui-icon" data-icon="menu"></span></button>
-      <div class="search"><input id="q" type="text" placeholder="Search tenants, units, invoices…" aria-label="Global search" oninput="globalSearch(this.value)"></div>
-      <span class="badge-demo" style="display:none" id="dbadge">Preview</span>
-      <button class="iconbtn" onclick="toggleTheme()" title="Light / dark" aria-label="Toggle theme"><span class="ui-icon" data-icon="theme"></span></button>
-      <button class="iconbtn" onclick="go('messages')" title="Notifications" aria-label="Notifications"><span class="ui-icon" data-icon="bell"></span></button>
-      <span class="who"><b id="whoRole"></b> · <a href="#" onclick="logout();return false">switch role</a></span>
-    </header>
-    <div class="view" id="view"></div>
-    <footer class="app-footer"><a href="../../" title="Open Martin Wangari portfolio">© 2026 Malik Technologies</a><span> · </span><span>All rights reserved.</span></footer>
+    <button class="header-badge" type="button" id="badgeLink">Nairobi, KE — open to work</button>
+  </header>
+
+  <!-- MAIN: card + terminal -->
+  <main class="main-grid">
+
+    <!-- ID CARD -->
+    <div class="card-col">
+      <div class="card-stage" id="cardStage">
+        <div class="lanyard" aria-hidden="true">
+          <div class="lanyard-strap"></div>
+          <div class="lanyard-clip"></div>
+        </div>
+        <div class="id-card" id="idCard">
+          <div class="id-card-head">
+            <span class="id-logo">MW</span>
+            <span class="id-user">martin.wangari</span>
+          </div>
+          <div class="id-photo">
+            <img src="assets/id-photo.jpg" alt="Portrait of Martin Wangari" width="230" height="240" loading="eager" decoding="async">
+          </div>
+          <div class="id-card-foot">
+            <span class="id-role">SOFTWARE · AI DEV</span>
+            <span class="id-loc">NAIROBI · KE</span>
+          </div>
+        </div>
+      </div>
+      <p class="card-caption">Hover or touch to tilt</p>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="term-col">
+      <nav class="term-menu" id="termMenu" aria-label="Portfolio sections">
+        <button class="tm-cmd" type="button" data-cmd="help">help</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="about">about</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="experience">experience</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="skills">skills</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="builds">builds</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="certs">certs</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="contact">contact</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="hire">hire</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="resume">resume</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="sudo">sudo</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="clear">clear</button>
+      </nav>
+      <p class="mobile-hint">Tap a command above, or type one below ↓</p>
+      <hr class="term-rule">
+      <div class="term-stream" id="termStream" role="log" aria-live="polite" aria-label="Terminal output" tabindex="0"></div>
+
+      <!-- No-JS fallback: full content, crawlable and readable -->
+      <noscript>
+        <div class="noscript-content">
+          <h2>About</h2>
+          <p>Software and AI Developer based in Nairobi, Kenya, focused on building practical digital products, intelligent workflows and modern web platforms.</p>
+          <h2>Experience</h2>
+          <p><strong>IT Systems Support Technician</strong> — Independent Contractor, Nairobi (Mar 2025 – present)</p>
+          <p><strong>Repair Technician / PCB Technician</strong> — M-Gas Kenya Ltd (Jul 2022 – Feb 2025)</p>
+          <p><strong>Field Network Technician</strong> — G-Tech Technology Ltd (Jan 2022 – Jun 2022)</p>
+          <p><strong>Industrial Attachment</strong> — Broadband Communication Networks Ltd (Mar 2021 – May 2021)</p>
+          <h2>Contact</h2>
+          <ul>
+            <li><a href="tel:+254740208683">+254 740 208 683</a></li>
+            <li><a href="https://wa.me/254740208683" rel="noopener noreferrer">WhatsApp</a></li>
+            <li><a href="mailto:martindevs07@gmail.com">martindevs07@gmail.com</a></li>
+            <li><a href="https://linkedin.com/in/martin-wangari-586903230" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="Martin_Wangari_Resume.pdf" download>Download resume (PDF)</a></li>
+          </ul>
+        </div>
+      </noscript>
+    </div>
+
   </main>
+
+  <!-- STATUS BAR -->
+  <footer class="footer-status">
+    <span class="fs-prompt">root@martinsdevs07:~$</span>
+    <span class="fs-time" id="fsTime">--</span>
+  </footer>
+
 </div>
-<div id="toast"></div>
-<div id="modalHost"></div>
 
-<script>
-/* =========================================================================
-   MAXLAND PMS — browser preview. Sample records are fictional and live in
-   localStorage under `maxland_demo_v1`.  M-Pesa and SMS flows are simulated in the browser; there are no network calls of any kind.
-   ========================================================================= */
-const KEY='maxland_demo_v1', VER=1;
-const $=s=>document.querySelector(s), view=$('#view'), side=$('#side');
-const KES=n=>'KES '+Math.round(n).toLocaleString('en-KE');
-const D=d=>{const x=new Date(d);return String(x.getDate()).padStart(2,'0')+'/'+String(x.getMonth()+1).padStart(2,'0')+'/'+x.getFullYear()};
-const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const monthKey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
-const mLabel=k=>MN[+k.slice(5)-1]+' '+k.slice(2,4);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const uid=p=>p+'-'+Math.random().toString(36).slice(2,8).toUpperCase();
+<!-- WHATSAPP FLOATING BUTTON -->
+<a class="wa-fab" id="waFab"
+   href="https://wa.me/254740208683?text=Hi%20Martin%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20talk."
+   target="_blank" rel="noopener noreferrer"
+   aria-label="Message Martin on WhatsApp">
+  <svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+    <path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.21-8.24 8.21z"/>
+  </svg>
+  <span class="wa-label">WhatsApp</span>
+</a>
 
-/* ---------------- seed data (deterministic) ---------------- */
-let sd=20260918;
-const rnd=()=>{sd|=0;sd=sd+0x6D2B79F5|0;let t=Math.imul(sd^sd>>>15,1|sd);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
-const pick=a=>a[Math.floor(rnd()*a.length)], ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
-const RENT={single:5500,bedsitter:8500,'1BR':15000,'2BR':22000,'3BR':30000,shop:25000,office:35000};
-const FIRST=['Wanjiku','Otieno','Kamau','Achieng','Mutiso','Njeri','Barasa','Chebet','Wafula','Auma','Mwangi','Kiprop','Nyambura','Omondi','Kilonzo','Atieno','Muthoni','Kipkemboi','Adhiambo','Karanja','Mumo','Sifuna','Waweru','Nekesa','Ochieng','Wairimu','Maina','Anyango'];
-const LAST=['Kariuki','Odhiambo','Mwende','Njoroge','Owino','Makau','Cheruiyot','Wekesa','Gitau','Ouma','Mbithi','Kimani','Rotich','Onyango','Wambui','Musyoka','Kibet','Juma'];
-const phone=()=>'07'+ri(10,49)+' '+ri(100,999)+' '+ri(100,999);
+<!-- Toast for copy confirmations -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-function seed(){
-  sd=20260918;
-  const now=new Date(2026,8,18);
-  const landlords=[
-    {id:'LL1',name:'Mr. Peter Njuguna',phone:phone(),commission:8},
-    {id:'LL2',name:'Wambui Family Trust',phone:phone(),commission:10},
-    {id:'LL3',name:'Maxland Holdings Ltd',phone:phone(),commission:7}];
-  const P=[
-    ['Maxland Heights – Mwiki','Mwiki','LL1',['1BR','2BR','bedsitter'],24],
-    ['Sunton Court Apartments','Sunton','LL1',['1BR','2BR','3BR'],20],
-    ['Clay City Gardens','Clay City','LL2',['2BR','3BR'],16],
-    ['Hunters View Bedsitters','Hunters','LL2',['bedsitter','single'],26],
-    ['Seasons Arcade','Seasons','LL3',['shop','office'],14],
-    ['Mwiki Road Offices','Mwiki','LL3',['office','shop'],10],
-    ['Kasarani Rose Court','Kasarani','LL1',['single','bedsitter','1BR'],18]];
-  const cares=['Joseph Mwangi','Grace Atieno','Samuel Kiprono','Mercy Nduta','David Barasa','Alice Wanjiru','Peter Omondi'];
-  const properties=P.map((p,i)=>({id:'P'+(i+1),name:p[0],estate:p[1]+', Kasarani',landlord:p[2],types:p[3],caretaker:cares[i],hue:[212,196,150,36,260,204,340][i]}));
-  const units=[],tenants=[],leases=[],invoices=[],payments=[],tickets=[],expenses=[],messages=[];
-  properties.forEach((p,pi)=>{
-    const n=P[pi][4];
-    for(let u=1;u<=n;u++){
-      const type=pick(p.types), id=p.id+'-'+String(u).padStart(2,'0');
-      const label=(p.types[0]==='shop'||p.types[0]==='office'?'Unit ':'')+String.fromCharCode(65+Math.floor((u-1)/8))+String(u).padStart(2,'0');
-      const r=rnd(); let status = r<.87?'occupied':(r<.93?'vacant':(r<.97?'vacant':'maintenance'));
-      units.push({id,pid:p.id,label,type,rent:RENT[type],status});
-    }
-  });
-  units.filter(u=>u.status==='occupied').forEach(u=>{
-    const tid=uid('T'), name=pick(FIRST)+' '+pick(LAST);
-    const mi=new Date(2021+Math.floor(rnd()*5),ri(0,11),ri(1,28));
-    tenants.push({id:tid,name,phone:phone(),idNo:String(ri(20000000,39999999)),unitId:u.id,moveIn:+mi,status:'active'});
-    const end=new Date(mi); end.setFullYear(end.getFullYear()+Math.ceil((2026-mi.getFullYear())/1)+1);
-    leases.push({id:uid('L'),tenantId:tid,unitId:u.id,start:+mi,end:+end,rent:u.rent,deposit:u.rent,status:'active'});
-  });
-  // 8% of tenants get a notice / arrears flavour
-  const months=[]; for(let i=11;i>=0;i--){const d=new Date(2026,8-i,1);months.push(monthKey(d));}
-  leases.forEach(l=>{
-    const t=tenants.find(x=>x.id===l.tenantId), u=units.find(x=>x.id===l.unitId);
-    const risky=rnd()<.18;
-    months.forEach((m,ix)=>{
-      if(new Date(m+'-01')<new Date(l.start)) return;
-      const inv={id:uid('INV'),leaseId:l.id,tenantId:t.id,unitId:u.id,month:m,amount:l.rent,type:'Rent',date:+new Date(m+'-01'),status:'unpaid'};
-      if(rnd()<.35){inv.amount+=ri(3,12)*100;} // water/garbage add-on
-      invoices.push(inv);
-      const late=risky&&ix>8, skip=risky&&ix>9&&rnd()<.6;
-      if(skip) return;
-      const part=(risky&&rnd()<.5)?ri(40,80)/100:1;
-      const pd=new Date(m+'-0'+ri(1,9));
-      payments.push({id:uid('PAY'),tenantId:t.id,unitId:u.id,invoiceId:inv.id,amount:Math.round(inv.amount*part/50)*50,
-        method:rnd()<.78?'M-Pesa':(rnd()<.6?'Bank':'Cash'),code:'Q'+String.fromCharCode(65+ri(0,25))+ri(10,99)+String.fromCharCode(65+ri(0,25))+ri(1000,9999),date:+pd});
-      inv.status=part===1?'paid':'partial';
-      if(late&&part<1) inv.status='overdue';
-    });
-    if(risky&&rnd()<.35){t.status='on notice';l.status='on notice';u.status='notice';}
-  });
-  // unmatched M-Pesa payments
-  ['0722 431 908','0733 190 442','0710 884 205'].forEach(ph=>payments.push({id:uid('PAY'),tenantId:null,unitId:null,invoiceId:null,
-    amount:ri(40,300)*50,method:'M-Pesa',code:'Q'+String.fromCharCode(65+ri(0,25))+ri(10,99)+String.fromCharCode(65+ri(0,25))+ri(1000,9999),
-    date:+new Date(2026,8,ri(1,17)),payer:ph,unmatched:true}));
-  const cats=['plumbing','electrical','carpentry','security','cleaning'];
-  const tt={plumbing:['Leaking kitchen tap','Blocked drain','No water in the bathroom'],electrical:['Socket not working','Security light out','Meter tripping'],carpentry:['Door lock broken','Window pane cracked','Wardrobe hinge loose'],security:['Gate motor faulty','CCTV camera offline','Perimeter light out'],cleaning:['Corridor cleaning overdue','Garbage not collected','Water tank needs washing']};
-  const states=['reported','assigned','in progress','completed'];
-  for(let i=0;i<22;i++){
-    const t=pick(tenants), c=pick(cats);
-    tickets.push({id:uid('MT'),unitId:t.unitId,tenantId:t.id,cat:c,title:pick(tt[c]),
-      priority:pick(['low','medium','high']),status:states[Math.min(3,Math.floor(rnd()*4))],
-      cost:rnd()<.6?ri(5,60)*100:0,created:+new Date(2026,ri(5,8),ri(1,28)),assignee:pick(cares)});
-  }
-  const ec=['Repairs','Caretaker wages','Garbage','Security','Water'];
-  properties.forEach(p=>months.forEach(m=>ec.forEach(c=>expenses.push({id:uid('EX'),pid:p.id,month:m,cat:c,
-    amount:c==='Caretaker wages'?ri(14,20)*1000:ri(20,140)*100}))));
-  payments.filter(p=>p.tenantId).slice(-14).forEach(p=>{
-    const t=tenants.find(x=>x.id===p.tenantId);
-    messages.push({id:uid('SMS'),to:t.phone,name:t.name,type:'Receipt',date:p.date,
-      body:`Dear ${t.name.split(' ')[0]}, we have received ${KES(p.amount)} for unit ${p.unitId}. Ref ${p.code}. Thank you — Maxland Properties.`});
-  });
-  return {version:VER,role:null,settings:{company:'Maxland Properties Ltd',address:'Mwiki Road, Kasarani, Nairobi',phone:'0709 123 456',
-    email:'accounts@maxlandproperties.co.ke',paybill:'522533',dueDay:5,grace:5,penalty:5},
-    landlords,properties,units,tenants,leases,invoices,payments,tickets,expenses,messages};
+<!-- Structured data for search engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Martin Mwangi Wangari",
+  "jobTitle": "Software and AI Developer",
+  "email": "mailto:martindevs07@gmail.com",
+  "telephone": "+254740208683",
+  "address": { "@type": "PostalAddress", "addressLocality": "Nairobi", "addressCountry": "KE" },
+  "sameAs": ["https://linkedin.com/in/martin-wangari-586903230", "https://marttin-wangari.netlify.app/"],
+  "knowsAbout": ["Software Development","Artificial Intelligence","Python","JavaScript","React","PostgreSQL","REST APIs","AI Automation","Power BI"]
 }
-
-/* ---------------- store ---------------- */
-let db;
-function load(){try{const r=JSON.parse(localStorage.getItem(KEY));if(r&&r.version===VER){db=r;return}}catch(e){}db=seed();save()}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){toast('Storage full — changes not saved')}}
-function reset(){localStorage.removeItem(KEY);load();toast('Demo data restored');go('dashboard')}
-load();
-
-/* ---------------- derived helpers ---------------- */
-const prop=id=>db.properties.find(p=>p.id===id);
-const unit=id=>db.units.find(u=>u.id===id);
-const tenant=id=>db.tenants.find(t=>t.id===id);
-const tenantOfUnit=id=>db.tenants.find(t=>t.unitId===id&&t.status!=='vacated');
-const balance=tid=>db.invoices.filter(i=>i.tenantId===tid).reduce((s,i)=>s+i.amount,0)
-                 - db.payments.filter(p=>p.tenantId===tid).reduce((s,p)=>s+p.amount,0);
-const invBal=inv=>inv.amount-db.payments.filter(p=>p.invoiceId===inv.id).reduce((s,p)=>s+p.amount,0);
-function unitClass(u){if(u.status==='vacant')return'u-vac';if(u.status==='maintenance')return'u-mnt';if(u.status==='notice')return'u-not';
-  const t=tenantOfUnit(u.id); return t&&balance(t.id)>u.rent*0.6?'u-arr':'u-occ'}
-const months12=()=>{const a=[];for(let i=11;i>=0;i--){const d=new Date(2026,8-i,1);a.push(monthKey(d))}return a};
-const collectedIn=m=>db.payments.filter(p=>monthKey(new Date(p.date))===m).reduce((s,p)=>s+p.amount,0);
-const billedIn=m=>db.invoices.filter(i=>i.month===m).reduce((s,i)=>s+i.amount,0);
-const occupancy=()=>{const o=db.units.filter(u=>u.status==='occupied'||u.status==='notice').length;return{o,t:db.units.length,pc:Math.round(o/db.units.length*100)}};
-const arrearsTotal=()=>db.tenants.reduce((s,t)=>s+Math.max(0,balance(t.id)),0);
-function aging(){const b={'0–30':0,'31–60':0,'61–90':0,'90+':0},now=new Date(2026,8,18);
-  db.invoices.forEach(i=>{const d=invBal(i);if(d<=1)return;const age=(now-new Date(i.month+'-05'))/864e5;
-    b[age<=30?'0–30':age<=60?'31–60':age<=90?'61–90':'90+']+=d});return b}
-
-/* ---------------- interface icons ---------------- */
-const ICONS={
-  menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
-  theme:'<path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/><circle cx="12" cy="12" r="3.5"/>',
-  bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',
-  dashboard:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>',
-  building:'<path d="M4 21V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v16M16 9h3a1 1 0 0 1 1 1v11M8 8h4M8 12h4M8 16h4M3 21h18"/>',
-  users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
-  file:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
-  receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h4"/>',
-  card:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>',
-  alert:'<path d="M12 3 22 20H2Z"/><path d="M12 9v5M12 17h.01"/>',
-  chart:'<path d="M4 19V5M4 19h16"/><path d="m7 15 3-4 3 2 5-6"/>',
-  wrench:'<path d="m14.7 6.3 3-3a5 5 0 0 0-6.4 6.4l-7.8 7.8a2.1 2.1 0 1 0 3 3l7.8-7.8a5 5 0 0 0 6.4-6.4l-3 3-3-3Z"/>',
-  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
-  landlord:'<path d="M3 10 12 4l9 6M5 10v10h14V10M9 20v-6h6v6"/>',
-  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
-  settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2 2-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V20h-3v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-2-2 .1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H5v-3h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 2-2 .1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V4h3v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 2 2-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1v3h-.1a1.7 1.7 0 0 0-1.5 1Z"/>',
-  close:'<path d="m6 6 12 12M18 6 6 18"/>', back:'<path d="m15 18-6-6 6-6"/>'
-};
-function icon(name){return `<svg class="ui-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS[name]||ICONS.dashboard}</svg>`}
-document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=icon(el.dataset.icon));
-
-/* ---------------- chrome ---------------- */
-const NAV={
-  admin:[['Overview',[['dashboard','Dashboard','dashboard']]],['Portfolio',[['properties','Properties & units','building'],['tenants','Tenants','users'],['leases','Leases','file']]],
-    ['Money',[['invoices','Invoices','receipt'],['payments','Payments','card'],['arrears','Arrears','alert'],['reports','Reports','chart']]],
-    ['Operations',[['maintenance','Maintenance','wrench'],['messages','Messages','mail'],['landlord','Landlord portal','landlord'],['portal','Tenant portal','user'],['settings','Settings','settings']]]],
-  manager:[['Overview',[['dashboard','Dashboard','dashboard']]],['Portfolio',[['properties','Properties & units','building'],['tenants','Tenants','users'],['leases','Leases','file']]],
-    ['Money',[['invoices','Invoices','receipt'],['payments','Payments','card'],['arrears','Arrears','alert'],['reports','Reports','chart']]],
-    ['Operations',[['maintenance','Maintenance','wrench'],['messages','Messages','mail']]]],
-  accountant:[['Overview',[['dashboard','Dashboard','dashboard']]],['Money',[['invoices','Invoices','receipt'],['payments','Payments','card'],['arrears','Arrears','alert'],['reports','Reports','chart'],['tenants','Tenants','users']]]],
-  caretaker:[['My work',[['maintenance','Maintenance','wrench'],['properties','Properties & units','building'],['messages','Messages','mail']]]],
-  landlord:[['My portfolio',[['landlord','Statement','landlord'],['reports','Reports','chart']]]],
-  tenant:[['My home',[['portal','My account','user'],['maintenance','My requests','wrench']]]]
-};
-const ROLES=[['admin','Administrator','Full access to every module'],['manager','Property manager','Properties, tenants, leases, collections'],
-  ['accountant','Accountant','Invoices, payments, arrears, reports'],['caretaker','Caretaker','Maintenance and unit status only'],
-  ['landlord','Landlord','Portfolio statement and remittance'],['tenant','Tenant','Balance, invoices, M-Pesa, requests']];
-$('#roles').innerHTML=ROLES.map(r=>`<button class="role" onclick="login('${r[0]}')"><b>${r[1]}</b><span>${r[2]}</span></button>`).join('');
-
-function login(r){db.role=r;save();boot()}
-function logout(){db.role=null;save();$('#app').classList.remove('on');$('#login').style.display='grid'}
-function boot(){
-  if(!db.role){$('#login').style.display='grid';return}
-  $('#login').style.display='none';$('#app').classList.add('on');
-  $('#whoRole').textContent=ROLES.find(r=>r[0]===db.role)[1];
-  $('#nav').innerHTML=NAV[db.role].map(g=>`<div class="grp">${g[0]}</div>`+g[1].map(i=>
-    `<a href="#${i[0]}" id="nv-${i[0]}"><span class="nav-icon">${icon(i[2])}</span>${i[1]}</a>`).join('')).join('');
-  go(NAV[db.role][0][1][0][0]);
-}
-function go(v,arg){
-  if(!NAV[db.role].some(g=>g[1].some(i=>i[0]===v))) v=NAV[db.role][0][1][0][0];
-  document.querySelectorAll('#nav a').forEach(a=>a.classList.remove('sel'));
-  const n=$('#nv-'+v); if(n)n.classList.add('sel');
-  side.classList.remove('open'); window.scrollTo(0,0);
-  view.innerHTML=(V[v]||V.dashboard)(arg);
-  if(V['after_'+v])V['after_'+v](arg);
-}
-window.addEventListener('hashchange',()=>go(location.hash.slice(1)));
-function toggleTheme(){const h=document.documentElement,t=h.dataset.theme==='dark'?'light':'dark';h.dataset.theme=t;localStorage.setItem('maxland_theme',t)}
-document.documentElement.dataset.theme=localStorage.getItem('maxland_theme')||'light';
-function toast(m){const d=document.createElement('div');d.className='toast';d.textContent=m;$('#toast').append(d);setTimeout(()=>d.remove(),3200)}
-function modal(title,body,footer){$('#modalHost').innerHTML=`<div class="mask" onclick="if(event.target===this)closeModal()"><div class="modal" role="dialog" aria-modal="true">
-  <div class="mh"><span>${title}</span><button class="iconbtn" onclick="closeModal()" aria-label="Close">${icon('close')}</button></div>
-  <div class="mb">${body}</div>${footer?`<div class="mf">${footer}</div>`:''}</div></div>`}
-function closeModal(){$('#modalHost').innerHTML=''}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-function about(){modal('About Maxland PMS',`<p><b>Maxland Properties PMS</b> is designed around the everyday work behind a rental portfolio: knowing which units are occupied, who owes rent, what has been paid, which leases are ending and what needs fixing.</p>
-  <div class="grid c2" style="margin-top:14px"><div class="card pad"><b>Typical day</b><p class="sub" style="margin:6px 0 0">Open the dashboard → check occupancy and collections → follow up arrears → record payments → handle maintenance → review reports.</p></div><div class="card pad"><b>Built for clarity</b><p class="sub" style="margin:6px 0 0">Role-aware navigation keeps each person focused on the work they actually need to do.</p></div></div>
-  <p style="margin-top:14px"><b>Demo boundaries.</b> M-Pesa prompts, SMS messages and confirmation codes are simulated in the browser. There is no server or external database behind this preview. Changes are stored locally in this browser.</p>
-  <p><b>Built with</b> vanilla JavaScript, SVG/CSS charts and CSS grid. The demo is intentionally self-contained so it can run from the portfolio route without a backend.</p>
-  <p style="color:var(--muted)">All names, phone numbers, ID numbers and properties are fictional sample records.</p>`,
-  `<button class="btn ghost" onclick="closeModal()">Close</button>`)}
-
-/* ---------------- shared render bits ---------------- */
-function tbl(cols,rows,onRow){return `<div class="scroll"><table><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>
-  ${rows.length?rows.map(r=>`<tr ${onRow?`onclick="${onRow(r)}"`:''}>${r.c.map(c=>`<td>${c}</td>`).join('')}</tr>`).join(''):
-  `<tr><td colspan="${cols.length}"><div class="empty">Nothing matches these filters. Clear a filter to see results.</div></td></tr>`}</tbody></table></div>`}
-function kpi(l,v,d,dir){return `<div class="card pad kpi"><div class="lbl">${l}</div><div class="val num">${v}</div>${d?`<div class="${dir||'sub'}">${d}</div>`:''}</div>`}
-function line(series){ // series: [{k,v}]
-  const w=620,h=190,p=28,max=Math.max(...series.map(s=>s.v))*1.15||1;
-  const x=i=>p+i*(w-p*2)/(series.length-1), y=v=>h-24-(v/max)*(h-52);
-  const pts=series.map((s,i)=>`${x(i)},${y(s.v)}`).join(' ');
-  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" role="img" aria-label="Collections trend">
-   <polyline points="${pts} ${x(series.length-1)},${h-24} ${p},${h-24}" fill="rgba(217,163,38,.16)" stroke="none"/>
-   <polyline points="${pts}" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linejoin="round"/>
-   ${series.map((s,i)=>`<circle cx="${x(i)}" cy="${y(s.v)}" r="3" fill="var(--navy2)"/>
-     <text x="${x(i)}" y="${h-6}" font-size="10" fill="var(--muted)" text-anchor="middle">${mLabel(s.k)}</text>`).join('')}
-  </svg>`}
-function donut(items){ // [[label,value,color]]
-  const tot=items.reduce((s,i)=>s+i[1],0)||1;let a=0;
-  const stops=items.map(i=>{const from=a/tot*360;a+=i[1];return `${i[2]} ${from}deg ${a/tot*360}deg`}).join(',');
-  return `<div class="row" style="gap:18px"><div class="donut" style="background:conic-gradient(${stops});
-    -webkit-mask:radial-gradient(circle,transparent 46%,#000 47%);mask:radial-gradient(circle,transparent 46%,#000 47%)"></div>
-    <div class="leg">${items.map(i=>`<div style="margin-bottom:6px"><i style="background:${i[2]}"></i>${i[0]} — <b class="num">${KES(i[1])}</b></div>`).join('')}</div></div>`}
-function bars(items){const max=Math.max(...items.map(i=>i[1]))||1;
-  return items.map(i=>`<div class="barrow"><span>${i[0]}</span><span class="bar"><i style="width:${i[1]/max*100}%"></i></span><b class="num">${i[2]}</b></div>`).join('')}
-function csv(name,cols,rows){
-  const body=[cols.join(','),...rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(','))].join('\n');
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([body],{type:'text/csv'}));a.download=name;a.click();toast('Downloaded '+name)}
-
-/* ---------------- views ---------------- */
-const V={};
-
-V.dashboard=()=>{
-  const ms=months12(),cur=ms[11],prev=ms[10];
-  const c=collectedIn(cur),pv=collectedIn(prev),ch=pv?Math.round((c-pv)/pv*100):0;
-  const oc=occupancy(),ag=aging();
-  const open=db.tickets.filter(t=>t.status!=='completed').length;
-  const vac=db.units.filter(u=>u.status==='vacant').length;
-  const exp=Object.entries(db.expenses.filter(e=>ms.slice(-3).includes(e.month))
-    .reduce((m,e)=>(m[e.cat]=(m[e.cat]||0)+e.amount,m),{}));
-  const recents=db.payments.filter(p=>p.tenantId).sort((a,b)=>b.date-a.date).slice(0,7);
-  const expiring=db.leases.filter(l=>l.end-Date.now()<1000*864e2).slice(0,6);
-  return `<h1>Good morning, ${ROLES.find(r=>r[0]===db.role)[1].toLowerCase()}</h1>
-  <p class="sub">${MN[8]} 2026 · ${db.properties.length} properties · ${db.units.length} units across Kasarani</p>
-  <div class="grid k5" style="margin-bottom:14px">
-    ${kpi('Collected this month',KES(c),(ch>=0?'▲ ':'▼ ')+Math.abs(ch)+'% vs '+mLabel(prev),ch>=0?'up':'down')}
-    ${kpi('Occupancy',oc.pc+'%',oc.o+' of '+oc.t+' units let','up')}
-    ${kpi('Total arrears',KES(arrearsTotal()),db.tenants.filter(t=>balance(t.id)>500).length+' tenants owing','down')}
-    ${kpi('Open tickets',open,db.tickets.filter(t=>t.priority==='high'&&t.status!=='completed').length+' marked high','down')}
-    ${kpi('Vacant units',vac,'Ready to let')}
-  </div>
-  <div class="card pad" style="margin-bottom:14px"><div class="sect">A quick way to explore <span class="tag t-info">DEMO</span></div>
-    <div class="row"><button class="btn ghost sm" onclick="go('properties')">1. Browse properties</button><button class="btn ghost sm" onclick="go('tenants')">2. Open a tenant</button><button class="btn ghost sm" onclick="go('leases')">3. Review leases</button><button class="btn ghost sm" onclick="go('payments')">4. Record a payment</button><button class="btn gold sm" onclick="go('reports')">5. View reports</button></div>
-    <p class="sub" style="margin:10px 0 0">Sample data is fictional. M-Pesa and SMS actions are simulations for this portfolio demo.</p></div>
-  <div class="grid c2" style="margin-bottom:14px">
-    <div class="card pad"><div class="sect">Collections, last 12 months <span class="num" style="color:var(--muted);font-weight:500">Billed ${KES(billedIn(cur))} this month</span></div>
-      ${line(ms.map(m=>({k:m,v:collectedIn(m)})))}</div>
-    <div class="card pad"><div class="sect">Arrears aging</div>
-      ${donut(Object.entries(ag).map((e,i)=>[e[0]+' days',e[1],['#2A6FB8','#D9A326','#C98209','#C0392B'][i]]))}</div>
-  </div>
-  <div class="grid c2" style="margin-bottom:14px">
-    <div class="card pad"><div class="sect">Occupancy by property</div>
-      ${bars(db.properties.map(p=>{const u=db.units.filter(x=>x.pid===p.id),o=u.filter(x=>x.status!=='vacant'&&x.status!=='maintenance').length;
-        return [p.name.split(' – ')[0],Math.round(o/u.length*100),Math.round(o/u.length*100)+'%']}))}</div>
-    <div class="card pad"><div class="sect">Expenses, last 3 months</div>
-      ${donut(exp.map((e,i)=>[e[0],e[1],['#163C6E','#2A6FB8','#D9A326','#5B4B8A','#1E8E5A'][i]]))}</div>
-  </div>
-  <div class="grid c2">
-    <div class="card pad"><div class="sect">Recent payments <button class="btn ghost sm" onclick="go('payments')">See all</button></div>
-      ${tbl(['Tenant','Unit','Method','Amount','Date'],recents.map(p=>({c:[esc(tenant(p.tenantId)?.name||'—'),p.unitId,
-        `<span class="tag t-info">${p.method}</span>`,`<b class="num">${KES(p.amount)}</b>`,D(p.date)]})))}</div>
-    <div class="card pad"><div class="sect">Leases expiring soon</div>
-      ${tbl(['Tenant','Unit','Ends'],expiring.map(l=>({c:[esc(tenant(l.tenantId)?.name||'—'),l.unitId,
-        `<span class="tag t-warn">${D(l.end)}</span>`]})),r=>`go('leases')`)}</div>
-  </div>`};
-
-/* --- properties --- */
-let pFilter={q:'',type:'',status:''};
-V.properties=()=>`<h1>Properties &amp; units</h1><p class="sub">Open a property to see its units, occupancy and recent collections.</p>
-  <div class="grid c3">${db.properties.map(p=>{
-    const u=db.units.filter(x=>x.pid===p.id),o=u.filter(x=>x.status==='occupied'||x.status==='notice').length;
-    const coll=db.payments.filter(x=>x.unitId&&unit(x.unitId)?.pid===p.id&&monthKey(new Date(x.date))==='2026-09').reduce((s,x)=>s+x.amount,0);
-    return `<button class="card" style="text-align:left;padding:0;border:1px solid var(--line);cursor:pointer;overflow:hidden" onclick="go('property','${p.id}')">
-      <div style="height:96px;background:linear-gradient(135deg,hsl(${p.hue} 45% 28%),hsl(${p.hue} 40% 52%))"></div>
-      <div class="pad"><b>${p.name}</b><div class="sub" style="margin:2px 0 10px">${p.estate} · caretaker ${p.caretaker}</div>
-      <div class="row" style="justify-content:space-between"><span class="tag ${o/u.length>.85?'t-ok':'t-warn'}">${Math.round(o/u.length*100)}% let</span>
-      <span class="num" style="color:var(--muted);font-size:13px">${u.length} units · ${KES(coll)} in Sep</span></div></div></button>`}).join('')}</div>`;
-
-V.property=id=>{const p=prop(id)||db.properties[0];
-  let us=db.units.filter(u=>u.pid===p.id);
-  return `<h1>${p.name}</h1><p class="sub">${p.estate} · caretaker ${p.caretaker} · landlord ${db.landlords.find(l=>l.id===p.landlord).name}</p>
-  <div class="card pad" style="margin-bottom:14px"><div class="row">
-    <input type="text" id="fq" placeholder="Unit or tenant" oninput="filterUnits('${p.id}')">
-    <select id="ft" onchange="filterUnits('${p.id}')"><option value="">All types</option>${Object.keys(RENT).map(t=>`<option>${t}</option>`).join('')}</select>
-    <select id="fs" onchange="filterUnits('${p.id}')"><option value="">All statuses</option><option>occupied</option><option>vacant</option><option>notice</option><option>maintenance</option></select>
-    <button class="btn ghost sm" onclick="go('properties')"><span class="ui-icon" data-icon="back"></span> All properties</button>
-    <span style="margin-left:auto" class="leg">
-      <i style="background:#1E8E5A"></i>Occupied <i style="background:#C0392B;margin-left:10px"></i>In arrears
-      <i style="background:#C98209;margin-left:10px"></i>On notice <i style="background:#7C8CA5;margin-left:10px"></i>Vacant
-      <i style="background:#5B4B8A;margin-left:10px"></i>Maintenance</span>
-  </div></div>
-  <div class="card pad"><div class="units" id="ugrid">${unitTiles(us)}</div></div>`};
-function unitTiles(us){return us.length?us.map(u=>`<button class="unit ${unitClass(u)}" onclick="openUnit('${u.id}')">${u.label}<small>${u.type}</small></button>`).join(''):
-  '<div class="empty">No units match your filters.</div>'}
-function filterUnits(pid){const q=$('#fq').value.toLowerCase(),t=$('#ft').value,s=$('#fs').value;
-  const us=db.units.filter(u=>u.pid===pid&&(!t||u.type===t)&&(!s||u.status===s)&&
-    (!q||u.label.toLowerCase().includes(q)||(tenantOfUnit(u.id)?.name||'').toLowerCase().includes(q)));
-  $('#ugrid').innerHTML=unitTiles(us)}
-function openUnit(id){const u=unit(id),t=tenantOfUnit(id);
-  const pays=t?db.payments.filter(p=>p.tenantId===t.id).sort((a,b)=>b.date-a.date).slice(0,5):[];
-  modal('Unit '+u.label+' · '+prop(u.pid).name,
-   `<div class="row" style="gap:24px;margin-bottom:12px"><div><div class="sub">Type</div><b>${u.type}</b></div>
-    <div><div class="sub">Rent</div><b class="num">${KES(u.rent)}</b></div>
-    <div><div class="sub">Status</div><b>${u.status}</b></div>
-    ${t?`<div><div class="sub">Balance</div><b class="num" style="color:${balance(t.id)>0?'var(--bad)':'var(--ok)'}">${KES(balance(t.id))}</b></div>`:''}</div>
-   ${t?`<p>Let to <b>${esc(t.name)}</b> · ${t.phone} · since ${D(t.moveIn)}</p>
-    ${tbl(['Date','Method','Ref','Amount'],pays.map(p=>({c:[D(p.date),p.method,`<span class="mono">${p.code}</span>`,KES(p.amount)]}))) }`
-    :'<p class="empty">Vacant. Assign a tenant from the Tenants module.</p>'}
-   <label class="f">Change unit status</label>
-   <select id="ust">${['occupied','vacant','notice','maintenance'].map(s=>`<option ${s===u.status?'selected':''}>${s}</option>`).join('')}</select>`,
-   `<button class="btn ghost" onclick="closeModal()">Close</button>
-    ${t?`<button class="btn gold" onclick="closeModal();mpesa('${t.id}')">Pay via M-Pesa</button>`:''}
-    <button class="btn" onclick="setUnitStatus('${u.id}')">Save status</button>`)}
-function setUnitStatus(id){const u=unit(id);u.status=$('#ust').value;save();closeModal();toast('Unit '+u.label+' set to '+u.status);go('property',u.pid)}
-
-/* --- tenants --- */
-V.tenants=()=>`<h1>Tenants</h1><p class="sub">${db.tenants.length} tenants on the books.</p>
-  <div class="card pad" style="margin-bottom:14px"><div class="row">
-   <input type="text" id="tq" placeholder="Search name, phone or unit" oninput="renderTenants()" style="min-width:240px">
-   <select id="ts" onchange="renderTenants()"><option value="">All statuses</option><option>active</option><option>on notice</option><option>defaulter</option></select>
-   <button class="btn gold" onclick="addTenant(1)">Add tenant</button>
-   <button class="btn ghost" onclick="exportTenants()">Export CSV</button></div></div>
-  <div class="card pad" id="tlist"></div>`;
-V.after_tenants=()=>renderTenants();
-function tenantRows(){const q=($('#tq')?.value||'').toLowerCase(),s=$('#ts')?.value||'';
-  return db.tenants.filter(t=>{const bal=balance(t.id);const st=bal>t?.rent?'defaulter':t.status;
-    return (!q||t.name.toLowerCase().includes(q)||t.phone.includes(q)||t.unitId.toLowerCase().includes(q))&&(!s||st===s||t.status===s)})}
-function renderTenants(){const rows=tenantRows().map(t=>{const b=balance(t.id),u=unit(t.unitId);
-  return {c:[`<b>${esc(t.name)}</b>`,t.phone,`${prop(u.pid).name.split(' – ')[0]} · ${u.label}`,
-    `<b class="num" style="color:${b>500?'var(--bad)':'var(--ok)'}">${KES(b)}</b>`,
-    `<span class="tag ${b>u.rent?'t-bad':t.status==='on notice'?'t-warn':'t-ok'}">${b>u.rent?'defaulter':t.status}</span>`],id:t.id}});
-  $('#tlist').innerHTML=tbl(['Tenant','Phone','Property / unit','Balance','Status'],rows,r=>`openTenant('${r.id}')`)}
-function exportTenants(){csv('maxland-tenants.csv',['Name','Phone','Unit','Balance','Status'],
-  tenantRows().map(t=>[t.name,t.phone,t.unitId,balance(t.id),t.status]))}
-function openTenant(id){const t=tenant(id),u=unit(t.unitId);
-  const led=[...db.invoices.filter(i=>i.tenantId===id).map(i=>({d:i.date,x:i.type+' — '+mLabel(i.month),dr:i.amount,cr:0})),
-             ...db.payments.filter(p=>p.tenantId===id).map(p=>({d:p.date,x:p.method+' '+p.code,dr:0,cr:p.amount}))]
-             .sort((a,b)=>a.d-b.d);
-  let run=0;const rows=led.slice(-12).map(l=>{run+=l.dr-l.cr;return{c:[D(l.d),esc(l.x),l.dr?KES(l.dr):'',l.cr?KES(l.cr):'',KES(run)]}});
-  modal(esc(t.name),`<div class="row" style="gap:22px;margin-bottom:10px">
-    <div><div class="sub">Unit</div><b>${prop(u.pid).name} · ${u.label}</b></div>
-    <div><div class="sub">Phone</div><b>${t.phone}</b></div>
-    <div><div class="sub">Moved in</div><b>${D(t.moveIn)}</b></div>
-    <div><div class="sub">Balance</div><b class="num" style="color:${balance(id)>0?'var(--bad)':'var(--ok)'}">${KES(balance(id))}</b></div></div>
-    <div class="sect">Ledger (last 12 entries)</div><div class="ledger">${tbl(['Date','Detail','Charge','Paid','Balance'],rows)}</div>`,
-    `<button class="btn ghost" onclick="remind('${id}')">Send reminder</button>
-     <button class="btn gold" onclick="closeModal();mpesa('${id}')">Collect via M-Pesa</button>
-     <button class="btn" onclick="closeModal()">Done</button>`)}
-function remind(id){const t=tenant(id),b=balance(id);
-  db.messages.unshift({id:uid('SMS'),to:t.phone,name:t.name,type:'Reminder',date:Date.now(),
-    body:`Dear ${t.name.split(' ')[0]}, your balance for unit ${t.unitId} is ${KES(b)}. Pay via Paybill ${db.settings.paybill}, account ${t.unitId}. — Maxland Properties.`});
-  save();toast('Reminder sent to '+t.phone)}
-
-let wiz={};
-function addTenant(step){
-  if(step===1)wiz={};
-  const free=db.units.filter(u=>u.status==='vacant');
-  const bodies={
-   1:`<label class="f">Full name</label><input type="text" id="w1" value="${wiz.name||''}" style="width:100%">
-      <label class="f">Phone</label><input type="text" id="w2" value="${wiz.phone||'07'}" style="width:100%">
-      <label class="f">National ID</label><input type="text" id="w3" value="${wiz.idNo||''}" style="width:100%">`,
-   2:`<label class="f">Vacant unit</label><select id="w4" style="width:100%">${free.map(u=>
-      `<option value="${u.id}">${prop(u.pid).name} · ${u.label} · ${u.type} · ${KES(u.rent)}</option>`).join('')}</select>
-      <p class="sub" style="margin-top:10px">${free.length} units are currently vacant.</p>`,
-   3:`<label class="f">Lease start</label><input type="date" id="w5" value="2026-10-01" style="width:100%">
-      <label class="f">Months</label><input type="number" id="w6" value="12" style="width:100%">
-      <label class="f">Deposit (months of rent)</label><input type="number" id="w7" value="1" style="width:100%">`};
-  modal('Add tenant — step '+step+' of 3',bodies[step],
-    `${step>1?`<button class="btn ghost" onclick="addTenant(${step-1})">Back</button>`:''}
-     <button class="btn ${step===3?'gold':''}" onclick="wizNext(${step})">${step===3?'Create tenant':'Next'}</button>`)}
-function wizNext(step){
-  if(step===1){wiz.name=$('#w1').value.trim();wiz.phone=$('#w2').value.trim();wiz.idNo=$('#w3').value.trim();
-    if(!wiz.name||wiz.phone.length<8){toast('Add a name and a valid phone number');return}return addTenant(2)}
-  if(step===2){wiz.unitId=$('#w4').value;return addTenant(3)}
-  const u=unit(wiz.unitId),start=new Date($('#w5').value),end=new Date(start);end.setMonth(end.getMonth()+ +$('#w6').value);
-  const t={id:uid('T'),name:wiz.name,phone:wiz.phone,idNo:wiz.idNo,unitId:u.id,moveIn:+start,status:'active'};
-  db.tenants.push(t);u.status='occupied';
-  db.leases.push({id:uid('L'),tenantId:t.id,unitId:u.id,start:+start,end:+end,rent:u.rent,deposit:u.rent*(+$('#w7').value),status:'active'});
-  save();closeModal();toast(t.name+' added to '+u.label);go('tenants')}
-
-/* --- leases --- */
-V.leases=()=>{const rows=db.leases.map(l=>{const t=tenant(l.tenantId),days=Math.round((l.end-Date.now())/864e5);
-  return {c:[esc(t?.name||'—'),l.unitId,D(l.start),D(l.end),
-   `<span class="tag ${days<60?'t-bad':days<180?'t-warn':'t-ok'}">${days<0?'expired':days+' days'}</span>`,
-   `<span class="tag ${l.status==='active'?'t-ok':'t-warn'}">${l.status}</span>`],id:l.id}})
-  .sort((a,b)=>0);
-  return `<h1>Leases</h1><p class="sub">${db.leases.length} agreements. Tap one to renew or serve notice.</p>
-  <div class="card pad">${tbl(['Tenant','Unit','Start','End','Expires in','Status'],rows,r=>`openLease('${r.id}')`)}</div>`};
-function openLease(id){const l=db.leases.find(x=>x.id===id),t=tenant(l.tenantId);
-  modal('Lease '+l.id,`<div class="row" style="gap:22px">
-    <div><div class="sub">Tenant</div><b>${esc(t.name)}</b></div><div><div class="sub">Unit</div><b>${l.unitId}</b></div>
-    <div><div class="sub">Rent</div><b class="num">${KES(l.rent)}</b></div><div><div class="sub">Deposit held</div><b class="num">${KES(l.deposit)}</b></div></div>
-    <p style="margin-top:14px">Runs ${D(l.start)} to ${D(l.end)}. Rent falls due on day ${db.settings.dueDay}, with ${db.settings.grace} days grace before a ${db.settings.penalty}% penalty.</p>`,
-    `<button class="btn ghost" onclick="notice('${id}')">Serve notice to vacate</button><button class="btn gold" onclick="renew('${id}')">Renew 12 months</button>`)}
-function renew(id){const l=db.leases.find(x=>x.id===id);const e=new Date(l.end);e.setFullYear(e.getFullYear()+1);l.end=+e;l.status='active';
-  const u=unit(l.unitId);u.status='occupied';tenant(l.tenantId).status='active';save();closeModal();toast('Lease renewed to '+D(l.end));go('leases')}
-function notice(id){const l=db.leases.find(x=>x.id===id);l.status='on notice';unit(l.unitId).status='notice';tenant(l.tenantId).status='on notice';
-  const t=tenant(l.tenantId);db.messages.unshift({id:uid('SMS'),to:t.phone,name:t.name,type:'Notice',date:Date.now(),
-   body:`Dear ${t.name.split(' ')[0]}, we confirm your notice to vacate unit ${l.unitId}. Final inspection will be booked before the deposit is refunded. — Maxland Properties.`});
-  save();closeModal();toast('Notice recorded for '+l.unitId);go('leases')}
-
-/* --- invoices --- */
-V.invoices=()=>{const rows=db.invoices.filter(i=>i.month>='2026-07').sort((a,b)=>b.date-a.date).slice(0,120).map(i=>{
-  const t=tenant(i.tenantId),b=invBal(i);
-  return {c:[`<span class="mono">${i.id}</span>`,esc(t?.name||'—'),i.unitId,mLabel(i.month),KES(i.amount),
-   `<b class="num">${KES(b)}</b>`,`<span class="tag ${b<=1?'t-ok':i.status==='partial'?'t-warn':'t-bad'}">${b<=1?'paid':i.status}</span>`],id:i.id}});
-  return `<h1>Invoices</h1><p class="sub">Rent, water and service charges raised against active leases.</p>
-  <div class="card pad" style="margin-bottom:14px"><div class="row">
-    <button class="btn gold" onclick="runBatch()">Generate monthly invoices</button>
-    <button class="btn ghost" onclick="oneOff()">Add one-off charge</button>
-    <span class="sub" style="margin-left:auto">Showing invoices from Jul 2026</span></div></div>
-  <div class="card pad">${tbl(['Invoice','Tenant','Unit','Month','Charged','Outstanding','Status'],rows,r=>`openInv('${r.id}')`)}</div>`};
-function openInv(id){const i=db.invoices.find(x=>x.id===id),t=tenant(i.tenantId),u=unit(i.unitId),s=db.settings;
-  modal('Invoice '+i.id,`<div style="border:1px solid var(--line);border-radius:10px;padding:18px">
-    <div class="row" style="justify-content:space-between;align-items:flex-start">
-      <div><b style="color:var(--navy2);font-size:17px">${s.company}</b><div class="sub">${s.address}<br>${s.phone} · ${s.email}</div></div>
-      <div style="text-align:right"><div class="sub">Invoice</div><b class="mono">${i.id}</b><div class="sub">${D(i.date)}</div></div></div>
-    <hr style="border:0;border-top:1px solid var(--line);margin:14px 0">
-    <div class="row" style="justify-content:space-between"><div><div class="sub">Billed to</div><b>${esc(t?.name||'')}</b><div class="sub">${prop(u.pid).name} · ${u.label}</div></div>
-    <div style="text-align:right"><div class="sub">Pay by Paybill</div><b class="num">${s.paybill}</b><div class="sub">Account ${u.id}</div></div></div>
-    ${tbl(['Description','Period','Amount'],[{c:[i.type+' — '+u.type,mLabel(i.month),KES(i.amount)]}])}
-    <div class="row" style="justify-content:flex-end;margin-top:10px"><b class="num" style="font-size:18px">Outstanding ${KES(invBal(i))}</b></div></div>`,
-    `<button class="btn ghost" onclick="closeModal()">Close</button>${invBal(i)>1?`<button class="btn gold" onclick="closeModal();mpesa('${i.tenantId}','${i.id}')">Pay via M-Pesa</button>`:''}`)}
-function runBatch(){const m='2026-10';let n=0;
-  modal('Generating invoices for '+mLabel(m),`<p class="sub">Raising rent invoices for every active lease.</p><div class="prog"><i id="pb"></i></div><p id="pt" class="sub"></p>`,'');
-  const act=db.leases.filter(l=>l.status==='active');let i=0;
-  const tick=()=>{const chunk=Math.ceil(act.length/20);
-    for(let k=0;k<chunk&&i<act.length;k++,i++){const l=act[i];
-      if(db.invoices.some(x=>x.leaseId===l.id&&x.month===m))continue;
-      db.invoices.push({id:uid('INV'),leaseId:l.id,tenantId:l.tenantId,unitId:l.unitId,month:m,amount:l.rent,type:'Rent',date:+new Date(2026,9,1),status:'unpaid'});n++}
-    $('#pb').style.width=Math.round(i/act.length*100)+'%';$('#pt').textContent=i+' of '+act.length+' leases processed';
-    if(i<act.length)setTimeout(tick,60);else{save();closeModal();toast(n+' invoices raised for '+mLabel(m));go('invoices')}};
-  setTimeout(tick,200)}
-function oneOff(){modal('One-off charge',`<label class="f">Tenant</label><select id="o1" style="width:100%">${db.tenants.slice(0,60).map(t=>`<option value="${t.id}">${esc(t.name)} · ${t.unitId}</option>`).join('')}</select>
-  <label class="f">Charge type</label><select id="o2" style="width:100%"><option>Water</option><option>Garbage</option><option>Penalty</option><option>Repairs recharge</option></select>
-  <label class="f">Amount (KES)</label><input type="number" id="o3" value="1500" style="width:100%">`,
-  `<button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="saveOneOff()">Raise charge</button>`)}
-function saveOneOff(){const t=tenant($('#o1').value),a=+$('#o3').value;
-  db.invoices.push({id:uid('INV'),leaseId:'-',tenantId:t.id,unitId:t.unitId,month:'2026-09',amount:a,type:$('#o2').value,date:Date.now(),status:'unpaid'});
-  save();closeModal();toast(KES(a)+' charged to '+t.name);go('invoices')}
-
-/* --- payments + M-Pesa simulation --- */
-V.payments=()=>{const rows=db.payments.filter(p=>!p.unmatched).sort((a,b)=>b.date-a.date).slice(0,80).map(p=>{
-  const t=tenant(p.tenantId);return {c:[D(p.date),esc(t?.name||'—'),p.unitId||'—',`<span class="tag t-info">${p.method}</span>`,
-    `<span class="mono">${p.code}</span>`,`<b class="num">${KES(p.amount)}</b>`]}});
-  const un=db.payments.filter(p=>p.unmatched);
-  return `<h1>Payments</h1><p class="sub">Keep payments easy to trace, including the M-Pesa reference and where each payment was applied.</p>
-  <div class="card pad" style="margin-bottom:14px"><div class="row">
-    <button class="btn gold" onclick="mpesa()">Simulate M-Pesa payment</button>
-    <button class="btn ghost" onclick="manualPay()">Record cash or bank payment</button>
-    <button class="btn ghost" onclick="csv('maxland-payments.csv',['Date','Tenant','Unit','Method','Ref','Amount'],db.payments.filter(p=>!p.unmatched).map(p=>[D(p.date),tenant(p.tenantId)?.name||'',p.unitId||'',p.method,p.code,p.amount]))">Export CSV</button></div></div>
-  ${un.length?`<div class="card pad" style="margin-bottom:14px"><div class="sect">Unmatched M-Pesa payments <span class="tag t-warn">${un.length} to assign</span></div>
-    ${tbl(['Received','Payer','Ref','Amount','Action'],un.map(p=>({c:[D(p.date),p.payer,`<span class="mono">${p.code}</span>`,KES(p.amount),
-      `<button class="btn sm" onclick="event.stopPropagation();assign('${p.id}')">Assign to tenant</button>`]})))}</div>`:''}
-  <div class="card pad"><div class="sect">Payment history</div>${tbl(['Date','Tenant','Unit','Method','Reference','Amount'],rows)}</div>`};
-function assign(id){const p=db.payments.find(x=>x.id===id);
-  modal('Assign '+KES(p.amount),`<p class="sub">Received from ${p.payer} on ${D(p.date)}, reference <span class="mono">${p.code}</span>.</p>
-   <label class="f">Match to tenant</label><select id="am" style="width:100%">${db.tenants.filter(t=>balance(t.id)>0).slice(0,60)
-    .map(t=>`<option value="${t.id}">${esc(t.name)} · ${t.unitId} · owes ${KES(balance(t.id))}</option>`).join('')}</select>`,
-   `<button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="doAssign('${id}')">Assign payment</button>`)}
-function doAssign(id){const p=db.payments.find(x=>x.id===id),t=tenant($('#am').value);
-  p.tenantId=t.id;p.unitId=t.unitId;delete p.unmatched;allocate(t.id,p.amount);save();closeModal();toast('Matched to '+t.name);go('payments')}
-function allocate(tid,amt){ // oldest outstanding invoice first
-  db.invoices.filter(i=>i.tenantId===tid&&invBal(i)>1).sort((a,b)=>a.date-b.date).forEach(i=>{
-    if(amt<=0)return;const b=invBal(i);const use=Math.min(b,amt);amt-=use;i.status=use>=b?'paid':'partial'})}
-function manualPay(){modal('Record a payment',`<label class="f">Tenant</label><select id="m1" style="width:100%">${db.tenants.slice(0,60).map(t=>`<option value="${t.id}">${esc(t.name)} · ${t.unitId} · owes ${KES(balance(t.id))}</option>`).join('')}</select>
-  <label class="f">Method</label><select id="m2" style="width:100%"><option>Cash</option><option>Bank</option><option>Cheque</option></select>
-  <label class="f">Amount (KES)</label><input type="number" id="m3" value="15000" style="width:100%">`,
-  `<button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="saveManual()">Record payment</button>`)}
-function saveManual(){const t=tenant($('#m1').value),a=+$('#m3').value;
-  const p={id:uid('PAY'),tenantId:t.id,unitId:t.unitId,invoiceId:null,amount:a,method:$('#m2').value,code:'RCPT'+ri(10000,99999),date:Date.now()};
-  db.payments.unshift(p);allocate(t.id,a);
-  db.messages.unshift({id:uid('SMS'),to:t.phone,name:t.name,type:'Receipt',date:Date.now(),
-    body:`Receipt ${p.code}: ${KES(a)} received for unit ${t.unitId}. New balance ${KES(balance(t.id))}. — Maxland Properties.`});
-  save();closeModal();toast('Receipt '+p.code+' issued');go('payments')}
-
-function mpesa(tid,invId){
-  const list=db.tenants.filter(t=>balance(t.id)>0).slice(0,60);
-  const t=tid?tenant(tid):list[0];
-  modal('Pay via M-Pesa',`<label class="f">Tenant</label>
-   ${tid?`<input type="text" value="${esc(t.name)} · ${t.unitId}" disabled style="width:100%"><input type="hidden" id="p1" value="${t.id}">`
-   :`<select id="p1" style="width:100%" onchange="mpAmt()">${list.map(x=>`<option value="${x.id}">${esc(x.name)} · ${x.unitId} · owes ${KES(balance(x.id))}</option>`).join('')}</select>`}
-   <label class="f">Phone number</label><input type="text" id="p2" value="${t.phone}" style="width:100%">
-   <label class="f">Amount (KES)</label><input type="number" id="p3" value="${Math.max(500,Math.round(balance(t.id)/50)*50)}" style="width:100%">
-   <p class="sub" style="margin-top:12px">Simulated Safaricom STK push. Nothing is sent anywhere — the confirmation code is generated in your browser.</p>`,
-   `<button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="stk('${invId||''}')">Send STK push</button>`)}
-function mpAmt(){const t=tenant($('#p1').value);$('#p2').value=t.phone;$('#p3').value=Math.max(500,Math.round(balance(t.id)/50)*50)}
-function stk(invId){
-  const t=tenant($('#p1').value),ph=$('#p2').value,amt=+$('#p3').value;
-  if(!(amt>0))return toast('Enter an amount above zero');
-  let left=12;
-  modal('M-Pesa request sent',`<div class="stk"><p>A payment request has been sent to</p><div class="ph">${ph}</div>
-    <p class="sub">Enter your M-Pesa PIN on the handset to pay <b>${KES(amt)}</b> to Paybill ${db.settings.paybill}, account ${t.unitId}.</p>
-    <p class="dots"><i></i><i></i><i></i></p><p class="sub">Request expires in <b id="cd">${left}</b>s</p></div>`,
-    `<button class="btn ghost" onclick="stkCancel('${t.id}')">Customer cancelled</button><button class="btn gold" onclick="stkOk('${t.id}',${amt},'${invId}')">Simulate PIN entered</button>`);
-  const iv=setInterval(()=>{const el=$('#cd');if(!el){clearInterval(iv);return}el.textContent=--left;
-    if(left<=0){clearInterval(iv);if($('#cd'))stkCancel(t.id,true)}},1000)}
-function stkCancel(tid,timeout){const t=tenant(tid);
-  db.messages.unshift({id:uid('SMS'),to:t.phone,name:t.name,type:'M-Pesa',date:Date.now(),
-    body:timeout?`M-Pesa request for unit ${t.unitId} expired before the PIN was entered. No money was moved.`
-    :`M-Pesa request for unit ${t.unitId} was cancelled by the customer. No money was moved.`});
-  save();closeModal();toast(timeout?'Request timed out — nothing charged':'Customer cancelled the request')}
-function stkOk(tid,amt,invId){
-  const t=tenant(tid),code='Q'+String.fromCharCode(65+ri(0,25))+ri(10,99)+String.fromCharCode(65+ri(0,25))+ri(1000,9999);
-  const p={id:uid('PAY'),tenantId:t.id,unitId:t.unitId,invoiceId:invId||null,amount:amt,method:'M-Pesa',code,date:Date.now()};
-  db.payments.unshift(p);allocate(t.id,amt);
-  db.messages.unshift({id:uid('SMS'),to:t.phone,name:t.name,type:'Receipt',date:Date.now(),
-    body:`${code} confirmed. ${KES(amt)} paid to ${db.settings.company} for unit ${t.unitId} on ${D(Date.now())}. New balance ${KES(balance(t.id))}.`});
-  save();
-  modal('Payment received',`<div class="stk"><div aria-hidden="true" style="width:42px;height:42px;display:grid;place-items:center;margin:0 auto 2px"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 2.5 2.5L16 9"></path></svg></div>
-    <p style="margin:6px 0 2px">M-Pesa confirmation</p><div class="ph mono">${code}</div>
-    <p><b class="num" style="font-size:20px">${KES(amt)}</b> from ${esc(t.name)}</p>
-    <p class="sub">Invoices settled oldest first. New balance <b>${KES(balance(t.id))}</b>. An SMS receipt has been added to the message log.</p></div>`,
-    `<button class="btn ghost" onclick="closeModal();go('messages')">See SMS log</button><button class="btn gold" onclick="closeModal();go('payments')">Done</button>`);
-  toast('Payment '+code+' recorded')}
-
-/* --- arrears --- */
-V.arrears=()=>{const debt=db.tenants.map(t=>({t,b:balance(t.id)})).filter(x=>x.b>500).sort((a,b)=>b.b-a.b);
-  const ag=aging();
-  return `<h1>Arrears &amp; collections</h1><p class="sub">${debt.length} tenants owe ${KES(arrearsTotal())} in total.</p>
-  <div class="grid c2" style="margin-bottom:14px">
-   <div class="card pad"><div class="sect">Aging profile</div>${donut(Object.entries(ag).map((e,i)=>[e[0]+' days',e[1],['#2A6FB8','#D9A326','#C98209','#C0392B'][i]]))}</div>
-   <div class="card pad"><div class="sect">Chase everyone at once</div>
-    <p class="sub">Sends a simulated SMS to every tenant above with their balance and the Paybill details.</p>
-    <button class="btn gold" onclick="bulkRemind()">Send bulk reminders</button></div></div>
-  <div class="card pad">${tbl(['Tenant','Unit','Owed','Severity','Action'],debt.slice(0,60).map(x=>({c:[esc(x.t.name),x.t.unitId,
-    `<b class="num">${KES(x.b)}</b>`,`<span class="tag ${x.b>40000?'t-bad':x.b>15000?'t-warn':'t-mut'}">${x.b>40000?'critical':x.b>15000?'watch':'minor'}</span>`,
-    `<button class="btn sm ghost" onclick="event.stopPropagation();remind('${x.t.id}')">Remind</button>`],id:x.t.id})),r=>`openTenant('${r.id}')`)}</div>`};
-function bulkRemind(){const debt=db.tenants.filter(t=>balance(t.id)>500);let i=0;
-  modal('Sending reminders',`<p class="sub">Queuing SMS to ${debt.length} tenants.</p><div class="prog"><i id="pb"></i></div><p id="pt" class="sub"></p>`,'');
-  const tick=()=>{for(let k=0;k<4&&i<debt.length;k++,i++){const t=debt[i];
-      db.messages.unshift({id:uid('SMS'),to:t.phone,name:t.name,type:'Reminder',date:Date.now(),
-        body:`Dear ${t.name.split(' ')[0]}, unit ${t.unitId} has an outstanding balance of ${KES(balance(t.id))}. Paybill ${db.settings.paybill}, account ${t.unitId}. — Maxland Properties.`})}
-    $('#pb').style.width=Math.round(i/debt.length*100)+'%';$('#pt').textContent=i+' of '+debt.length+' sent';
-    if(i<debt.length)setTimeout(tick,50);else{save();closeModal();toast(debt.length+' reminders sent');go('messages')}};
-  setTimeout(tick,200)}
-
-/* --- maintenance kanban --- */
-const COLS=['reported','assigned','in progress','completed'];
-V.maintenance=()=>{
-  const mine=db.role==='tenant'?db.tickets.slice(0,6):db.tickets;
-  return `<h1>Maintenance</h1><p class="sub">Drag a card to move the job along. Changes stick after a refresh.</p>
-  <div class="row" style="margin-bottom:14px"><button class="btn gold" onclick="newTicket()">Log a request</button></div>
-  <div class="kan">${COLS.map(c=>`<div class="col" data-col="${c}" ondragover="event.preventDefault();this.classList.add('over')"
-    ondragleave="this.classList.remove('over')" ondrop="drop(event,'${c}')">
-    <div class="sect">${c}<span class="tag t-mut">${mine.filter(t=>t.status===c).length}</span></div>
-    ${mine.filter(t=>t.status===c).map(t=>{const u=unit(t.unitId);
-      return `<div class="tk" draggable="true" ondragstart="event.dataTransfer.setData('id','${t.id}')" onclick="openTicket('${t.id}')" tabindex="0">
-      <h4>${t.title}</h4><p>${prop(u.pid).name.split(' – ')[0]} · ${u.label}</p>
-      <div class="row" style="margin-top:8px;gap:6px"><span class="tag ${t.priority==='high'?'t-bad':t.priority==='medium'?'t-warn':'t-mut'}">${t.priority}</span>
-      <span class="tag t-info">${t.cat}</span></div></div>`}).join('')}</div>`).join('')}</div>`};
-function drop(e,col){e.preventDefault();document.querySelectorAll('.col').forEach(c=>c.classList.remove('over'));
-  const t=db.tickets.find(x=>x.id===e.dataTransfer.getData('id'));if(!t)return;t.status=col;save();toast(t.title+' → '+col);go('maintenance')}
-function openTicket(id){const t=db.tickets.find(x=>x.id===id),u=unit(t.unitId),te=tenant(t.tenantId);
-  modal(t.title,`<div class="row" style="gap:22px;margin-bottom:12px">
-    <div><div class="sub">Unit</div><b>${prop(u.pid).name} · ${u.label}</b></div>
-    <div><div class="sub">Reported by</div><b>${esc(te?.name||'Caretaker')}</b></div>
-    <div><div class="sub">Logged</div><b>${D(t.created)}</b></div>
-    <div><div class="sub">Cost so far</div><b class="num">${KES(t.cost)}</b></div></div>
-   <div class="row"><div style="flex:1;height:96px;border-radius:8px;background:repeating-linear-gradient(45deg,var(--bg),var(--bg) 10px,var(--line) 10px,var(--line) 11px);display:grid;place-items:center;color:var(--muted);font-size:13px">Before photo</div>
-   <div style="flex:1;height:96px;border-radius:8px;background:repeating-linear-gradient(45deg,var(--bg),var(--bg) 10px,var(--line) 10px,var(--line) 11px);display:grid;place-items:center;color:var(--muted);font-size:13px">After photo</div></div>
-   <label class="f">Assigned to</label><input type="text" value="${t.assignee}" disabled style="width:100%">
-   <label class="f">Add a comment</label><textarea id="tc" rows="2" style="width:100%" placeholder="e.g. Parts bought, fitting tomorrow"></textarea>`,
-   `<button class="btn ghost" onclick="closeModal()">Close</button><button class="btn gold" onclick="doneTicket('${id}')">Mark completed</button>`)}
-function doneTicket(id){const t=db.tickets.find(x=>x.id===id);t.status='completed';save();closeModal();toast('Job closed');go('maintenance')}
-function newTicket(){modal('Log a maintenance request',`<label class="f">Unit</label><select id="k1" style="width:100%">${db.units.filter(u=>u.status!=='vacant').slice(0,80).map(u=>`<option value="${u.id}">${prop(u.pid).name} · ${u.label}</option>`).join('')}</select>
-  <label class="f">Category</label><select id="k2" style="width:100%">${['plumbing','electrical','carpentry','security','cleaning'].map(c=>`<option>${c}</option>`).join('')}</select>
-  <label class="f">What is wrong?</label><input type="text" id="k3" placeholder="e.g. Kitchen tap leaking" style="width:100%">
-  <label class="f">Priority</label><select id="k4" style="width:100%"><option>low</option><option selected>medium</option><option>high</option></select>`,
-  `<button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="saveTicket()">Log request</button>`)}
-function saveTicket(){const uId=$('#k1').value,t=tenantOfUnit(uId);
-  if(!$('#k3').value.trim())return toast('Describe the problem first');
-  db.tickets.unshift({id:uid('MT'),unitId:uId,tenantId:t?.id||null,cat:$('#k2').value,title:$('#k3').value.trim(),
-    priority:$('#k4').value,status:'reported',cost:0,created:Date.now(),assignee:prop(unit(uId).pid).caretaker});
-  save();closeModal();toast('Request logged');go('maintenance')}
-
-/* --- reports --- */
-V.reports=()=>{const ms=months12();
-  const rent=db.properties.map(p=>{const us=db.units.filter(u=>u.pid===p.id);
-    const billed=db.invoices.filter(i=>i.month==='2026-09'&&unit(i.unitId)?.pid===p.id).reduce((s,i)=>s+i.amount,0);
-    const coll=db.payments.filter(x=>x.unitId&&unit(x.unitId)?.pid===p.id&&monthKey(new Date(x.date))==='2026-09').reduce((s,x)=>s+x.amount,0);
-    const ex=db.expenses.filter(e=>e.pid===p.id&&e.month==='2026-09').reduce((s,e)=>s+e.amount,0);
-    return [p.name,us.length,KES(billed),KES(coll),KES(ex),Math.round(coll/(billed||1)*100)+'%']});
-  return `<h1>Reports</h1><p class="sub">September 2026 position. Every table downloads as CSV.</p>
-  <div class="card pad" style="margin-bottom:14px"><div class="sect">Rent roll and collection rate
-    <button class="btn ghost sm" onclick='csv("maxland-rent-roll.csv",["Property","Units","Billed","Collected","Expenses","Rate"],${JSON.stringify(rent).replace(/'/g,"")})'>Download CSV</button></div>
-   ${tbl(['Property','Units','Billed','Collected','Expenses','Collection rate'],rent.map(r=>({c:r})))}</div>
-  <div class="card pad" style="margin-bottom:14px"><div class="sect">Collections by month</div>
-   ${line(ms.map(m=>({k:m,v:collectedIn(m)})))}
-   ${tbl(['Month','Billed','Collected','Shortfall'],ms.slice(-6).map(m=>({c:[mLabel(m),KES(billedIn(m)),KES(collectedIn(m)),KES(Math.max(0,billedIn(m)-collectedIn(m)))]})))}</div>
-  <div class="card pad"><div class="sect">Occupancy</div>
-   ${tbl(['Property','Occupied','Vacant','Maintenance','Rate'],db.properties.map(p=>{const u=db.units.filter(x=>x.pid===p.id);
-     const o=u.filter(x=>x.status==='occupied'||x.status==='notice').length,v=u.filter(x=>x.status==='vacant').length,m=u.filter(x=>x.status==='maintenance').length;
-     return {c:[p.name,o,v,m,Math.round(o/u.length*100)+'%']}}))}</div>`};
-
-/* --- messages --- */
-V.messages=()=>`<h1>Messages</h1><p class="sub">Every SMS the system would have sent. ${db.messages.length} in the log.</p>
-  <div class="card pad" style="margin-bottom:14px"><div class="row"><button class="btn gold" onclick="composer()">Write a message</button>
-   <span class="sub" style="margin-left:auto">Simulated — no SMS gateway is connected.</span></div></div>
-  <div class="card pad">${db.messages.slice(0,40).map(m=>`<div class="msg"><div class="row" style="justify-content:space-between">
-    <b>${esc(m.name)} · ${m.to}</b><span class="tag ${m.type==='Receipt'?'t-ok':m.type==='Reminder'?'t-warn':'t-info'}">${m.type}</span></div>
-    <p>${esc(m.body)}</p><p class="sub" style="font-size:11px">${D(m.date)}</p></div>`).join('')||'<div class="empty">No messages yet.</div>'}</div>`;
-const TPL={'Rent reminder':t=>`Dear ${t}, this is a reminder that rent is due on the 5th. Paybill 522533. — Maxland Properties.`,
-  'Water interruption':t=>`Dear ${t}, water will be off on Saturday 08:00–14:00 for tank cleaning. Please store enough water. — Maxland Properties.`,
-  'General announcement':t=>`Dear ${t}, the annual estate meeting is on Sunday at 3pm in the courtyard. — Maxland Properties.`,
-  'Swahili — ukumbusho':t=>`Habari ${t}, tunakukumbusha kulipa kodi ifikapo tarehe 5. Paybill 522533. — Maxland Properties.`};
-function composer(){modal('Write a message',`<label class="f">Send to</label><select id="c1" style="width:100%">
-   <option value="all">All tenants (${db.tenants.length})</option>${db.properties.map(p=>`<option value="${p.id}">${p.name} tenants</option>`).join('')}
-   <option value="debt">Tenants in arrears</option></select>
-  <label class="f">Template</label><select id="c2" style="width:100%" onchange="$('#c3').value=TPL[this.value]('{name}')">${Object.keys(TPL).map(k=>`<option>${k}</option>`).join('')}</select>
-  <label class="f">Message</label><textarea id="c3" rows="4" style="width:100%">${TPL['Rent reminder']('{name}')}</textarea>
-  <p class="sub">{name} is replaced with each tenant's first name.</p>`,
-  `<button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn gold" onclick="sendBroadcast()">Send</button>`)}
-function sendBroadcast(){const sel=$('#c1').value,txt=$('#c3').value;
-  const to=sel==='all'?db.tenants:sel==='debt'?db.tenants.filter(t=>balance(t.id)>500):db.tenants.filter(t=>unit(t.unitId).pid===sel);
-  let i=0;modal('Sending',`<p class="sub">Broadcasting to ${to.length} tenants.</p><div class="prog"><i id="pb"></i></div><p id="pt" class="sub"></p>`,'');
-  const tick=()=>{for(let k=0;k<5&&i<to.length;k++,i++){const t=to[i];
-      db.messages.unshift({id:uid('SMS'),to:t.phone,name:t.name,type:'Broadcast',date:Date.now(),body:txt.replace('{name}',t.name.split(' ')[0])})}
-    $('#pb').style.width=Math.round(i/to.length*100)+'%';$('#pt').textContent=i+' of '+to.length+' sent';
-    if(i<to.length)setTimeout(tick,40);else{save();closeModal();toast('Broadcast sent to '+to.length+' tenants');go('messages')}};
-  setTimeout(tick,200)}
-
-/* --- landlord portal --- */
-V.landlord=()=>{const ll=db.landlords[0];
-  const ps=db.properties.filter(p=>p.landlord===ll.id);
-  let gross=0,exp=0;
-  const rows=ps.map(p=>{const c=db.payments.filter(x=>x.unitId&&unit(x.unitId)?.pid===p.id&&monthKey(new Date(x.date))==='2026-09').reduce((s,x)=>s+x.amount,0);
-    const e=db.expenses.filter(x=>x.pid===p.id&&x.month==='2026-09').reduce((s,x)=>s+x.amount,0);gross+=c;exp+=e;
-    return {c:[p.name,db.units.filter(u=>u.pid===p.id).length,KES(c),KES(e),KES(c-e)]}});
-  const com=gross*ll.commission/100;
-  return `<h1>Landlord statement</h1><p class="sub">${ll.name} · September 2026 · management fee ${ll.commission}%</p>
-  <div class="grid k5" style="margin-bottom:14px">${kpi('Collected',KES(gross))}${kpi('Expenses',KES(exp))}${kpi('Management fee',KES(com))}${kpi('Net remittance',KES(gross-exp-com))}</div>
-  <div class="card pad" style="margin-bottom:14px"><div class="sect">Per property
-    <button class="btn ghost sm" onclick="csv('maxland-landlord-statement.csv',['Property','Units','Collected','Expenses','Net'],${JSON.stringify(rows.map(r=>r.c))})">Download CSV</button></div>
-   ${tbl(['Property','Units','Collected','Expenses','Net'],rows)}</div>
-  <div class="card pad"><div class="sect">How the remittance is worked out</div>
-   <p>Rent collected in the month, less property expenses paid on your behalf, less the ${ll.commission}% management fee. Funds are sent to your registered account by the 10th of the following month.</p></div>`};
-
-/* --- tenant portal --- */
-V.portal=()=>{const t=db.tenants.find(x=>balance(x.id)>0)||db.tenants[0],u=unit(t.unitId),b=balance(t.id);
-  const inv=db.invoices.filter(i=>i.tenantId===t.id).sort((a,b)=>b.date-a.date).slice(0,6);
-  return `<h1>Hello ${esc(t.name.split(' ')[0])}</h1><p class="sub">${prop(u.pid).name} · unit ${u.label} · ${u.type}</p>
-  <div class="grid c2" style="margin-bottom:14px">
-   <div class="card pad"><div class="sub">Your balance</div>
-     <div class="val num" style="font-size:34px;font-weight:700;color:${b>0?'var(--bad)':'var(--ok)'}">${KES(b)}</div>
-     <p class="sub">Rent ${KES(u.rent)} due on the ${db.settings.dueDay}th. Paybill ${db.settings.paybill}, account ${u.id}.</p>
-     <div class="row"><button class="btn gold" onclick="mpesa('${t.id}')">Pay via M-Pesa</button>
-     <button class="btn ghost" onclick="newTicket()">Report a problem</button>
-     <button class="btn ghost" onclick="toast('Lease PDF would download here')">Download lease</button></div></div>
-   <div class="card pad"><div class="sect">Announcements</div>
-     ${db.messages.filter(m=>m.type==='Broadcast').slice(0,3).map(m=>`<div class="msg"><b>Estate notice</b><p>${esc(m.body)}</p></div>`).join('')
-     ||'<p class="sub">Nothing new from management. Broadcasts sent from the Messages module land here.</p>'}</div></div>
-  <div class="card pad"><div class="sect">My invoices</div>
-   ${tbl(['Invoice','Month','Charged','Outstanding','Status'],inv.map(i=>({c:[`<span class="mono">${i.id}</span>`,mLabel(i.month),KES(i.amount),KES(invBal(i)),
-     `<span class="tag ${invBal(i)<=1?'t-ok':'t-bad'}">${invBal(i)<=1?'paid':'due'}</span>`],id:i.id})),r=>`openInv('${r.id}')`)}</div>`};
-
-/* --- settings --- */
-V.settings=()=>{const s=db.settings;
-  return `<h1>Settings</h1><p class="sub">Company details flow through to invoices and SMS.</p>
-  <div class="grid c2"><div class="card pad"><div class="sect">Company profile</div>
-   <label class="f">Name</label><input type="text" id="s1" value="${esc(s.company)}" style="width:100%">
-   <label class="f">Address</label><input type="text" id="s2" value="${esc(s.address)}" style="width:100%">
-   <label class="f">Phone</label><input type="text" id="s3" value="${s.phone}" style="width:100%">
-   <label class="f">M-Pesa Paybill</label><input type="text" id="s4" value="${s.paybill}" style="width:100%">
-   <div class="row" style="margin-top:14px"><button class="btn gold" onclick="saveSettings()">Save changes</button></div></div>
-  <div><div class="card pad" style="margin-bottom:14px"><div class="sect">Billing rules</div>
-   <p>Rent falls due on day <b>${s.dueDay}</b> of the month, with <b>${s.grace}</b> days grace. A <b>${s.penalty}%</b> penalty is added to balances still open after that, and payments settle penalties, then arrears, then current rent.</p></div>
-  <div class="card pad"><div class="sect">Demo data</div>
-   <p class="sub">Changes made here stay in this browser. Restoring returns the workspace to its sample September 2026 starting point.</p>
-   <button class="btn ghost" onclick="reset()">Restore sample data</button></div></div></div>`};
-function saveSettings(){Object.assign(db.settings,{company:$('#s1').value,address:$('#s2').value,phone:$('#s3').value,paybill:$('#s4').value});
-  save();toast('Company profile updated')}
-
-/* --- global search --- */
-function globalSearch(q){if(q.length<2)return;
-  const t=db.tenants.find(x=>x.name.toLowerCase().includes(q.toLowerCase()));
-  const u=db.units.find(x=>x.id.toLowerCase()===q.toLowerCase()||x.label.toLowerCase()===q.toLowerCase());
-  if(q.length>=3&&t&&NAV[db.role].some(g=>g[1].some(i=>i[0]==='tenants'))){openTenant(t.id);$('#q').value='';return}
-  if(u){openUnit(u.id);$('#q').value=''}}
-
-boot();
 </script>
+
+<script src="script.js" defer></script>
 </body>
 </html>
