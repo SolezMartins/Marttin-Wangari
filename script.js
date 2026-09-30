@@ -10,7 +10,7 @@ var EMAIL         = 'martindevs07@gmail.com';
 var WA_MESSAGE    = 'Hi Martin, I found your portfolio and would like to talk.';
 var WA_URL        = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_MESSAGE);
 var MAX_INPUT     = 120;
-var INSTANT_THRESHOLD = 35; // words — outputs longer than this render instantly
+var LINE_DELAY = 38; // ms between each line — controls the "terminal print" speed
 
 // ============================================
 // CONTENT
@@ -32,14 +32,180 @@ var COMMANDS = {
     text: "IT Support and Administration\n  Office 365 Administration · Help Desk and Ticketing Systems · Hardware and Software Support · Remote Support Tools · Mobile Device Management · Active Directory · Cybersecurity Fundamentals\n\nNetworking and Infrastructure\n  Fiber Optic Installation and Splicing · TCP/IP · DNS · DHCP · Router and Switch Configuration · PCB Repair and Configuration · System Deployments · Cable Installation\n\nSoftware Development\n  Python · JavaScript (React) · PHP · WordPress · HTML · CSS · Bootstrap · PostgreSQL · Supabase\n\nAPI and Data Tools\n  Postman (API testing and debugging) · REST API fundamentals · Data Analytics · Power BI · AI tools and automation\n\nWorking Style\n  Problem solving · Technical communication · Team collaboration · Time management · Adaptability · Customer service"
   },
   builds: {
-    text: "Mpambe Hotel POS (point-of-sale system)\n  Full front-end POS for a Swahili-cuisine restaurant — Dine In / Take Away / Delivery ordering, live order totals, cash/M-Pesa/card checkout, printable and PDF receipts, plus orders, inventory, reports, users and settings views.\n\nMaxland Properties PMS (property management system)\n  Frontend property-management demo for Maxland Properties Ltd — property and tenant management, units, leases, payments, maintenance, reports and dashboard workflows.\n\nByZenna Essence (luxury fragrance storefront)\n  Responsive storefront concept with catalogue browsing, product details, filters, wishlist, shopping bag, simulated checkout, local profile and order history.\n\nBenuru Group of Schools SMS (school management system)\n  Professional Kenyan school-management demo — dashboard, students, admissions, academics, CBC, attendance, fees, reports, staff, parents, library, transport and school operations.\n\nJoyrinah Schools Management System (academic, administrative & financial platform)\n  Full interactive school-management demonstration — role-based dashboards, admissions, student records, curriculum, timetable, attendance, assessment, LMS, fees, finance, HR, library, analytics and more.\n\nRide-Hailing Platform (full-stack)\n  Built independently — booking, dispatch and live tracking with real-time backend integration. React, Supabase and REST APIs.\n\nInventory and Asset Tag Manager (browser extension)\n  Tracks IT equipment: tagging assets, logging location and status, and looking up inventory without leaving the ticketing workflow.\n\nEduwincare (healthcare website)\n  Marketing site for a Minnesota-based homecare and private nursing service.\n\nSammy Trucks (automotive website)\n  Sales site for an independent ISUZU truck dealer in Ruaka, Kenya — browsable inventory, financing guidance and WhatsApp-first enquiries.",
-    links: [
-      { href: '/build/mpambe-hotel/', text: '→ Open Mpambe Hotel POS' },
-      { href: '/build/maxland-properties/', text: '→ Open Maxland Properties PMS' },
-      { href: '/build/byzenna-essence/', text: '→ Open ByZenna Essence' },
-      { href: '/build/benuru-school/', text: '→ Open Benuru School SMS' },
-      { href: '/build/joyrinah-schools/', text: '→ Open Joyrinah Schools SMS' }
-    ]
+    projects: [
+      {
+        title: 'Mpambe Hotel POS',
+        tag:   'Point-of-Sale · Restaurant',
+        href:  '/build/mpambe-hotel/',
+        lines: [
+          'A touch-friendly, full-featured POS built for a Swahili-cuisine restaurant.',
+          'Handles Dine In, Take Away and Delivery orders on a single screen — staff can',
+          'build an order in seconds, apply discounts, split by payment method and print',
+          'or export a PDF receipt on the spot.',
+          '',
+          'What it covers:',
+          '  · Live order builder with real-time subtotal, tax and total',
+          '  · Cash, M-Pesa and Card checkout with change calculation',
+          '  · Printable and PDF receipts with restaurant branding',
+          '  · Orders history with status tracking',
+          '  · Inventory management and low-stock alerts',
+          '  · Sales reports and end-of-day summaries',
+          '  · Multi-role user access (admin, cashier, waiter)',
+          '  · Menu search and category filtering',
+          '  · Delivery and take-away mode with customer details'
+        ]
+      },
+      {
+        title: 'Maxland Properties PMS',
+        tag:   'Property Management · Real Estate',
+        href:  '/build/maxland-properties/',
+        lines: [
+          'A property management workspace built for Maxland Properties Ltd, Kasarani.',
+          'Gives property teams a single connected platform for every stage of tenancy —',
+          'from listing a unit to collecting rent and resolving maintenance issues.',
+          '',
+          'What it covers:',
+          '  · Property and unit directory with occupancy overview',
+          '  · Tenant onboarding, lease management and renewals',
+          '  · Invoice generation and payment recording',
+          '  · Arrears tracking and automated reminder workflows',
+          '  · Maintenance ticket creation, assignment and status updates',
+          '  · Role-based portals for admin, caretaker, accountant and tenant',
+          '  · M-Pesa STK push simulation for rent collection',
+          '  · Financial dashboard with income, expenses and variance',
+          '  · CSV and printable reports for landlords and auditors'
+        ]
+      },
+      {
+        title: 'ByZenna Essence',
+        tag:   'E-Commerce · Luxury Fragrance',
+        href:  '/build/byzenna-essence/',
+        lines: [
+          'A premium storefront concept for a luxury fragrance brand — designed to feel',
+          'high-end on mobile and desktop while remaining fast and easy to browse.',
+          'Every interaction from browsing to checkout is fully functional in the browser',
+          'with no backend required.',
+          '',
+          'What it covers:',
+          '  · Full product catalogue with rich detail pages',
+          '  · Category, brand, price range and rating filters',
+          '  · Wishlist that persists across sessions',
+          '  · Shopping bag with quantity controls and live totals',
+          '  · Simulated checkout with order confirmation',
+          '  · Browser-local customer profile and order history',
+          '  · Responsive design optimised for mobile-first browsing',
+          '  · Product search with instant results'
+        ]
+      },
+      {
+        title: 'Benuru Group of Schools SMS',
+        tag:   'School Management · Education',
+        href:  '/build/benuru-school/',
+        lines: [
+          'A comprehensive school management system built around Kenyan school operations,',
+          'covering every department from admissions to transport. Designed for the full',
+          'school community — administrators, teachers, parents and students.',
+          '',
+          'What it covers:',
+          '  · Student records, admissions and class assignment',
+          '  · Academic scheduling, CBC curriculum and timetable',
+          '  · Attendance tracking with teacher and parent visibility',
+          '  · Examination management and grade reports',
+          '  · Fee billing, receipts and arrears follow-up',
+          '  · Staff records, payroll and leave management',
+          '  · Parent portal with child progress and messaging',
+          '  · Library catalogue and book borrowing',
+          '  · Transport routes and vehicle assignment',
+          '  · School inventory and procurement'
+        ]
+      },
+      {
+        title: 'Joyrinah Schools Management System',
+        tag:   'Academic · Administrative · Financial Platform',
+        href:  '/build/joyrinah-schools/',
+        lines: [
+          'A full-scale, role-aware academic, administrative and financial platform',
+          'for institutions that need one connected workspace across every department.',
+          'Built with realistic demo data and interactive workflows covering the entire',
+          'student and staff lifecycle.',
+          '',
+          'What it covers:',
+          '  · Role-based dashboards for admin, teacher, student, parent, bursar and HR',
+          '  · Admissions pipeline, registration and student records',
+          '  · Curriculum design, timetable and lesson planning',
+          '  · Attendance, assessment, grading and progress reports',
+          '  · Learning Management System with assignments and resources',
+          '  · Fee structures, invoicing, scholarships and financial reporting',
+          '  · HR management, staff contracts, payroll and leave',
+          '  · Library catalogue, borrowing and digital resources',
+          '  · Analytics dashboards and KPI tracking',
+          '  · Alumni management and security access logs'
+        ]
+      },
+      {
+        title: 'Ride-Hailing Platform',
+        tag:   'Full-Stack · Real-Time · In Progress',
+        href:  null,
+        lines: [
+          'A full-stack ride-hailing platform built independently from the ground up,',
+          'covering the complete passenger-to-driver flow with a live backend.',
+          '',
+          'What it covers:',
+          '  · Real-time booking, dispatch and live driver tracking',
+          '  · Passenger and driver apps with separate flows',
+          '  · Fare estimation and trip history',
+          '  · REST API integration with Supabase and PostgreSQL',
+          '  · Built with React — live URL coming soon'
+        ]
+      },
+      {
+        title: 'IT Asset Tag Manager',
+        tag:   'Browser Extension · IT Support',
+        href:  null,
+        lines: [
+          'A browser extension built from real pain points managing physical IT assets',
+          'day-to-day — no more switching tabs to check a serial number or log a device.',
+          '',
+          'What it covers:',
+          '  · Tag and register equipment with custom asset IDs',
+          '  · Log device location, condition and assignment',
+          '  · Look up asset records without leaving the ticketing system',
+          '  · Offline-capable with IndexedDB local storage',
+          '  · Available for Chrome and Edge — publishing soon'
+        ]
+      },
+      {
+        title: 'Eduwincare',
+        tag:   'Healthcare · Client Work · Live',
+        href:  'https://eduwincare.com',
+        lines: [
+          'Marketing and information site for a Minnesota-based homecare and private',
+          'nursing service — built to earn trust with families seeking care.',
+          '',
+          'What it covers:',
+          '  · Service listings and caregiver profiles',
+          '  · Accessibility-first design for older audiences',
+          '  · Contact and enquiry flows optimised for conversion',
+          '  · Mobile-first responsive layout'
+        ]
+      },
+      {
+        title: 'Sammy Trucks',
+        tag:   'Automotive · Client Work · Live',
+        href:  'https://sammytrucks.netlify.app',
+        lines: [
+          'Sales site for an independent ISUZU truck dealer in Ruaka, Kenya.',
+          'Built to turn mobile visitors into leads through a WhatsApp-first enquiry flow.',
+          '',
+          'What it covers:',
+          '  · Browsable truck inventory with specs and photos',
+          '  · Financing guidance and monthly estimate calculator',
+          '  · WhatsApp-first contact flow for instant lead capture',
+          '  · Mobile-optimised layout for on-site browsing'
+        ]
+      }
+    ],
+    render: 'projects'
   },
   'case-studies': {
     text: "PROJECT WALKTHROUGH\n\nMPAMBE HOTEL POS\n  Problem: restaurant staff need a fast, clear way to build orders and issue receipts.\n  Solution: a touch-friendly POS flow with live totals, tax-inclusive prices, payment simulation and receipt generation.\n  Capabilities: menu search · ordering modes · checkout · receipt PDF · sales history · inventory · reports · roles.\n\nMAXLAND PROPERTIES PMS\n  Problem: property teams need one place to keep track of units, tenants, leases, collections and maintenance.\n  Solution: a role-aware property workspace with connected dashboard, billing and operations workflows.\n  Capabilities: properties · units · tenants · leases · invoices · payments · arrears · maintenance · reports · portals.\n\nBYZENNA ESSENCE\n  Problem: a fragrance brand needs a polished storefront that feels premium while staying easy to browse on phones and desktops.\n  Solution: a responsive catalogue with product details, filters, wishlist, shopping bag, simulated checkout and browser-local customer history.\n  Capabilities: catalogue · search · category/brand/price filters · product detail · wishlist · cart · checkout · profile · orders.\n\nBENURU GROUP OF SCHOOLS SMS\n  Problem: school teams need one workspace for administration, academics, attendance, finance, communication and student services.\n  Solution: a role-aware school management workspace designed around Kenyan school operations.\n  Capabilities: students · admissions · academics · CBC · examinations · attendance · fees · receipts · staff · parents · library · transport · inventory · communication · reports.\n\nJOYRINAH SCHOOLS MANAGEMENT SYSTEM\n  Problem: institutions need one connected workspace for admissions, academics, finance, staff, students and operational oversight.\n  Solution: a role-aware academic, administrative and financial platform with realistic demo data and interactive workflows.\n  Capabilities: admissions · registration · student records · curriculum · timetable · attendance · assessment · LMS · fees · finance · scholarships · HR · library · analytics · security · alumni.\n\nDemo note: these portfolio builds use fictional sample records and local browser storage — demonstrations, not production databases.",
@@ -158,26 +324,33 @@ function sanitize(raw) {
 // ============================================
 // TYPETEXT — instant for long outputs, animated for short ones
 // ============================================
-function typeText(container, text, delayMs, onDone) {
-  var wordCount = text.split(/\s+/).length;
-
-  if (reduceMotion || wordCount > INSTANT_THRESHOLD) {
+function typeText(container, text, _delayMs, onDone) {
+  // Reduced-motion: dump everything at once
+  if (reduceMotion) {
     container.appendChild(document.createTextNode(text));
     scrollBottom();
     if (onDone) onDone();
     return;
   }
 
-  var tokens = text.split(/(\s+)/);
+  // Split into lines (preserving blank lines between sections)
+  var lines = text.split('\n');
   var i = 0;
-  function step() {
-    if (i >= tokens.length) { if (onDone) onDone(); return; }
-    var tok = tokens[i++];
-    container.appendChild(document.createTextNode(tok));
+
+  function printLine() {
+    if (i >= lines.length) {
+      if (onDone) onDone();
+      return;
+    }
+    // Append the line + newline as a single text node
+    var lineText = lines[i] + (i < lines.length - 1 ? '\n' : '');
+    container.appendChild(document.createTextNode(lineText));
+    i++;
     scrollBottom();
-    /^\s+$/.test(tok) ? step() : window.setTimeout(step, delayMs);
+    window.setTimeout(printLine, LINE_DELAY);
   }
-  step();
+
+  printLine();
 }
 
 // ============================================
@@ -247,6 +420,79 @@ function renderLinks(links) {
     }
   }
   return block;
+}
+
+// ============================================
+// PROJECT RENDERER — for builds command
+// ============================================
+function renderProjects(projects, container) {
+  var delay = 0;
+  var STEP  = 60; // ms between each project block appearing
+
+  projects.forEach(function (proj, idx) {
+    window.setTimeout(function () {
+
+      var block = document.createElement('div');
+      block.className = 'project-block';
+
+      // ── Title: link or plain ──
+      var titleEl;
+      if (proj.href) {
+        titleEl = document.createElement('a');
+        titleEl.className = 'project-title-link';
+        titleEl.href = proj.href;
+        // Local paths open in same tab; external URLs open in new tab
+        if (/^https?:\/\//i.test(proj.href)) {
+          titleEl.target = '_blank';
+          titleEl.rel = 'noopener noreferrer';
+        }
+        titleEl.textContent = proj.title;
+        // Pulse glow once after a short delay to hint it's clickable
+        window.setTimeout(function () {
+          titleEl.classList.add('pulse-once');
+          titleEl.addEventListener('animationend', function () {
+            titleEl.classList.remove('pulse-once');
+          }, { once: true });
+        }, 200);
+      } else {
+        titleEl = document.createElement('span');
+        titleEl.className = 'project-title-plain';
+        titleEl.textContent = proj.title;
+      }
+      block.appendChild(titleEl);
+
+      // ── Tag line ──
+      var tag = document.createElement('span');
+      tag.className = 'project-tag';
+      tag.textContent = proj.tag;
+      block.appendChild(tag);
+
+      // ── Body: lines printed one by one ──
+      var body = document.createElement('div');
+      body.className = 'project-body';
+      block.appendChild(body);
+      container.appendChild(block);
+      scrollBottom();
+
+      // Print description lines word-by-word style (reuse LINE_DELAY)
+      var lines = proj.lines;
+      var li = 0;
+      function nextLine() {
+        if (li >= lines.length) { scrollBottom(); return; }
+        body.appendChild(document.createTextNode(lines[li] + (li < lines.length - 1 ? '\n' : '')));
+        li++;
+        scrollBottom();
+        window.setTimeout(nextLine, LINE_DELAY);
+      }
+      nextLine();
+
+    }, delay);
+    delay += STEP + (proj.lines.length * LINE_DELAY);
+  });
+
+  // Fire createActiveRow after all projects have rendered
+  var totalDelay = delay + 200;
+  window.setTimeout(createActiveRow, totalDelay);
 }
 
 // ============================================
@@ -495,14 +741,20 @@ function runCommand(raw) {
     msg += guess
       ? "\nDid you mean '" + guess + "'? Type 'help' for the full list."
       : "\nType 'help' to see available commands.";
-    typeText(outWrap, msg, 40, createActiveRow);
+    typeText(outWrap, msg, 0, createActiveRow);
     return;
   }
 
   var entry = COMMANDS[key];
   if (typeof entry.onRun === 'function') entry.onRun();
 
-  typeText(outWrap, entry.text, reduceMotion ? 0 : 38, function () {
+  // Special renderer: structured project list with clickable titles
+  if (entry.render === 'projects') {
+    renderProjects(entry.projects, outWrap);
+    return;
+  }
+
+  typeText(outWrap, entry.text, 0, function () {
     if (entry.links && entry.links.length) {
       termStream.appendChild(renderLinks(entry.links));
     }
@@ -559,7 +811,7 @@ document.addEventListener('keydown', function (e) {
   outWrap.className = 'term-output-block';
   termStream.appendChild(outWrap);
   isTyping = true;
-  typeText(outWrap, COMMANDS.welcome.text, reduceMotion ? 0 : 33, createActiveRow);
+  typeText(outWrap, COMMANDS.welcome.text, 0, createActiveRow);
 })();
 
 // ============================================
