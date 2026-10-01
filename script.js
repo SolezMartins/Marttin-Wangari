@@ -1,5 +1,12 @@
 'use strict';
 
+// Vercel Web Analytics custom events (queue until the insights script loads).
+// Custom events need a Vercel plan that supports them; otherwise they are silently ignored.
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+function track(name, data) {
+  try { window.va('event', data ? { name: name, data: data } : { name: name }); } catch (e) {}
+}
+
 // ============================================
 // CONFIG
 // ============================================
@@ -9,6 +16,10 @@ var WA_NUMBER     = '254740208683';
 var EMAIL         = 'martindevs07@gmail.com';
 var WA_MESSAGE    = 'Hi Martin, I found your portfolio and would like to talk.';
 var WA_URL        = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_MESSAGE);
+var GITHUB_URL    = 'https://github.com/SolezMartins';
+// Contact form: create a free form at formspree.io, paste its ID here (e.g. 'xyzabcde').
+// While empty, the form falls back to opening the visitor's email app, pre-filled.
+var FORMSPREE_ID  = '';
 var MAX_INPUT     = 120;
 var LINE_DELAY = 38; // ms between each line — controls the "terminal print" speed
 
@@ -17,13 +28,13 @@ var LINE_DELAY = 38; // ms between each line — controls the "terminal print" s
 // ============================================
 var COMMANDS = {
   welcome: {
-    text: "Hi, I'm Martin Mwangi Wangari — Software and AI Developer based in Nairobi, Kenya.\n\nThis is a fully interactive terminal. Type any command and press Enter, press Tab to autocomplete, or click a command above.\n\nIn a hurry? Type 'hire' or tap the WhatsApp button."
+    text: "Hi, I'm Martin Mwangi Wangari — Software Developer and IT Systems Support specialist based in Nairobi, Kenya.\n\nThis is a fully interactive terminal. Type any command and press Enter, press Tab to autocomplete, or click a command above.\n\nIn a hurry? Type 'hire' or tap the WhatsApp button."
   },
   help: {
-    text: "Available commands:\n\n  about          who I am\n  experience     work history\n  skills         technical skillset\n  builds         things I've shipped\n  case-studies   deep-dive project walkthroughs\n  certs          certifications\n  contact        every way to reach me\n  whatsapp       open a WhatsApp chat\n  hire           what I'm looking for\n  resume         download my resume\n  whoami         one-line summary\n  sudo           try it and see\n  clear          clear the terminal\n\nShortcuts: Tab autocompletes · ↑↓ walk history · Ctrl+L clears · / focuses prompt"
+    text: "Available commands:\n\n  about          who I am\n  experience     work history\n  skills         technical skillset\n  builds         things I've shipped\n  case-studies   deep-dive project walkthroughs\n  certs          certifications\n  contact        every way to reach me\n  whatsapp       open a WhatsApp chat\n  hire           availability and how to engage me\n  message        send me a message from here\n  github         my code\n  theme          toggle light / dark\n  resume         download my resume\n  whoami         one-line summary\n  sudo           try it and see\n  clear          clear the terminal\n\nShortcuts: Tab autocompletes · ↑↓ walk history · Ctrl+L clears · / focuses prompt"
   },
   about: {
-    text: "Software and AI Developer based in Nairobi, Kenya, focused on building practical digital products, intelligent workflows and modern web platforms.\n\nI handle first- and second-line support, administer Office 365 environments, test internal APIs with Postman, and keep business-critical systems running. Before that I spent years on the hardware side — PCB diagnostics, component-level repair, firmware installation on smart meters, and fiber optic installation and splicing.\n\nThat mix of hardware-level thinking and systems-level support is what pulls me toward building things too: a ride-hailing platform with real-time backend integration, browser extensions, internal tools and client websites.\n\nAdaptable and detail-oriented, with the cross-functional communication that fast-paced, multicultural and safety-conscious environments need."
+    text: "Software Developer and IT Systems Support specialist based in Nairobi, Kenya, focused on building practical digital products, automation and modern web platforms.\n\nI handle first- and second-line support, administer Office 365 environments, test internal APIs with Postman, and keep business-critical systems running. Before that I spent years on the hardware side — PCB diagnostics, component-level repair, firmware installation on smart meters, and fiber optic installation and splicing.\n\nThat mix of hardware-level thinking and systems-level support is what pulls me toward building things too: a ride-hailing platform with real-time backend integration, browser extensions, internal tools and client websites.\n\nAdaptable and detail-oriented, with the cross-functional communication that fast-paced, multicultural and safety-conscious environments need."
   },
   experience: {
     text: "IT Systems Support Technician — Independent Contractor, Nairobi (Mar 2025 – present)\n  First- and second-line support across hardware, software and network issues via phone, email and in person. Office 365 administration covering user accounts, license allocation and system deployments. API endpoint testing and validation with Postman ahead of release. IT asset inventory management and policy-compliant equipment disposal. Risk identification feeding into policy improvements. User training materials that cut recurring support tickets.\n\nRepair Technician / PCB Technician — M-Gas Kenya Ltd (Jul 2022 – Feb 2025)\n  Diagnosed, repaired and configured PCBs across a range of electronic devices. Replaced faulty components to reduce downtime and extend equipment life. Installed and tested firmware on smart meters for field deployment. General maintenance and repair of electronic equipment.\n\nField Network Technician — G-Tech Technology Ltd (Jan 2022 – Jun 2022)\n  Installed and configured residential fiber internet services. Fiber optic cable splicing and repairs to restore network functionality. Cable installation and router configuration for network stability.\n\nIndustrial Attachment — Broadband Communication Networks Ltd (Mar 2021 – May 2021)\n  Assisted with cabling, router and telephone system installation on infrastructure projects. Hands-on fiber internet installation and diagnostics. Server network hardware configuration under senior supervision."
@@ -34,7 +45,40 @@ var COMMANDS = {
   builds: {
     projects: [
       {
+        title: 'Eduwincare',
+        kind:  'live',
+        tag:   'Healthcare · Minnesota, USA',
+        href:  'https://eduwincare.com',
+        lines: [
+          'Marketing and information site for a Minnesota-based homecare and private',
+          'nursing service — built to earn trust with families seeking care.',
+          '',
+          'What it covers:',
+          '  · Service listings and caregiver profiles',
+          '  · Accessibility-first design for older audiences',
+          '  · Contact and enquiry flows optimised for conversion',
+          '  · Mobile-first responsive layout'
+        ]
+      },
+      {
+        title: 'Sammy Trucks',
+        kind:  'live',
+        tag:   'Automotive · Ruaka, Kenya',
+        href:  'https://sammytrucks.netlify.app',
+        lines: [
+          'Sales site for an independent ISUZU truck dealer in Ruaka, Kenya.',
+          'Built to turn mobile visitors into leads through a WhatsApp-first enquiry flow.',
+          '',
+          'What it covers:',
+          '  · Browsable truck inventory with specs and photos',
+          '  · Financing guidance and monthly estimate calculator',
+          '  · WhatsApp-first contact flow for instant lead capture',
+          '  · Mobile-optimised layout for on-site browsing'
+        ]
+      },
+      {
         title: 'Mpambe Hotel POS',
+        kind:  'demo',
         tag:   'Point-of-Sale · Restaurant',
         href:  '/build/mpambe-hotel/',
         lines: [
@@ -57,6 +101,7 @@ var COMMANDS = {
       },
       {
         title: 'Maxland Properties PMS',
+        kind:  'demo',
         tag:   'Property Management · Real Estate',
         href:  '/build/maxland-properties/',
         lines: [
@@ -78,6 +123,7 @@ var COMMANDS = {
       },
       {
         title: 'ByZenna Essence',
+        kind:  'demo',
         tag:   'E-Commerce · Luxury Fragrance',
         href:  '/build/byzenna-essence/',
         lines: [
@@ -99,6 +145,7 @@ var COMMANDS = {
       },
       {
         title: 'Benuru Group of Schools SMS',
+        kind:  'demo',
         tag:   'School Management · Education',
         href:  '/build/benuru-school/',
         lines: [
@@ -121,6 +168,7 @@ var COMMANDS = {
       },
       {
         title: 'Joyrinah Schools Management System',
+        kind:  'demo',
         tag:   'Academic · Administrative · Financial Platform',
         href:  '/build/joyrinah-schools/',
         lines: [
@@ -144,7 +192,8 @@ var COMMANDS = {
       },
       {
         title: 'Ride-Hailing Platform',
-        tag:   'Full-Stack · Real-Time · In Progress',
+        kind:  'wip',
+        tag:   'Full-Stack · Real-Time',
         href:  null,
         lines: [
           'A full-stack ride-hailing platform built independently from the ground up,',
@@ -160,6 +209,7 @@ var COMMANDS = {
       },
       {
         title: 'IT Asset Tag Manager',
+        kind:  'wip',
         tag:   'Browser Extension · IT Support',
         href:  null,
         lines: [
@@ -172,36 +222,6 @@ var COMMANDS = {
           '  · Look up asset records without leaving the ticketing system',
           '  · Offline-capable with IndexedDB local storage',
           '  · Available for Chrome and Edge — publishing soon'
-        ]
-      },
-      {
-        title: 'Eduwincare',
-        tag:   'Healthcare · Client Work · Live',
-        href:  'https://eduwincare.com',
-        lines: [
-          'Marketing and information site for a Minnesota-based homecare and private',
-          'nursing service — built to earn trust with families seeking care.',
-          '',
-          'What it covers:',
-          '  · Service listings and caregiver profiles',
-          '  · Accessibility-first design for older audiences',
-          '  · Contact and enquiry flows optimised for conversion',
-          '  · Mobile-first responsive layout'
-        ]
-      },
-      {
-        title: 'Sammy Trucks',
-        tag:   'Automotive · Client Work · Live',
-        href:  'https://sammytrucks.netlify.app',
-        lines: [
-          'Sales site for an independent ISUZU truck dealer in Ruaka, Kenya.',
-          'Built to turn mobile visitors into leads through a WhatsApp-first enquiry flow.',
-          '',
-          'What it covers:',
-          '  · Browsable truck inventory with specs and photos',
-          '  · Financing guidance and monthly estimate calculator',
-          '  · WhatsApp-first contact flow for instant lead capture',
-          '  · Mobile-optimised layout for on-site browsing'
         ]
       }
     ],
@@ -221,23 +241,32 @@ var COMMANDS = {
     text: "Information Technology Fundamentals — IBM Skills Build\nData Analytics — IBM Skills Build\nData Analytics — ICT Authority of Kenya\nWeb Design — Inceptor Institute of Technology\nPower BI and AI — Exodus Experts\nNYS Discharge Certificate\nDiploma in ICT"
   },
   hire: {
-    text: "Open to work — Nairobi, Kenya, and remote.\n\nWhat I'm looking for: software development roles, IT support and systems positions, or hybrid roles where hardware knowledge and development skills both count.\n\nWhat you get: someone who can diagnose a failing PCB in the morning, sort out an Office 365 license issue at noon, and ship an API integration before end of day.\n\nFastest way to reach me is WhatsApp. Resume is one command away.",
+    text: "STATUS     ● Available now\nBASED      Nairobi, Kenya\nENGAGEMENT Full-time · Contract / freelance · Remote or on-site (Nairobi)\nROLES      Software development · IT support & systems · hybrid hardware + software\nRATES      Shared on request — tell me the scope and I'll reply with a number\nREPLY TIME Usually the same day on WhatsApp\n\nWhat you get: someone who can diagnose a failing PCB in the morning, sort out an Office 365 license issue at noon, and ship an API integration before end of day.\n\nType 'message' to write to me here, or use a link below.",
     links: [
       { href: WA_URL, text: 'Message me on WhatsApp', external: true, wa: true },
       { href: 'mailto:' + EMAIL, text: 'Email ' + EMAIL },
-      { href: 'Martin_Wangari_Resume.pdf', text: 'Download resume (PDF)', download: true }
+      { href: GITHUB_URL, text: 'GitHub — github.com/SolezMartins', external: true },
+      { href: 'Martin_Wangari_Resume.pdf', text: 'Download resume (PDF)', download: true },
+      { href: 'Martin_Wangari_OnePager.pdf', text: 'One-page summary (PDF)', download: true }
     ]
   },
   contact: {
-    text: "Reach me directly:",
+    text: "Reach me directly — or type 'message' to write to me from here:",
     links: [
       { label: 'phone',    href: 'tel:' + PHONE_E164, text: PHONE_DISPLAY, copy: PHONE_E164 },
       { label: 'whatsapp', href: WA_URL, text: 'Start a chat', external: true, wa: true },
       { label: 'email',    href: 'mailto:' + EMAIL, text: EMAIL, copy: EMAIL },
+      { label: 'github',   href: GITHUB_URL, text: 'github.com/SolezMartins', external: true },
       { label: 'linkedin', href: 'https://linkedin.com/in/martin-wangari-586903230', text: '/in/martin-wangari', external: true },
       { label: 'location', text: 'Nairobi, Kenya' }
     ]
   },
+  github: {
+    text: "Code, experiments and contribution activity:",
+    links: [{ href: GITHUB_URL, text: 'github.com/SolezMartins', external: true }]
+  },
+  message: { form: true, text: "Send me a message — it lands straight in my inbox." },
+  theme: { text: '', onRun: function () { toggleTheme(true); } },
   whatsapp: {
     text: "Opening a WhatsApp chat — if it did not open automatically, use the link below.",
     links: [{ href: WA_URL, text: 'Message ' + PHONE_DISPLAY + ' on WhatsApp', external: true, wa: true }],
@@ -247,15 +276,38 @@ var COMMANDS = {
   },
   resume: {
     text: "Resume ready for download.",
-    links: [{ href: 'Martin_Wangari_Resume.pdf', text: 'Download resume (PDF)', download: true }]
+    links: [
+      { href: 'Martin_Wangari_Resume.pdf', text: 'Download full resume (PDF)', download: true },
+      { href: 'Martin_Wangari_OnePager.pdf', text: 'Download one-page summary (PDF)', download: true }
+    ]
   },
   whoami: {
-    text: "martin — Software and AI Developer, Nairobi, Kenya. Open to work."
+    text: "martin — Software Developer & IT Systems Support · Nairobi, Kenya\n\nWhat's different: I started on the hardware side (PCB repair, fiber splicing, smart-meter firmware) and now build full-stack products — POS, school and property systems, a ride-hailing platform. I can debug the device and ship the software on top of it.\n\nStatus: available now — full-time, contract or remote.\nFastest way in: WhatsApp (type 'whatsapp'), or type 'message' to write to me here.",
+    links: [{ href: GITHUB_URL, text: 'github.com/SolezMartins', external: true }]
   },
   sudo: {
     text: "Nice try — but on this system, martin is already root of his own infrastructure.\nPermission granted: there is nothing left to sudo here."
   }
 };
+
+// Real numbers turn descriptions into proof. Fill these in with FIGURES YOU CAN STAND BEHIND
+// (e.g. '50+ orders/day, receipts 3x faster'). Empty entries are simply not shown.
+var IMPACT = {
+  'MPAMBE HOTEL POS': '',
+  'MAXLAND PROPERTIES PMS': '',
+  'BYZENNA ESSENCE': '',
+  'BENURU GROUP OF SCHOOLS SMS': '',
+  'JOYRINAH SCHOOLS MANAGEMENT SYSTEM': ''
+};
+function withImpact(text) {
+  Object.keys(IMPACT).forEach(function (name) {
+    if (!IMPACT[name]) return;
+    var i = text.indexOf(name); if (i < 0) return;
+    var end = text.indexOf('\n\n', i); if (end < 0) end = text.length;
+    text = text.slice(0, end) + '\n  Impact: ' + IMPACT[name] + text.slice(end);
+  });
+  return text;
+}
 
 var ALIASES = {
   projects: 'builds',
@@ -268,7 +320,6 @@ var ALIASES = {
   certifications: 'certs',
   wa: 'whatsapp',
   chat: 'whatsapp',
-  message: 'whatsapp',
   hireme: 'hire',
   email: 'contact',
   phone: 'contact',
@@ -278,8 +329,8 @@ var ALIASES = {
 };
 
 var COMPLETIONS = [
-  'about','builds','case-studies','certs','clear','contact',
-  'experience','help','hire','resume','skills','sudo','whatsapp','whoami'
+  'about','builds','case-studies','certs','clear','contact','experience','github',
+  'help','hire','message','resume','skills','sudo','theme','whatsapp','whoami'
 ];
 
 // ============================================
@@ -291,6 +342,8 @@ var activeInput = null;   // the hidden <input> that receives keystrokes
 var isTyping    = false;  // true while typeText animation is running
 var pendingCmds = [];     // queue of tapped commands during animation
 var cmdHistory  = [];
+var srStatus    = document.getElementById('srStatus');
+var outputMarker = null;  // index in termStream where the current command's output starts
 var historyIndex = 0;
 
 var reduceMotion = !!(window.matchMedia &&
@@ -425,7 +478,13 @@ function renderLinks(links) {
 // ============================================
 // PROJECT RENDERER — for builds command
 // ============================================
+var KIND_LABEL = { live: 'LIVE CLIENT SITE', demo: 'INTERACTIVE DEMO · SAMPLE DATA', wip: 'IN PROGRESS' };
+
 function renderProjects(projects, container) {
+  var legend = document.createElement('div');
+  legend.className = 'project-legend';
+  legend.textContent = 'LIVE CLIENT SITE = in production for a real client · INTERACTIVE DEMO = working build running on sample data · IN PROGRESS = not released yet';
+  container.appendChild(legend);
   var delay = 0;
   var STEP  = 60; // ms between each project block appearing
 
@@ -462,7 +521,11 @@ function renderProjects(projects, container) {
       // ── Tag line ──
       var tag = document.createElement('span');
       tag.className = 'project-tag';
-      tag.textContent = proj.tag;
+      var badge = document.createElement('span');
+      badge.className = 'project-kind' + (proj.kind === 'demo' ? ' is-demo' : proj.kind === 'wip' ? ' is-wip' : '');
+      badge.textContent = KIND_LABEL[proj.kind] || '';
+      tag.appendChild(badge);
+      tag.appendChild(document.createTextNode(proj.tag));
       block.appendChild(tag);
 
       // ── Body: lines printed one by one ──
@@ -496,7 +559,21 @@ function renderProjects(projects, container) {
 // ============================================
 // PROMPT ROW — invisible input + visible blinking cursor
 // ============================================
+function announceOutput() {
+  if (!srStatus || outputMarker === null) return;
+  var parts = [];
+  for (var i = outputMarker; i < termStream.children.length; i++) {
+    var n = termStream.children[i];
+    if (n.matches && n.matches('.term-output-block, .term-links')) parts.push(n.textContent);
+  }
+  outputMarker = null;
+  var t = parts.join(' ').replace(/\s+/g, ' ').trim().slice(0, 3000);
+  srStatus.textContent = '';
+  if (t) window.setTimeout(function () { srStatus.textContent = t; }, 60);
+}
+
 function createActiveRow() {
+  announceOutput();
   var row = document.createElement('p');
   row.className = 'term-row';
   row.style.position = 'relative'; // anchor the absolute input
@@ -728,9 +805,12 @@ function runCommand(raw) {
     ? normalized
     : (Object.prototype.hasOwnProperty.call(ALIASES, normalized) ? ALIASES[normalized] : null);
 
+  outputMarker = termStream.children.length;
   var outWrap = document.createElement('div');
   outWrap.className = 'term-output-block';
   termStream.appendChild(outWrap);
+
+  if (key) track('command', { name: key });
 
   if (!key) {
     outWrap.classList.add('is-error');
@@ -752,13 +832,108 @@ function runCommand(raw) {
     return;
   }
 
-  typeText(outWrap, entry.text, 0, function () {
+  if (entry.form) {
+    typeText(outWrap, entry.text, 0, function () { renderMessageForm(); });
+    return;
+  }
+  if (key === 'theme') { outWrap.parentNode.removeChild(outWrap); createActiveRow(); return; }
+  var shown = key === 'case-studies' ? withImpact(entry.text) : entry.text;
+  typeText(outWrap, shown, 0, function () {
     if (entry.links && entry.links.length) {
       termStream.appendChild(renderLinks(entry.links));
     }
     createActiveRow();
   });
 }
+
+// ============================================
+// MESSAGE FORM
+// ============================================
+function fieldEl(tag, id, label, type) {
+  var wrap = document.createElement('div');
+  var l = document.createElement('label'); l.htmlFor = id; l.textContent = label;
+  var f = document.createElement(tag); f.id = id; f.name = id;
+  if (type) f.type = type;
+  f.maxLength = tag === 'textarea' ? 2000 : 120;
+  wrap.appendChild(l); wrap.appendChild(f);
+  return { wrap: wrap, el: f };
+}
+
+function renderMessageForm() {
+  var form = document.createElement('div');
+  form.className = 'term-form';
+  var n = fieldEl('input', 'mf-name', 'your name', 'text');
+  var e = fieldEl('input', 'mf-email', 'your email', 'email');
+  var m = fieldEl('textarea', 'mf-msg');
+  m.wrap.firstChild.textContent = 'message';
+  var hp = fieldEl('input', 'mf-hp', 'leave empty', 'text');
+  hp.wrap.className = 'hp'; hp.el.tabIndex = -1; hp.el.setAttribute('autocomplete', 'off');
+  var actions = document.createElement('div'); actions.className = 'tf-actions';
+  var send = document.createElement('button'); send.type = 'button'; send.className = 'tf-btn'; send.textContent = 'send message';
+  var cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'tf-cancel'; cancel.textContent = 'cancel';
+  var status = document.createElement('span'); status.className = 'tf-status'; status.setAttribute('role', 'status');
+  actions.appendChild(send); actions.appendChild(cancel); actions.appendChild(status);
+  [n.wrap, e.wrap, m.wrap, hp.wrap, actions].forEach(function (x) { form.appendChild(x); });
+  termStream.appendChild(form);
+  scrollBottom();
+  n.el.focus();
+
+  function finish(msg) {
+    form.parentNode.removeChild(form);
+    var out = document.createElement('div'); out.className = 'term-output-block'; out.textContent = msg;
+    termStream.appendChild(out);
+    createActiveRow();
+  }
+  function fail(msg) { status.textContent = msg; status.className = 'tf-status is-error'; send.disabled = false; }
+
+  cancel.addEventListener('click', function () { finish('message cancelled.'); });
+  send.addEventListener('click', function () {
+    var name = sanitize(n.el.value), email = sanitize(e.el.value), msg = String(m.el.value).trim().slice(0, 2000);
+    if (hp.el.value) { finish('message sent.'); return; } // bot trap
+    if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || msg.length < 5) {
+      fail('Please add your name, a valid email and a short message.'); return;
+    }
+    if (!FORMSPREE_ID) {
+      window.location.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Portfolio message from ' + name) +
+        '&body=' + encodeURIComponent(msg + '\n\n— ' + name + ' (' + email + ')');
+      track('message_mailto');
+      finish('Opening your email app with the message pre-filled.');
+      return;
+    }
+    send.disabled = true; status.className = 'tf-status'; status.textContent = 'sending…';
+    fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name: name, email: email, message: msg })
+    }).then(function (r) {
+      if (r.ok) track('message_sent');
+      if (r.ok) finish('✓ Message sent — thanks ' + name + ', I\'ll reply to ' + email + ' soon.');
+      else fail('Could not send — please try WhatsApp or email instead.');
+    }).catch(function () { fail('Network error — please try WhatsApp or email instead.'); });
+  });
+}
+
+// ============================================
+// THEME (dark default, light optional)
+// ============================================
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', t === 'light' ? '#f6f7f5' : '#000000');
+}
+function toggleTheme(announce) {
+  var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+  try { localStorage.setItem('mw-theme', next); } catch (e) {}
+  if (announce) showToast(next + ' mode');
+}
+(function initTheme() {
+  var t = null;
+  try { t = localStorage.getItem('mw-theme'); } catch (e) {}
+  if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) t = 'light';
+  applyTheme(t === 'light' ? 'light' : 'dark');
+  var b = document.getElementById('themeBtn');
+  if (b) b.addEventListener('click', function () { toggleTheme(false); });
+})();
 
 // ============================================
 // MENU — event delegation
@@ -805,11 +980,27 @@ document.addEventListener('keydown', function (e) {
   row.appendChild(prompt); row.appendChild(sep); row.appendChild(typed);
   termStream.appendChild(row);
 
+  outputMarker = termStream.children.length;
   var outWrap = document.createElement('div');
   outWrap.className = 'term-output-block';
   termStream.appendChild(outWrap);
   isTyping = true;
-  typeText(outWrap, COMMANDS.welcome.text, 0, createActiveRow);
+  function welcome() { typeText(outWrap, COMMANDS.welcome.text, 0, createActiveRow); }
+
+  // Boot sequence: once per session, skipped for reduced-motion
+  var seen = false;
+  try { seen = sessionStorage.getItem('mw-booted') === '1'; sessionStorage.setItem('mw-booted', '1'); } catch (e) {}
+  if (reduceMotion || seen) { welcome(); return; }
+  var steps = ['Initialising…', 'Loading modules… ok', 'Mounting portfolio… ok', 'Welcome.\n'];
+  var k = 0, done = false;
+  function finishBoot() { if (done) return; done = true; document.removeEventListener('keydown', finishBoot); welcome(); }
+  document.addEventListener('keydown', finishBoot); // any key skips
+  (function next() {
+    if (done) return;
+    if (k >= steps.length) { finishBoot(); return; }
+    outWrap.appendChild(document.createTextNode(steps[k++] + '\n'));
+    window.setTimeout(next, 320);
+  })();
 })();
 
 // ============================================
@@ -870,3 +1061,26 @@ document.getElementById('badgeLink').addEventListener('click', function () {
   else if (isTyping) pendingCmds.push('hire');
   else echoAndRun('hire');
 });
+
+
+// ============================================
+// LINK CLICK TRACKING (link type only, no personal data) + hidden-content tab order
+// ============================================
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href]');
+  if (!a) return;
+  var href = a.getAttribute('href') || '', name = null, data = null;
+  if (/wa\.me\//.test(href)) name = 'whatsapp_click';
+  else if (/^mailto:/.test(href)) name = 'email_click';
+  else if (/^tel:/.test(href)) name = 'phone_click';
+  else if (/github\.com\//.test(href)) name = 'github_click';
+  else if (/linkedin\.com\//.test(href)) name = 'linkedin_click';
+  else if (/\.pdf$/i.test(href)) { name = 'pdf_download'; data = { file: href.replace(/^.*\//, '') }; }
+  else if (a.classList.contains('project-title-link') || /^\/build\//.test(href)) { name = 'project_open'; data = { project: href.slice(0, 80) }; }
+  if (name) track(name, data);
+});
+
+(function () {
+  var links = document.querySelectorAll('.seo-content a');
+  for (var i = 0; i < links.length; i++) links[i].setAttribute('tabindex', '-1');
+})();

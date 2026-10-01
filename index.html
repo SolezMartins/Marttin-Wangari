@@ -2,29 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>document.documentElement.className='js';</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <!-- Content Security Policy: no inline scripts, no eval, no third-party JS -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-92ScB/x5ZG4bE49TUanFQviCyfOmI9z+p8my+1LECak='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; form-action 'none'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-5r0ceAi77ofyhKluuUBJUzdOIMc4aEZR9Xlgif5W6zg='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'none'; base-uri 'none'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
-<title>Martin Wangari — Software &amp; AI Developer</title>
-<meta name="description" content="Martin Mwangi Wangari — Software and AI Developer based in Nairobi, Kenya.">
+<title>Martin Wangari — Software Developer &amp; IT Systems Support, Nairobi, Kenya</title>
+<meta name="description" content="Martin Mwangi Wangari — Software Developer and IT Systems Support specialist in Nairobi, Kenya. Full-stack web apps, POS, school and property management systems, Office 365 and hardware support. Available now.">
 <meta name="author" content="Martin Mwangi Wangari">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://marttin-wangari.netlify.app/">
-<meta property="og:url" content="https://marttin-wangari.netlify.app/">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="canonical" href="https://marttin-wangari.vercel.app/">
+<meta property="og:url" content="https://marttin-wangari.vercel.app/">
 <meta name="theme-color" content="#000000">
 
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="profile">
-<meta property="og:title" content="Martin Wangari — Software &amp; AI Developer">
-<meta property="og:description" content="Software and AI Developer based in Nairobi, Kenya.">
-<meta property="og:image" content="https://marttin-wangari.netlify.app/assets/id-photo.jpg">
+<meta property="og:title" content="Martin Wangari — Software Developer &amp; IT Systems Support, Nairobi">
+<meta property="og:description" content="Full-stack web apps, business systems and IT systems support. Hardware-to-software developer. Available now.">
+<meta property="og:image" content="https://marttin-wangari.vercel.app/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Martin Wangari — Software Developer and IT Systems Support, Nairobi, Kenya. Available now.">
 <meta property="og:locale" content="en_KE">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Martin Wangari — Software &amp; AI Developer">
-<meta name="twitter:description" content="Nairobi-based Software and AI Developer. Open to work.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Martin Wangari — Software Developer &amp; IT Systems Support, Nairobi">
+<meta name="twitter:image" content="https://marttin-wangari.vercel.app/assets/og-image.jpg">
+<meta name="twitter:image:alt" content="Martin Wangari — Software Developer and IT Systems Support, Nairobi, Kenya. Available now.">
+<meta name="twitter:description" content="Nairobi-based Software Developer and IT Systems Support specialist. Available now.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,9 +51,12 @@
   <header class="header">
     <div class="header-left">
       <h1 class="hname">Martin Wangari</h1>
-      <p class="hrole">Software &amp; AI Developer</p>
+      <p class="hrole">Software Developer &amp; IT Systems Support</p>
     </div>
-    <button class="header-badge" type="button" id="badgeLink">Nairobi, KE — open to work</button>
+    <div class="header-right">
+      <button class="theme-toggle" type="button" id="themeBtn" aria-label="Toggle light or dark theme">◐ theme</button>
+      <button class="header-badge" type="button" id="badgeLink"><span class="live-dot" aria-hidden="true"></span>Available now — Nairobi, KE</button>
+    </div>
   </header>
 
   <!-- MAIN: card + terminal -->
@@ -65,10 +75,10 @@
             <span class="id-user">martin.wangari</span>
           </div>
           <div class="id-photo">
-            <img src="assets/id-photo.jpg" alt="Portrait of Martin Wangari" width="230" height="240" loading="eager" decoding="async">
+            <img src="assets/id-photo-card.jpg" alt="Portrait of Martin Wangari" width="230" height="287" loading="eager" decoding="async">
           </div>
           <div class="id-card-foot">
-            <span class="id-role">SOFTWARE · AI DEV</span>
+            <span class="id-role">SOFTWARE · IT SUPPORT</span>
             <span class="id-loc">NAIROBI · KE</span>
           </div>
         </div>
@@ -79,32 +89,124 @@
     <!-- TERMINAL -->
     <div class="term-col">
       <nav class="term-menu" id="termMenu" aria-label="Portfolio sections">
-        <button class="tm-cmd" type="button" data-cmd="help">help</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="about">about</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="experience">experience</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="skills">skills</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="builds">builds</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="certs">certs</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="contact">contact</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="hire">hire</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="resume">resume</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="sudo">sudo</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="clear">clear</button>
+        <button class="tm-cmd" type="button" data-cmd="help">help</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="about">about</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="experience">experience</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="skills">skills</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="builds">builds</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="certs">certs</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="contact">contact</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="hire">hire</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="message">message</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="github">github</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="resume">resume</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="sudo">sudo</button><span class="tm-pipe" aria-hidden="true">|</span><button class="tm-cmd" type="button" data-cmd="clear">clear</button>
       </nav>
       <p class="mobile-hint">Tap a command above, or type one below ↓</p>
       <hr class="term-rule">
-      <div class="term-stream" id="termStream" role="log" aria-live="polite" aria-label="Terminal output" tabindex="0"></div>
+      <div class="term-stream" id="termStream" role="region" aria-label="Terminal output" tabindex="0"></div>
+      <div class="sr-only" id="srStatus" role="status" aria-live="polite" aria-atomic="true"></div>
 
-      <!-- No-JS fallback: full content, crawlable and readable -->
-      <noscript>
-        <div class="noscript-content">
-          <h2>About</h2>
-          <p>Software and AI Developer based in Nairobi, Kenya, focused on building practical digital products, intelligent workflows and modern web platforms.</p>
-          <h2>Experience</h2>
-          <p><strong>IT Systems Support Technician</strong> — Independent Contractor, Nairobi (Mar 2025 – present)</p>
-          <p><strong>Repair Technician / PCB Technician</strong> — M-Gas Kenya Ltd (Jul 2022 – Feb 2025)</p>
-          <p><strong>Field Network Technician</strong> — G-Tech Technology Ltd (Jan 2022 – Jun 2022)</p>
-          <p><strong>Industrial Attachment</strong> — Broadband Communication Networks Ltd (Mar 2021 – May 2021)</p>
-          <h2>Contact</h2>
-          <ul>
-            <li><a href="tel:+254740208683">+254 740 208 683</a></li>
-            <li><a href="https://wa.me/254740208683" rel="noopener noreferrer">WhatsApp</a></li>
-            <li><a href="mailto:martindevs07@gmail.com">martindevs07@gmail.com</a></li>
-            <li><a href="https://linkedin.com/in/martin-wangari-586903230" rel="noopener noreferrer">LinkedIn</a></li>
-            <li><a href="Martin_Wangari_Resume.pdf" download>Download resume (PDF)</a></li>
-          </ul>
-        </div>
-      </noscript>
+      <!-- Crawlable plain-HTML version of the whole portfolio.
+           Visually hidden when JS is on (still read by search engines and screen readers),
+           shown normally when JS is off. Keep in sync with the terminal commands in script.js. -->
+      <section class="seo-content" aria-label="Plain-text version of this portfolio">
+
+        <h2>About Martin Mwangi Wangari</h2>
+        <p>Software Developer and IT Systems Support specialist based in Nairobi, Kenya, with 3+ years of experience in IT systems support,
+        network infrastructure, hardware diagnostics and full-stack web development. I build practical digital products —
+        restaurant POS systems, property and school management platforms, a ride-hailing app — and bring hands-on hardware
+        depth: PCB repair, smart-meter firmware and fiber optic splicing.</p>
+
+        <h2>Availability and hiring</h2>
+        <p>Available now. Open to full-time roles, contract and freelance work, remote or on-site in Nairobi.
+        Interested in software development, IT support and systems roles, and hybrid hardware plus software roles.
+        Rates shared on request. Fastest reply is on WhatsApp.</p>
+
+        <h2>Work Experience</h2>
+
+        <h3>IT Systems Support Technician — Independent Contractor, Nairobi (Mar 2025 – present)</h3>
+        <p>First- and second-line IT support across hardware, software and network issues. Office 365 administration covering
+        user accounts, licensing and system deployments. API endpoint testing and validation with Postman. IT asset inventory
+        management and policy-compliant equipment disposal. User training materials that reduce recurring support tickets.</p>
+
+        <h3>Repair Technician / PCB Technician — M-Gas Kenya Ltd (Jul 2022 – Feb 2025)</h3>
+        <p>Diagnosed, repaired and configured PCBs across a range of electronic devices. Replaced faulty components to reduce
+        downtime and extend equipment life. Installed and tested firmware on smart meters for field deployment.</p>
+
+        <h3>Field Network Technician — G-Tech Technology Ltd (Jan 2022 – Jun 2022)</h3>
+        <p>Installed and configured residential fiber internet services across Nairobi. Fiber optic cable splicing and repairs.
+        Router configuration for network stability.</p>
+
+        <h3>Industrial Attachment — Broadband Communication Networks Ltd (Mar 2021 – May 2021)</h3>
+        <p>Cabling, router and telephone system installation. Fiber internet installation and diagnostics. Server network
+        hardware configuration under supervision.</p>
+
+        <h2>Technical Skills</h2>
+        <p><strong>Software development:</strong> Python, JavaScript, React, PHP, WordPress, HTML, CSS, Bootstrap, PostgreSQL, Supabase, REST APIs.</p>
+        <p><strong>IT support and administration:</strong> Office 365 Administration, Help Desk and Ticketing Systems, Hardware and Software Support,
+        Remote Support Tools, Mobile Device Management, Active Directory, Cybersecurity Fundamentals.</p>
+        <p><strong>Networking and infrastructure:</strong> Fiber Optic Installation and Splicing, TCP/IP, DNS, DHCP, Router and Switch Configuration,
+        PCB Repair and Configuration, System Deployments, Cable Installation.</p>
+        <p><strong>API and data tools:</strong> Postman, Data Analytics, Power BI, AI tools and automation.</p>
+
+        <h2>Projects and Builds</h2>
+
+        <h3>Eduwincare — Healthcare Website (live client site)</h3>
+        <p>Marketing and information site for a Minnesota-based homecare and private nursing service. Accessibility-first design
+        for older audiences with conversion-optimised contact flows.
+        <a href="https://eduwincare.com" rel="noopener noreferrer">Visit Eduwincare</a></p>
+
+        <h3>Sammy Trucks — Automotive Sales Website (live client site)</h3>
+        <p>Sales site for an independent ISUZU truck dealer in Ruaka, Kenya. Browsable truck inventory, financing guidance,
+        monthly estimate calculator and WhatsApp-first lead capture.
+        <a href="https://sammytrucks.netlify.app" rel="noopener noreferrer">Visit Sammy Trucks</a></p>
+
+        <h3>Mpambe Hotel POS — Point-of-Sale System (interactive demo, sample data)</h3>
+        <p>Touch-friendly point-of-sale system for a Swahili-cuisine restaurant. Dine In, Take Away and Delivery orders with live
+        totals, cash/M-Pesa/card checkout, PDF receipts, inventory management, sales reports and multi-role access.
+        <a href="/build/mpambe-hotel/">Open the demo</a></p>
+
+        <h3>Maxland Properties PMS — Property Management System (interactive demo, sample data)</h3>
+        <p>Property management platform for Maxland Properties Ltd, Kasarani, Nairobi. Property and unit directory, tenant onboarding,
+        lease management, rent invoicing, M-Pesa payment simulation, arrears tracking, maintenance tickets and financial reporting.
+        <a href="/build/maxland-properties/">Open the demo</a></p>
+
+        <h3>ByZenna Essence — Luxury Fragrance E-Commerce (interactive demo, sample data)</h3>
+        <p>Premium e-commerce storefront with product catalogue, filters, wishlist, shopping cart, simulated checkout, customer profile
+        and browser-local order history. Mobile-first responsive design.
+        <a href="/build/byzenna-essence/">Open the demo</a></p>
+
+        <h3>Benuru Group of Schools SMS — School Management System (interactive demo, sample data)</h3>
+        <p>School management system built around Kenyan school operations: student records, admissions, CBC curriculum, attendance,
+        examinations, fee billing, staff management, parent portal, library, transport and inventory.
+        <a href="/build/benuru-school/">Open the demo</a></p>
+
+        <h3>Joyrinah Schools Management System — Academic and Financial Platform (interactive demo, sample data)</h3>
+        <p>Role-based dashboards for admin, teacher, student, parent, bursar and HR. Admissions, curriculum, timetable, attendance,
+        assessment, LMS, fees, HR, library, analytics and alumni management.
+        <a href="/build/joyrinah-schools/">Open the demo</a></p>
+
+        <h3>Ride-Hailing Platform — Full-Stack (in progress)</h3>
+        <p>Full-stack ride-hailing platform built independently: real-time booking, dispatch and live driver tracking with React,
+        Supabase and PostgreSQL REST APIs.</p>
+
+        <h3>IT Asset Tag Manager — Browser Extension (in progress)</h3>
+        <p>Chrome and Edge extension for IT support teams to tag and register equipment, log device location and assignment, and
+        look up asset records without leaving the ticketing system. Offline-capable with IndexedDB.</p>
+
+        <h2>Certifications</h2>
+        <ul>
+          <li>Diploma in ICT</li>
+          <li>Information Technology Fundamentals — IBM Skills Build</li>
+          <li>Data Analytics — IBM Skills Build</li>
+          <li>Data Analytics — ICT Authority of Kenya</li>
+          <li>Web Design — Inceptor Institute of Technology</li>
+          <li>Power BI and AI — Exodus Experts</li>
+          <li>NYS Discharge Certificate</li>
+        </ul>
+
+        <h2>Contact</h2>
+        <ul>
+          <li>Phone: <a href="tel:+254740208683">+254 740 208 683</a></li>
+          <li>WhatsApp: <a href="https://wa.me/254740208683" rel="noopener noreferrer">Chat on WhatsApp</a></li>
+          <li>Email: <a href="mailto:martindevs07@gmail.com">martindevs07@gmail.com</a></li>
+          <li>GitHub: <a href="https://github.com/SolezMartins" rel="noopener noreferrer">github.com/SolezMartins</a></li>
+          <li>LinkedIn: <a href="https://linkedin.com/in/martin-wangari-586903230" rel="noopener noreferrer">linkedin.com/in/martin-wangari-586903230</a></li>
+          <li>Location: Nairobi, Kenya</li>
+          <li><a href="Martin_Wangari_Resume.pdf" download>Download resume (PDF)</a> · <a href="Martin_Wangari_OnePager.pdf" download>One-page summary (PDF)</a></li>
+        </ul>
+
+      </section>
     </div>
 
   </main>
@@ -138,15 +240,61 @@
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Martin Mwangi Wangari",
-  "jobTitle": "Software and AI Developer",
+  "jobTitle": "Software Developer and IT Systems Support Specialist",
   "email": "mailto:martindevs07@gmail.com",
   "telephone": "+254740208683",
-  "address": { "@type": "PostalAddress", "addressLocality": "Nairobi", "addressCountry": "KE" },
-  "sameAs": ["https://linkedin.com/in/martin-wangari-586903230", "https://marttin-wangari.netlify.app/"],
-  "knowsAbout": ["Software Development","Artificial Intelligence","Python","JavaScript","React","PostgreSQL","REST APIs","AI Automation","Power BI"]
+  "url": "https://marttin-wangari.vercel.app/",
+  "image": "https://marttin-wangari.vercel.app/assets/id-photo.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Nairobi",
+    "addressCountry": "KE"
+  },
+  "sameAs": [
+    "https://linkedin.com/in/martin-wangari-586903230",
+    "https://github.com/SolezMartins",
+    "https://marttin-wangari.vercel.app/"
+  ],
+  "knowsAbout": [
+    "Software Development","IT Systems Support","AI Tools and Automation",
+    "Office 365 Administration","Network Troubleshooting","Fiber Optic Splicing",
+    "PCB Repair","REST API Development","Python","React","JavaScript",
+    "PostgreSQL","Supabase","Power BI","Web Development","Full-Stack Development",
+    "Property Management Systems","Point of Sale Systems",
+    "School Management Systems","E-Commerce Development",
+    "Help Desk Support","Cybersecurity Fundamentals"
+  ],
+  "hasOccupation": {
+    "@type": "Occupation",
+    "name": "Software Developer and IT Systems Support Specialist",
+    "occupationLocation": {
+      "@type": "City",
+      "name": "Nairobi",
+      "address": { "@type": "PostalAddress", "addressCountry": "KE" }
+    },
+    "skills": "JavaScript, React, Python, PostgreSQL, REST APIs, Office 365, IT Support, AI Automation"
+  },
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": "Inceptor Institute of Technology"
+  },
+  "seeks": {
+    "@type": "JobPosting",
+    "title": "Software Developer or IT Systems Support role",
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Nairobi",
+        "addressCountry": "KE"
+      }
+    }
+  }
 }
 </script>
 
 <script src="script.js" defer></script>
+<!-- Vercel Web Analytics: enable in Vercel dashboard → Analytics -->
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

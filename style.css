@@ -12,7 +12,7 @@
   --amber: #e5b567;
   --text: #e9ecef;
   --text-dim: #99a0a8;
-  --text-faint: #5c636b;
+  --text-faint: #8b939b;
   --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   --safe-b: env(safe-area-inset-bottom, 0px);
 }
@@ -588,3 +588,68 @@ button {
   line-height: 1.75;
 }
 
+
+/* ===== Round 2 additions ===== */
+.id-photo, .id-photo { height: auto !important; aspect-ratio: 4 / 5; }
+.id-photo img { object-position: center 12%; }
+
+.header-right { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+.theme-toggle { font-size: .72rem; color: var(--text-dim); border: 1px solid var(--green-dim2); border-radius: 4px; padding: 4px 9px; white-space: nowrap; transition: color .15s, border-color .15s; }
+.theme-toggle:hover { color: var(--green); border-color: var(--green-dim); }
+.live-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--green); margin-right: 8px; vertical-align: 0; box-shadow: 0 0 0 0 rgba(47,212,128,.7); animation: livePulse 1.8s ease-out infinite; }
+@keyframes livePulse { 0% { box-shadow: 0 0 0 0 rgba(47,212,128,.65); } 70% { box-shadow: 0 0 0 9px rgba(47,212,128,0); } 100% { box-shadow: 0 0 0 0 rgba(47,212,128,0); } }
+.header-badge { font-weight: 600; }
+@media (max-width: 860px) { .header-right { width: 100%; justify-content: space-between; } }
+
+/* Contact form (terminal style) */
+.term-form { margin: 10px 0 22px; max-width: 62ch; display: flex; flex-direction: column; gap: 10px; }
+.term-form label { color: var(--text-faint); font-size: .74rem; display: block; margin-bottom: 3px; }
+.term-form input, .term-form textarea { width: 100%; background: transparent; color: var(--green); font: inherit; font-size: .88rem; border: 1px solid var(--green-dim); border-radius: 4px; padding: 8px 10px; outline: none; }
+.term-form textarea { min-height: 110px; resize: vertical; }
+.term-form input:focus, .term-form textarea:focus { border-color: var(--green); }
+.term-form .hp { position: absolute; left: -9999px; height: 0; overflow: hidden; }
+.tf-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.tf-btn { color: #000; background: var(--green); font-weight: 700; font-size: .82rem; padding: 8px 16px; border-radius: 4px; }
+.tf-btn[disabled] { opacity: .5; cursor: default; }
+.tf-cancel { color: var(--text-faint); font-size: .78rem; }
+.tf-cancel:hover { color: var(--text); }
+.tf-status { font-size: .8rem; color: var(--text-dim); }
+.tf-status.is-error { color: var(--amber); }
+
+/* Light theme */
+:root[data-theme="light"] {
+  --bg: #f6f7f5; --panel-2: #e9ede8;
+  --green: #0a8a4c; --green-dim: rgba(10,138,76,.35); --green-dim2: rgba(10,138,76,.18);
+  --blue: #2f5fd0; --amber: #9a6410;
+  --text: #1b1f1d; --text-dim: #4a525a; --text-faint: #5a626a;
+}
+:root[data-theme="light"] .toast { background: #fff; }
+:root[data-theme="light"] .project-title-link:hover { color: #06683a; text-shadow: none; }
+:root[data-theme="light"] .tf-btn, :root[data-theme="light"] .skip-link { color: #fff; }
+:root[data-theme="light"] .term-cursor { box-shadow: none; }
+
+/* ===== Round 3 additions ===== */
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* Plain-HTML portfolio: hidden visually when JS runs, shown when it doesn't */
+html.js .seo-content { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+.seo-content { padding: 16px clamp(14px, 2.6vw, 34px) 40px; max-width: 72ch; font-size: .88rem; line-height: 1.8; overflow-y: auto; }
+.seo-content h2 { color: var(--green); font-size: 1rem; margin: 20px 0 8px; }
+.seo-content h3 { color: var(--text); font-size: .9rem; margin: 14px 0 4px; }
+.seo-content p { margin-bottom: 8px; color: var(--text-dim); }
+.seo-content ul { list-style: none; }
+.seo-content a { color: var(--green); text-decoration: underline; }
+html:not(.js) body { overflow: auto; }
+html:not(.js) .app { height: auto; min-height: 100vh; }
+html:not(.js) .term-menu, html:not(.js) .term-rule, html:not(.js) .term-stream, html:not(.js) .mobile-hint,
+html:not(.js) .card-col, html:not(.js) .wa-fab, html:not(.js) .theme-toggle, html:not(.js) .footer-status { display: none; }
+html:not(.js) .main-grid { grid-template-columns: 1fr; }
+
+/* Project status badges */
+.project-legend { color: var(--text-faint); font-size: .72rem; line-height: 1.7; margin-bottom: 18px; }
+.project-kind { display: inline-block; font-size: .6rem; font-weight: 700; letter-spacing: .08em; padding: 2px 7px; border-radius: 3px; margin-right: 8px; border: 1px solid var(--green-dim); color: var(--green); vertical-align: 1px; }
+.project-kind.is-demo { color: var(--blue); border-color: rgba(111,155,255,.4); }
+.project-kind.is-wip { color: var(--amber); border-color: rgba(229,181,103,.4); }
+
+.project-title-plain::after { content: none; }
+@media (max-width: 480px) { .id-role, .id-loc { font-size: .44rem; letter-spacing: 0; } }

@@ -1,2 +1,16 @@
+# robots.txt — marttin-wangari.vercel.app
+# Martin Mwangi Wangari — Software & AI Developer Portfolio
+
 User-agent: *
+
+# Allow everything by default
 Allow: /
+
+# Block asset files from being indexed as standalone pages
+Disallow: /assets/
+Disallow: /*.pdf$
+Disallow: /build/*/assets/
+Disallow: /build/*/lib/
+
+# Sitemap location
+Sitemap: https://marttin-wangari.vercel.app/sitemap.xml

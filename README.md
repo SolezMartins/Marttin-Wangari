@@ -1,42 +1,29 @@
-# Maxland Properties Ltd — Property Management System (demo)
+# Martin Wangari — Terminal Portfolio
 
-A frontend-only, portfolio demo of the software a Kasarani property firm would run day to day.
-No backend, no database, no API keys. Open `index.html` and it works — including offline.
+Software Developer & IT Systems Support · Nairobi, Kenya
 
-## Run it
-Double-click `index.html`, or serve the folder:
+An interactive, terminal-style developer portfolio: type commands (`about`, `builds`, `hire`, `message`…) or click them.
+Live: https://marttin-wangari.vercel.app
 
-    npx serve .          # or: python3 -m http.server
+## Highlights
+- Pure HTML, CSS and vanilla JavaScript — no framework, no build step
+- Strict Content Security Policy (no inline scripts apart from one hashed flag, no third-party JS)
+- Crawlable plain-HTML version of all content for search engines and screen readers
+- Dark and light themes, reduced-motion support, keyboard shortcuts (Tab, ↑/↓, Ctrl+L, `/`)
+- Contact form via Formspree (set `FORMSPREE_ID` in `script.js`)
+- Vercel Web Analytics with custom events for link and command usage
+
+## Demo builds (in `/build`)
+Mpambe Hotel POS · Maxland Properties PMS · ByZenna Essence · Benuru Schools SMS · Joyrinah Schools MS —
+interactive demos running on sample data. Live client sites (Eduwincare, Sammy Trucks) are linked from the `builds` command.
+
+## Run locally
+```bash
+python3 -m http.server 8000   # then open http://localhost:8000
+```
 
 ## Deploy
-Upload the whole folder to Netlify (drag & drop), Vercel (`vercel --prod`), GitHub Pages,
-or any static host. There is nothing to build and nothing to configure.
+Push to GitHub; Vercel deploys automatically. Headers and redirects live in `vercel.json`.
 
-## Embed in a React / Next.js portfolio
-Copy this folder into `public/maxland/`, then link or iframe it:
-
-    <a href="/maxland/index.html">Open the demo</a>
-    <iframe src="/maxland/index.html" style={{width:'100%',height:'90vh',border:0}} title="Maxland PMS demo" />
-
-## What's inside
-- Role picker: admin, property manager, accountant, caretaker, landlord, tenant — each sees a different sidebar.
-- Dashboard with KPIs and hand-rolled SVG/CSS charts (collections trend, arrears aging, occupancy, expenses).
-- Properties → colour-coded unit board → unit, tenant, ledger, payment history.
-- Tenants with a 3-step add wizard, leases with renew / notice-to-vacate.
-- Invoices, a batch "generate monthly invoices" job, and one-off charges.
-- Simulated M-Pesa STK push: countdown, PIN entry or cancellation, generated confirmation code, allocation oldest-invoice-first, SMS receipt.
-- Unmatched M-Pesa payments queue with assign-to-tenant.
-- Arrears aging and bulk SMS reminders.
-- Drag-and-drop maintenance kanban (Reported → Assigned → In progress → Completed).
-- Reports with client-side CSV export, SMS log with composer (English + Swahili templates), landlord statement, tenant portal, settings and Reset demo data.
-
-## Data
-Seeded deterministically on first load into `localStorage` under `maxland_demo_v1`:
-7 properties, 128 units, 108 tenants, 12 months of invoices and payments, 22 maintenance
-tickets and per-property expenses. Every change you make is written back to `localStorage`.
-The seed generator lives in the `seed()` function at the top of the script, kept separate from
-the rendering code so the numbers are easy to tweak. **Settings → Reset demo data** restores it.
-
-## Honest scope
-All names, phone numbers, ID numbers, properties and M-Pesa codes are fictional. M-Pesa and SMS
-are simulated in the browser — no Safaricom, Africa's Talking or any other service is contacted.
+## Contact
+martindevs07@gmail.com · [LinkedIn](https://linkedin.com/in/martin-wangari-586903230)
