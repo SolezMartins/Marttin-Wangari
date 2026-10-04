@@ -11,6 +11,12 @@
 
   <!-- Build pages — live projects -->
   <url>
+    <loc>https://marttin-wangari.vercel.app/build/microafia-healthcare/</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://marttin-wangari.vercel.app/build/mpambe-hotel/</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>

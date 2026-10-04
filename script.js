@@ -77,6 +77,23 @@ var COMMANDS = {
         ]
       },
       {
+        title: 'MicroAfia Healthcare',
+        kind:  'client',
+        tag:   'Healthcare · DNA Testing · Kenya',
+        href:  '/build/microafia-healthcare/',
+        lines: [
+          'Marketing and booking site for a DNA paternity testing centre in Kenya —',
+          'built to make a sensitive service feel professional, private and easy to book.',
+          '',
+          'What it covers:',
+          '  · Service, pricing and turnaround information with clear package tiers',
+          '  · Booking form that sends a pre-filled WhatsApp message (no backend)',
+          '  · Step-by-step process, FAQ and trust-focused content',
+          '  · Floating WhatsApp contact and mobile-first responsive layout',
+          '  · React + Vite, component-based, with unit tests and linting'
+        ]
+      },
+      {
         title: 'Mpambe Hotel POS',
         kind:  'demo',
         tag:   'Point-of-Sale · Restaurant',
@@ -478,12 +495,12 @@ function renderLinks(links) {
 // ============================================
 // PROJECT RENDERER — for builds command
 // ============================================
-var KIND_LABEL = { live: 'LIVE CLIENT SITE', demo: 'INTERACTIVE DEMO · SAMPLE DATA', wip: 'IN PROGRESS' };
+var KIND_LABEL = { live: 'LIVE CLIENT SITE', client: 'CLIENT BUILD', demo: 'INTERACTIVE DEMO · SAMPLE DATA', wip: 'IN PROGRESS' };
 
 function renderProjects(projects, container) {
   var legend = document.createElement('div');
   legend.className = 'project-legend';
-  legend.textContent = 'LIVE CLIENT SITE = in production for a real client · INTERACTIVE DEMO = working build running on sample data · IN PROGRESS = not released yet';
+  legend.textContent = 'LIVE CLIENT SITE = in production for a real client · CLIENT BUILD = site built for a client business · INTERACTIVE DEMO = working build running on sample data · IN PROGRESS = not released yet';
   container.appendChild(legend);
   var delay = 0;
   var STEP  = 60; // ms between each project block appearing

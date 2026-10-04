@@ -14,7 +14,7 @@ Live: https://marttin-wangari.vercel.app
 - Vercel Web Analytics with custom events for link and command usage
 
 ## Demo builds (in `/build`)
-Mpambe Hotel POS · Maxland Properties PMS · ByZenna Essence · Benuru Schools SMS · Joyrinah Schools MS —
+MicroAfia Healthcare (React + Vite client build, pre-built into `/build/microafia-healthcare`) · Mpambe Hotel POS · Maxland Properties PMS · ByZenna Essence · Benuru Schools SMS · Joyrinah Schools MS —
 interactive demos running on sample data. Live client sites (Eduwincare, Sammy Trucks) are linked from the `builds` command.
 
 ## Run locally
